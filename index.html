@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Portfolio de [Prénom NOM] —/developpeuse web full-stack, étudiante en BTS SIO SLAM. Projets PHP/MySQL, JavaScript, Python, réseau et veille technologique.">
+<meta name="author" content="[Prénom NOM]">
+<meta name="theme-color" content="#fbf7f9">
+<title>[Prénom NOM] — Portfolio · Développeuse web</title>
+
+<!-- Open Graph (réseaux sociaux) — à personnaliser -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="[Prénom NOM] — Développeuse web full-stack">
+<meta property="og:description" content="BTS SIO SLAM · Projets PHP/MySQL, JavaScript, Python, réseau et veille technologique.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%91%BB%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<!-- Barre du mode édition (masquée par défaut) -->
+<div class="edit-bar" id="edit-bar" hidden>
+  <strong>Mode édition.</strong>
+  Cliquez sur un texte encadré pour le réécrire.
+  <span class="warn">Rien n'est enregistré automatiquement.</span>
+  <button class="btn btn-sm btn-primary" id="copy-html" type="button">Copier le HTML modifié</button>
+  <span class="hint" id="copy-status"></span>
+</div>
+
+<!-- ══════════════════ EN-TÊTE ══════════════════ -->
+<header class="header" id="header">
+  <div class="wrap">
+    <a class="brand" href="#accueil">
+      <span class="dot" aria-hidden="true">R</span>
+      <span data-edit>Prénom NOM<small>Développeuse web · BTS SIO SLAM</small></span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="#apropos">À propos</a>
+      <a href="#competences">Compétences</a>
+      <a href="#projets">Projets</a>
+      <a href="#parcours">Parcours</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="theme-btn edit-toggle" id="edit-btn" type="button" aria-pressed="false">✎ Éditer</button>
+    <button class="theme-btn" id="theme-btn" type="button" aria-label="Passer en thème sombre">🌙</button>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-label="Ouvrir le menu" aria-controls="nav">
+      <i></i><i></i><i></i>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══════════════════ HÉROS ══════════════════ -->
+<section class="hero" id="accueil">
+  <div class="wrap hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">✦ Portfolio</span>
+      <h1>Bonjour, je suis <span class="grad" data-edit>[Prénom]</span> 👋</h1>
+      <p class="role">Développeuse web <b>full-stack</b> en formation — <span data-edit>BTS SIO SLAM, 1<sup>re</sup> année, en alternance</span></p>
+      <p class="intro" data-edit>
+        Je conçois des applications web complètes : du modèle de données MySQL au front-end responsive,
+        en passant par la sécurité et les tests. Autodidacte depuis le collège, je construis des projets
+        réels de bout en bout pour apprendre vite et bien.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#projets">Voir mes projets <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#contact">Me contacter</a>
+        <a class="btn btn-ghost" href="#" title="Remplacez par votre lien GitHub">GitHub ↗</a>
+      </div>
+
+      <div class="chips" aria-label="Technologies principales">
+        <span class="chip">PHP · POO / MVC</span>
+        <span class="chip">MySQL · PDO</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML / CSS</span>
+        <span class="chip">Python</span>
+        <span class="chip">SQL · Merise</span>
+        <span class="chip">Réseaux · Cisco IOS</span>
+        <span class="chip">Linux · Git</span>
+      </div>
+    </div>
+
+    <aside class="hero-card">
+      <!-- Remplacez ce bloc par <img src="assets/photo.jpg" alt="Portrait"> -->
+      <div class="avatar">METTRE<br>PHOTO<br>ICI</div>
+      <div class="st" data-edit>Prénom NOM</div>
+      <div class="st-sub" data-edit>Développeuse web · 20 ans · Île-de-France</div>
+
+      <div class="facts">
+        <div><span>Formation</span><span>BTS SIO SLAM</span></div>
+        <div><span>Statut</span><span>Alternante</span></div>
+        <div><span>Langues</span><span>FR · EN · Bengali</span></div>
+        <div><span>Recherche</span><span>Apprentissage / Soutenance</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ══════════════════ À PROPOS ══════════════════ -->
+<section id="apropos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">✦ À propos</span>
+      <h2>Apprendre en construisant</h2>
+      <p>Pas de theory-only : chaque notion du cours est appliquée dans un projet qui tourne vraiment.</p>
+    </div>
+
+    <div class="about">
+      <div class="about-main reveal">
+        <p data-edit>
+          <strong>Je suis étudiante en BTS SIO SLAM</strong> (Services Informatiques aux Organisations,
+          filière Solutions Logicielles et Applications Métiers) et je suis en alternance.
+          Je code depuis le collège, d'abord par curiosité, puis parce que j'ai constaté que
+          je comprenais une notion bien plus vite en construisant quelque chose qui marche.
+        </p>
+        <p data-edit>
+          Mon projet de référence est <strong>Fair'repair</strong>, une plateforme qui met en relation
+          les cyclistes et les réparateurs de vélos : PHP en architecture MVC, base MySQL normalisée,
+          paiement Stripe, carte de géolocalisation, modération, et huit mesures de sécurité
+          (XSS, injections SQL, force brute, RGPD…). En parallèle, j'ai construit une application
+          de gestion personnelle 100 % locale, un outillage Python accompagné d'une suite de tests
+          automatisés, et je rédige une veille technologique sourcée.
+        </p>
+        <p data-edit>
+          Mon objectif est de devenir ingénieure, puis de fonder ma startup. Je cherche un terrain
+          d'alternance ou de stage où je peux continuer à apprendre sur des bases de code réelles.
+        </p>
+
+        <div class="draft-block">
+          <p><span class="draft">À personnaliser</span></p>
+          <p>
+            Ce paragraphe a été rédigé à partir de vos documents. Relisez-le et adaptez le ton :
+            dites <em>ce que vous voulez qu'on retienne</em> de vous en 30 secondes, pas votre CV complet.
+            Tous les textes marqués d'un pointillés sont modifiables directement dans le fichier
+            <code>index.html</code>.
+          </p>
+        </div>
+      </div>
+
+      <div class="facts-list reveal">
+        <div class="fact">
+          <div class="k">Localisation</div>
+          <div class="v" data-edit>Île-de-France, France<small>Déplacements en région Parisienne</small></div>
+        </div>
+        <div class="fact">
+          <div class="k">Formation</div>
+          <div class="v" data-edit>BTS SIO SLAM — 1<sup>re</sup> année<small>Bac général · spé Maths + NSI</small></div>
+        </div>
+        <div class="fact">
+          <div class="k">Langues</div>
+          <div class="v" data-edit>Français · Anglais · Bengali<small>Français C2 · Anglais B2 <span class="draft">à confirmer</span></small></div>
+        </div>
+        <div class="fact">
+          <div class="k">Ce que je cherche</div>
+          <div class="v" data-edit>Alternance ou stage<small>Développement, ou support IT</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ COMPÉTENCES ══════════════════ -->
+<section id="competences">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">✦ Compétences</span>
+      <h2>Ce que je sais faire</h2>
+      <p>Les compétences sont classées par ce que je maîtrise réellement, pas par ce que j'ai vu en cours.</p>
+    </div>
+
+    <div class="skills">
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">⚙️</div>
+        <h3>Back-end PHP</h3>
+        <div class="niveau">Solide</div>
+        <p>Architecture MVC complète, POO (héritage, interfaces, singleton), PDO avec requêtes préparées, sessions et routage.</p>
+        <div class="tags"><span>PHP 8</span><span>MVC</span><span>POO</span><span>PDO</span><span>Composer <span class="draft">?</span></span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🗄️</div>
+        <h3>Bases de données</h3>
+        <div class="niveau">Solide</div>
+        <p>Conception Merise (MCD → MLD → MPD), normalisation, contraintes d'intégrité, index, jointures et agrégations.</p>
+        <div class="tags"><span>MySQL</span><span>SQL</span><span>Merise</span><span>Modélisation</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🎨</div>
+        <h3>Front-end</h3>
+        <div class="niveau">À consolider</div>
+        <p>HTML5 sémantique, CSS moderne (variables, <code>clamp()</code>, flexbox, grid, responsive) et JavaScript DOM sans dépendance.</p>
+        <div class="tags"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Responsive</span><span>Accessibilité</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🔐</div>
+        <h3>Sécurité applicative</h3>
+        <div class="niveau">Solide</div>
+        <p>OWASP : XSS, injections SQL, hachage bcrypt, limitation de force brute, contrôle d'accès par rôle, validation des fichiers.</p>
+        <div class="tags"><span>XSS</span><span>SQLi</span><span>bcrypt</span><span>RGPD</span><span>HTTPS</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🌐</div>
+        <h3>Réseaux &amp; systèmes</h3>
+        <div class="niveau">Intermédiaire</div>
+        <p>Configuration Cisco IOS, routage statique, VLSM, DHCP avec relais, segmentation VLAN, maquettes virtuelles multi-LAN.</p>
+        <div class="tags"><span>Cisco IOS</span><span>VLSM</span><span>DHCP</span><span>TCP/IP</span><span>VMware</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🐍</div>
+        <h3>Python &amp; outillage</h3>
+        <div class="niveau">Intermédiaire</div>
+        <p>Scripts d'automatisation : parsing de formats, migration de données, génération de documentation, gestion d'options CLI.</p>
+        <div class="tags"><span>Python 3</span><span>JSON</span><span>Regex</span><span>CLI</span><span>Bash</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🧪</div>
+        <h3>Tests &amp; qualité</h3>
+        <div class="niveau">Intermédiaire</div>
+        <p>Tests automatisés en environnement headless sur des stubs DOM : 13 suites de tests de non-régression couvrant les calculs métier.</p>
+        <div class="tags"><span>Tests unitaires</span><span>Headless (gjs)</span><span>Non-régression</span><span>Git</span></div>
+      </article>
+
+      <article class="skill reveal">
+        <div class="ico" aria-hidden="true">🗣️</div>
+        <h3>Soft skills</h3>
+        <div class="niveau">En pratique</div>
+        <p>Documentation pour que mes interlocuteurs comprennent (cahier des charges, guides de code, README), et explication technique en français.</p>
+        <div class="tags"><span>Documentation</span><span>Communication</span><span>Analyse de besoins</span><span>Autonomie</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PROJETS ══════════════════ -->
+<section id="projets">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">✦ Projets</span>
+      <h2>Ce que j'ai construit</h2>
+      <p>Des projets complets, du modèle de données jusqu'à l'écran — pas des exemples de cours.</p>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="Filtrer les projets par catégorie">
+      <button class="filter" data-filter="all" aria-pressed="true">Tous</button>
+      <button class="filter" data-filter="web" aria-pressed="false">Applications web</button>
+      <button class="filter" data-filter="backend" aria-pressed="false">Back-end PHP</button>
+      <button class="filter" data-filter="python" aria-pressed="false">Python &amp; scripts</button>
+      <button class="filter" data-filter="reseau" aria-pressed="false">Réseau &amp; systèmes</button>
+      <button class="filter" data-filter="embarque" aria-pressed="false">Matériel</button>
+      <button class="filter" data-filter="analyse" aria-pressed="false">Données &amp; analyse</button>
+    </div>
+
+    <div class="projects">
+
+      <!-- ── Fair'repair ── -->
+      <article class="card reveal" data-cat="web backend">
+        <div class="thumb">
+          <span class="cat">Projet BTS · PHP / MySQL</span>
+          <span class="badge">Projet principal</span>
+          <span aria-hidden="true">🚲</span>
+        </div>
+        <div class="body">
+          <h3>Fair'repair</h3>
+          <div class="meta"><span>2026</span><span>Projet de BTS SIO</span><span>Rôle : développement full-stack</span></div>
+          <p class="desc">
+            Plateforme web qui met en relation les cyclistes et les réparateurs de vélos :
+            recherche de prestations, réservation, paiement en ligne, avis et modération.
+            Entièrement écrite en PHP selon une architecture MVC, avec une base MySQL modélisée à partir d'un cahier des charges.
+          </p>
+          <div class="stats">
+            <span class="stat">6 565 lignes</span>
+            <span class="stat">82 fichiers PHP</span>
+            <span class="stat">8 tables</span>
+            <span class="stat">11 contrôleurs</span>
+          </div>
+          <div class="tags">
+            <span>PHP 8 POO</span><span>MVC</span><span>MySQL</span><span>PDO</span><span>Stripe</span>
+            <span>Leaflet</span><span>CSS</span><span>RGPD</span>
+          </div>
+          <div class="links">
+            <a href="#projet-fairepair">Détail du projet</a>
+            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
+            <span class="off">Démo <span class="draft">à ajouter</span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Ma Vie Admin ── -->
+      <article class="card reveal" data-cat="web">
+        <div class="thumb">
+          <span class="cat">Application 100 % locale</span>
+          <span class="badge">Utilisée au quotidien</span>
+          <span aria-hidden="true">🌸</span>
+        </div>        <div class="body">
+          <h3>Ma Vie Admin</h3>
+          <div class="meta"><span>2026</span><span>Projet personnel</span><span>HTML / CSS / JavaScript</span></div>
+          <p class="desc">
+            Application de gestion administrative et financière personnelle : suivi de trésorerie,
+            calcul d'impôts français (barème progressif, abattements, URSSAF), gestion des documents
+            avec alertes d'expiration et export de rapport PDF. Zéro serveur, zéro compte : tout reste sur l'appareil.
+          </p>
+          <div class="stats">
+            <span class="stat">2 273 lignes</span>
+            <span class="stat">8 modules</span>
+            <span class="stat">0 dépendance</span>
+            <span class="stat">13 suites de tests</span>
+          </div>
+          <div class="tags">
+            <span>JavaScript</span><span>localStorage</span><span>Graphiques SVG</span><span>Export CSV</span><span>Génération PDF</span>
+          </div>
+          <div class="links">
+            <a href="#projet-mavie">Détail du projet</a>
+            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
+            <span class="off">Démo <span class="draft">à ajouter</span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Outils Python + tests ── -->
+      <article class="card reveal" data-cat="python">
+        <div class="thumb">
+          <span class="cat">Automatisation · Python</span>
+          <span aria-hidden="true">🛠️</span>
+        </div>
+        <div class="body">
+          <h3>Boîte à outils OpenCode</h3>
+          <div class="meta"><span>2026</span><span>Projet personnel</span><span>Python 3 · Bash · gjs</span></div>
+          <p class="desc">
+            Scripts d'automatisation écrits pour résoudre un vrai problème : migrer l'historique de
+            conversations depuis Claude Code et Gemini CLI vers OpenCode, et générer automatiquement
+            un profil de contexte. Complétés par une suite de tests automatisés exécutables en une commande.
+          </p>
+          <div class="stats">
+            <span class="stat">739 lignes Python</span>
+            <span class="stat">13 suites de tests</span>
+            <span class="stat">5 options CLI</span>
+          </div>
+          <div class="tags">
+            <span>Python 3</span><span>JSONL</span><span>Regex</span><span>Bash</span><span>Tests headless</span>
+          </div>
+          <div class="links">
+            <a href="#projet-outils">Détail du projet</a>
+            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Labo réseau ── -->
+      <article class="card reveal" data-cat="reseau">
+        <div class="thumb">
+          <span class="cat">Infrastructure · Cisco</span>
+          <span aria-hidden="true">🛰️</span>
+        </div>
+        <div class="body">
+          <h3>Labo réseau multi-LAN</h3>
+          <div class="meta"><span>2026</span><span>TP BTS SIO</span><span>Cisco IOS · Packet Tracer · VMware</span></div>
+          <p class="desc">
+            Topologie à trois LAN montée sur des machines virtuelles Windows Server : un routeur
+            à quatre interfaces, deux serveurs DHCP (dont un relais multi-interface) et un poste client.
+            Routage statique, VLSM et location d'adresses vérifiés en conditions réelles.
+          </p>
+          <div class="stats">
+            <span class="stat">3 LAN + NAT</span>
+            <span class="stat">7 maquettes Packet Tracer</span>
+            <span class="stat">VLSM /24 /25 /30</span>
+          </div>
+          <div class="tags">
+            <span>Cisco IOS</span><span>Routage statique</span><span>VLSM</span><span>DHCP</span><span>Relay</span><span>VMware</span><span>RIP</span>
+          </div>
+          <div class="links">
+            <a href="#projet-reseau">Détail du projet</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Veille ── -->
+      <article class="card reveal" data-cat="analyse">
+        <div class="thumb">
+          <span class="cat">Veille · Cybersécurité</span>
+          <span aria-hidden="true">🔐</span>
+        </div>
+        <div class="body">
+          <h3>Veille : passkeys &amp; IA</h3>
+          <div class="meta"><span>2025 – 2026</span><span>Projet de veille BTS</span><span>Recherche documentaire</span></div>
+          <p class="desc">
+            Veille d'un an sur l'évolution des passkeys (FIDO2 / WebAuthn) et l'authentification des
+            agents IA. Chaque chiffre est relié à sa source primaire, et chaque affirmation est
+            assortie de sa limite méthodologique plutôt que d'être citée hors contexte.
+          </p>
+          <div class="stats">
+            <span class="stat">25 sources sourcées</span>
+            <span class="stat">12 mois couverts</span>
+            <span class="stat">6 corrections de mythes</span>
+          </div>
+          <div class="tags">
+            <span>WebAuthn</span><span>FIDO2</span><span>OAuth 2.1</span><span>MCP</span><span>Analyse critique</span><span>Veille</span>
+          </div>
+          <div class="links">
+            <a href="#projet-veille">Détail du projet</a>
+            <a href="#" title="Remplacez par le lien vers le document">Lire la veille ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Analyse UML ── -->
+      <article class="card reveal" data-cat="analyse">
+        <div class="thumb">
+          <span class="cat">Analyse fonctionnelle · UML</span>
+          <span aria-hidden="true">📐</span>
+        </div>
+        <div class="body">
+          <h3>Analyse UML</h3>
+          <div class="meta"><span>2026</span><span>TP BTS SIO</span><span>MagicDraw</span></div>
+          <p class="desc">
+            Diagrammes de cas d'utilisation complets pour deux domaines : la réservation de salles
+            et de matériel pédagogique, et la gestion d'une bibliothèque. Acteurs, relations
+            <code>include</code> / <code>extend</code> et multiplicités positionnées.
+          </p>
+          <div class="stats">
+            <span class="stat">2 diagrammes</span>
+            <span class="stat">6 acteurs</span>
+            <span class="stat">15 cas d'utilisation</span>
+          </div>
+          <div class="tags"><span>UML</span><span>Use case</span><span>include / extend</span><span>Multiplicités</span><span>MagicDraw</span></div>
+          <div class="links">
+            <span class="off">Schémas <span class="draft">à exporter en image</span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Exercices JS ── -->
+      <article class="card reveal" data-cat="web">
+        <div class="thumb">
+          <span class="cat">Fondamentaux · JavaScript</span>
+          <span aria-hidden="true">📜</span>
+        </div>
+        <div class="body">
+          <h3>Exercices d'algorithmique &amp; DOM</h3>
+          <div class="meta"><span>2025 – 2026</span><span>Travaux pratiques BTS</span><span>JavaScript vanilla</span></div>
+          <p class="desc">
+            Les exercices qui ont construit mes bases : boucles <code>for</code> / <code>while</code>,
+            tri à bulles, tableaux et leurs méthodes, <code>switch</code> comparé au ternaire,
+            création dynamique d'éléments DOM et gestion des événements.
+          </p>
+          <div class="stats">
+            <span class="stat">≈ 900 lignes</span>
+            <span class="stat">18 exercices</span>
+          </div>
+          <div class="tags"><span>Boucles</span><span>Tableaux</span><span>DOM</span><span>Événements</span><span>Regex</span></div>
+          <div class="links">
+            <span class="off">Dépôt <span class="draft">à créer</span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Gestion des Étudiants (PHP + sessions) ── -->
+      <article class="card reveal" data-cat="backend">
+        <div class="thumb">
+          <span class="cat">TP BTS · PHP</span>
+          <span aria-hidden="true">🎓</span>
+        </div>
+        <div class="body">
+          <h3>Gestion des Étudiants</h3>
+          <div class="meta"><span>2026</span><span>TP PHP</span><span>Sessions · Validation</span></div>
+          <p class="desc">
+            Application de gestion d'une promotion d'élèves, en PHP pur. Ajout d'un étudiant
+            dans la session, affichage d'une fiche par élève, âge moyen et répartition par classe.
+            Le formulaire est validé côté serveur avant toute écriture.
+          </p>
+          <div class="stats">
+            <span class="stat">256 lignes</span>
+            <span class="stat">5 fonctions</span>
+            <span class="stat">Validation regex</span>
+          </div>
+          <div class="tags"><span>PHP</span><span>$_SESSION</span><span>Regex</span><span>htmlspecialchars</span><span>Post-Redirect</span></div>
+          <div class="links">
+            <a href="#projet-php">Détail du projet</a>
+            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Base de données cinéma ── -->
+      <article class="card reveal" data-cat="analyse">
+        <div class="thumb">
+          <span class="cat">Modélisation · MySQL</span>
+          <span aria-hidden="true">🎬</span>
+        </div>
+        <div class="body">
+          <h3>Base de données « cinéma »</h3>
+          <div class="meta"><span>2026</span><span>TP SQL</span><span>13 tables · jeu de données réel</span></div>
+          <p class="desc">
+            Étude et modélisation d'une base de gestion de cinéma : films, distributors, salles,
+            séances, abonnements, réductions et personnel. Relations un-à-many, tables de
+            jointure, contraintes d'énumération et gros volumes de données réels.
+          </p>
+          <div class="stats">
+            <span class="stat">13 tables</span>
+            <span class="stat">2 000+ films</span>
+            <span class="stat">200+ personnes</span>
+          </div>
+          <div class="tags"><span>MySQL</span><span>Modélisation</span><span>Relations</span><span>ENUM</span><span>Index</span></div>
+          <div class="links">
+            <a href="#projet-bdd">Détail du projet</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Jeu d'esquive Python ── -->
+      <article class="card reveal" data-cat="python">
+        <div class="thumb">
+          <span class="cat">NSI / Seconde · Python</span>
+          <span aria-hidden="true">🐍</span>
+        </div>
+        <div class="body">
+          <h3>Jeu d'esquive</h3>
+          <div class="meta"><span>2023 – 2024</span><span>Projet NSI</span><span>Python · turtle</span></div>
+          <p class="desc">
+            Jeu d'arcade où l'on esquive des projectiles qui tombent. Le joueur est déplacé au
+            clavier, les collisions sont détectées par distance, et la partie gère vies, score,
+            fin de jeu et nettoyage des obstacles sortis de l'écran.
+          </p>
+          <div class="stats">
+            <span class="stat">109 lignes</span>
+            <span class="stat">Boucle de jeu 20 fps</span>
+            <span class="stat">Score &amp; vies</span>
+          </div>
+          <div class="tags"><span>Python</span><span>turtle</span><span>Événements clavier</span><span>Collisions</span><span>Machine à états</span></div>
+          <div class="links">
+            <a href="#projet-python">Détail du projet</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Arduino ── -->
+      <article class="card reveal" data-cat="embarque">
+        <div class="thumb">
+          <span class="cat">Systèmes embarqués · Arduino</span>
+          <span aria-hidden="true">🤖</span>
+        </div>
+        <div class="body">
+          <h3>Capteur de distance &amp; bargraph LED</h3>
+          <div class="meta"><span>2024</span><span>Projet SI</span><span>Arduino · C++</span></div>
+          <p class="desc">
+            Deux montages de physique appliqués : un capteur à ultrasons qui mesure une distance
+            et pilote une LED de proximité dont le clignotement s'accélère avec la distance, et
+            un convertisseur analogique-vers-numérique qui allume un bargraph de cinq LEDs selon
+            le seuil de tension atteint.
+          </p>
+          <div class="stats">
+            <span class="stat">2 montages</span>
+            <span class="stat">Conversion ADC → tension</span>
+            <span class="stat">5 seuils</span>
+          </div>
+          <div class="tags"><span>Arduino</span><span>C++</span><span>analogRead</span><span>pulseIn</span><span>Électronique</span></div>
+          <div class="links">
+            <span class="off">Schéma <span class="draft">à ajouter</span></span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Cheatsheet réseau + TP Cisco ── -->
+      <article class="card reveal" data-cat="reseau">
+        <div class="thumb">
+          <span class="cat">Documentation · Cisco</span>
+          <span aria-hidden="true">📘</span>
+        </div>
+        <div class="body">
+          <h3>Aide-mémoire réseau personnel</h3>
+          <div class="meta"><span>2025 – 2026</span><span>Auto-documenté</span><span>Cisco IOS</span></div>
+          <p class="desc">
+            Aide-mémoire que j'ai écrit pour ne plus oublier la syntaxe : modes du CLI,
+            configuration d'interfaces, pools DHCP, agent de relais, création de VLAN,
+            ports access et trunk avec encapsulation 802.1Q, sous-interfaces de routeur,
+            et la différence entre RIPv1 et RIPv2.
+          </p>
+          <div class="stats">
+            <span class="stat">148 lignes</span>
+            <span class="stat">9 sections</span>
+            <span class="stat">12+ maquettes Packet Tracer</span>
+          </div>
+          <div class="tags"><span>VLAN</span><span>Trunk / Dot1Q</span><span>DHCP relay</span><span>RIP</span><span>Cisco IOS</span></div>
+          <div class="links">
+            <a href="#projet-reseau">Détail du projet</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Simulateur d'historique de navigation ── -->
+      <article class="card reveal" data-cat="python">
+        <div class="thumb">
+          <span class="cat">Python · Structures de données</span>
+          <span aria-hidden="true">🧭</span>
+        </div>
+        <div class="body">
+          <h3>Simulateur d'historique de navigation</h3>
+          <div class="meta"><span>2024</span><span>Mini projet Python</span><span>Aucune dépendance</span></div>
+          <p class="desc">
+            Simulation du fonctionnement d'un navigateur : pile « arrière », page courante et
+            pile « avant ». Utilise une double file pour que les deux opérations de navigation
+            restent en temps constant, et valide chaque état avec des assertions.
+          </p>
+          <div class="stats">
+            <span class="stat">91 lignes</span>
+            <span class="stat">3 fonctions</span>
+            <span class="stat">Assertions d'état</span>
+          </div>
+          <div class="tags"><span>Python</span><span>deque</span><span>Assert</span><span>Invariant</span><span>Pile</span></div>
+          <div class="links">
+            <a href="#projet-python">Détail du projet</a>
+          </div>
+        </div>
+      </article>
+
+      <p class="no-result" id="no-result">Aucun projet dans cette catégorie pour le moment.</p>
+
+      <!-- ─────────── DÉTAILS DÉPLOYABLES ─────────── -->
+
+      <details class="deep reveal" id="projet-fairepair" data-cat="web backend">
+        <summary>📂 Fair'repair — architecture, modèle de données et sécurité</summary>
+        <div class="deep-body">
+          <h4>Le problème résolu</h4>
+          <p>
+            Un cycliste qui casse son vélo doit donc trouver un réparateur disponible près de chez lui,
+            sans savoir à l'avance ni le prix ni la disponibilité. Fair'repair centralise l'offre :
+            le réparateur publie ses prestations, le client réserve, paie et laisse un avis.
+          </p>
+
+          <h4>Architecture MVC</h4>
+          <p>
+            Chaque page correspond à une route centralisée dans un front controller unique, qui
+            aiguille vers un contrôleur. Les contrôleurs appellent les modèles, qui encapsulent
+            les requêtes SQL ; les vues ne contiennent aucun SQL et échappent toutes les données.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Couche</th><th>Rôle</th><th>Contenu</th></tr></thead>
+              <tbody>
+                <tr><td>Core</td><td>Le moteur de l'application</td><td>Connexion PDO (singleton), routeur, contrôleur de base, gestion des sessions et des droits, fonctions utilitaires, passerelle de paiement</td></tr>
+                <tr><td>Models</td><td>Le dialogue avec la base</td><td>7 modèles — Utilisateur, Service, Reservation, Paiement, Avis, Signalement, Reparateur</td></tr>
+                <tr><td>Controllers</td><td>La logique de page</td><td>11 contrôleurs — accueil, authentification, profil, services, réservations, paiement, avis, signalements, espace réparateur, espace modérateur, pages fixes</td></tr>
+                <tr><td>Views</td><td>L'affichage</td><td>Un dossier de vues par contrôleur, plus une mise en page commune (en-tête / pied de page)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Modèle de données — spécialisation des rôles</h4>
+          <p>
+            Au lieu de trois tables qui répètent prénom, nom et mot de passe, l'identité est
+            factorisée dans une table <code>utilisateur</code>, et chaque rôle possède sa table
+            rattachée. Un même compte peut être client <em>et</em> réparateur, ce qui est nécessaire
+            au modèle économique.
+          </p>
+          <ul class="bul">
+            <li><code>utilisateur</code> — identité commune, mot de passe haché, mot secret haché, compteurs anti-force-brute, trace d'acceptation des CGU (RGPD)</li>
+            <li><code>client</code> · <code>reparateur</code> · <code>moderateur</code> — spécialisation du rôle, clé étrangère = clé primaire, suppression en cascade</li>
+            <li><code>service</code> — prestation proposée, tarif, rayon d'intervention, image</li>
+            <li><code>reservation</code> — le cœur métier : adresse, date, statut contrôlé par une énumération</li>
+            <li><code>paiement</code> — un seul paiement par réservation (contrainte d'unicité)</li>
+            <li><code>avis</code> — note de 1 à 5 vérifiée par une contrainte <code>CHECK</code>, un avis par réservation</li>
+            <li><code>signalement</code> — motif, description, statut de traitement</li>
+          </ul>
+
+          <h4>Les huit mesures de sécurité</h4>
+          <ul class="bul">
+            <li><strong>XSS</strong> — une fonction d'échappement appliquée à toute donnée venant de la base</li>
+            <li><strong>Injection SQL</strong> — requêtes préparées partout, aucune concaténation</li>
+            <li><strong>Mots de passe</strong> — hachage bcrypt via <code>password_hash()</code> / <code>password_verify()</code></li>
+            <li><strong>Force brute</strong> — 5 échecs de connexion bloquent le compte 15 minutes ; 3 échecs pour le mot secret</li>
+            <li><strong>Énumération de comptes</strong> — message identique quelle que soit l'erreur, pour ne pas révéler quels comptes existent</li>
+            <li><strong>Fichiers piégés</strong> — extension <em>et</em> type MIME <em>et</em> vérification que le fichier est bien une image <em>et</em> taille limitée, nom régénéré</li>
+            <li><strong>Contrôle d'accès</strong> — protection des contrôleurs par rôle, doublée d'une vérification du propriétaire dans la requête SQL</li>
+            <li><strong>Données bancaires</strong> — jamais stockées : paiement hébergé par un prestataire, ou simulation pour la démonstration</li>
+          </ul>
+          <p>
+            La politique de mot de passe est écrite en une seule expression régulière, alignée sur les
+            recommandations CNIL : une minuscule, une majuscule, un chiffre, un caractère spécial,
+            entre 8 et 72 caractères. Quand elle échoue, l'application refait des tests simples
+            pour dire <em>précisément</em> ce qui manque, au lieu d'afficher un message générique.
+          </p>
+
+          <h4>Ce que j'ai appris</h4>
+          <ul class="bul">
+            <li>Séparer l'affichage, la logique et les données — sans quoi un formulaire se duplique partout</li>
+            <li>Concevoir la base <em>avant</em> le code, sinon chaque nouvelle fonctionnalité devient une modification en cascade</li>
+            <li>Une contrainte de base (<code>UNIQUE</code>, <code>CHECK</code>, <code>ENUM</code>) remplace avantageusement du code applicatif</li>
+            <li>La sécurité se décide au moment du modèle, pas au moment de la revue</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-mavie" data-cat="web">
+        <summary>📂 Ma Vie Admin — une application locale, huit modules, zéro serveur</summary>
+        <div class="deep-body">
+          <h4>Le parti pris</h4>
+          <p>
+            La plupart des applications de gestion personnel demandent un compte et/envoyent des données
+            sensibles sur un serveur. Celle-ci refuse ce compromis : un seul fichier HTML, aucune
+            installation, aucune connexion. Tout est stocké dans le navigateur et exportable en un clic.
+            La contrainte « zéro dépendance » m'a obligée à écrire moi-même les graphiques et
+            l'export PDF — ce qui est le meilleur exercice de JavaScript que j'aie fait.
+          </p>
+
+          <h4>Les huit modules</h4>
+          <ul class="bul">
+            <li><strong>Accueil</strong> — la logique de trésorerie en un écran : heures du mois en cours, disponibilités du mois, dépenses, épargne, et le reste. Graphique sur 6 mois, répartition par catégorie, alertes de dépassement et de budgets.</li>
+            <li><strong>Dépenses</strong> — achats, budgets mensuels par catégorie, charges récurrentes reportées automatiquement chaque mois, et un historique complet.</li>
+            <li><strong>Épargne</strong> — dépôts et retraits avec traçage de l'origine de l'argent : est-ce sorti du compte courant, ou déjà sur le livret ? Cette distinction change le solde bancaire réel, et l'application la traite explicitement.</li>
+            <li><strong>Travail</strong> — plusieurs emplois avec taux horaire et coefficient net, majoration des heures de nuit, saisie rapide de journées collées en texte brut, et statistiques par mois.</li>
+            <li><strong>Impôts</strong> — barème progressif français, situation familiale, abattements, décote, crédits d'impôt, et les taux spécifiques URSSAF selon l'activité (vente, services, libéral).</li>
+            <li><strong>Documents</strong> — titre de séjour, passeport, carte Vitale, CAF, transports… avec des alertes avant expiration et un seuil de rappel réglable.</li>
+            <li><strong>Rappels</strong> — rappels personnalisés et rappels suggérés, avec une pastille rouge sur l'urgent.</li>
+            <li><strong>Réglages</strong> — exports CSV, sauvegarde et restauration JSON, réinitialisation.</li>
+          </ul>
+
+          <h4>Deux détails dont je suis fière</h4>
+          <ul class="bul">
+            <li><strong>Décalage d'un mois</strong> : les heures travaillées en septembre sont payées en octobre. L'application distingue donc « heures de ce mois » et « argent reçu ce mois », parce que confondre les deux fausse complètement une analyse de trésorerie.</li>
+            <li><strong>Décomposition du dépôt</strong> : un panneau compare le dépôt réellement reçu au salaire attendu, et affiche la différence comme un bénéfice supplémentaire, avec le taux net moyen affiché. On voit d'où vient l'argent.</li>
+          </ul>
+
+          <h4>Tests</h4>
+          <p>
+            Une appli de 2 000 lignes sans tests est une appli qui casse. J'ai donc écrit
+            <strong>13 suites de tests automatisés</strong> qui tournent sans navigateur : le script de
+            l'application est extrait, chargé dans un environnement simulé (faux DOM, faux
+            <code>localStorage</code>), puis les calculs métier sont vérifiés un par un — reste du mois,
+            barre de budget, dépôts, épargne sur livret, récapitulatif de séances. Une commande
+            unique lance tout et renvoie un compte de failures.
+          </p>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-outils" data-cat="python">
+        <summary>📂 Outils Python — migrer un historique, générer un contexte, tout tester</summary>
+        <div class="deep-body">
+          <h4>Le problème</h4>
+          <p>
+            J'avais un an de conversations réparties entre deux outils en ligne de commande.
+            Aucun ne savait lire le format de l'autre, et l'outil cible n'acceptait que son propre
+            format d'export. Écrire ce convertisseur était plus rapide que de tout refaire à la main.
+          </p>
+
+          <h4>Ce que fait le convertisseur</h4>
+          <ul class="bul">
+            <li>Lit plusieurs formats sources et les normalise vers un format unique, en déduisant le projet, les dates et le titre de chaque session.</li>
+            <li>Conserve l'ordre exact des messages, et transforme les appels d'outils en texte lisible plutôt que de les perdre.</li>
+            <li>Signale les lignes qu'il n'a pas su interpréter au lieu d'échouer en silence — un outil qui perd des données sans prévenir est pire qu'un outil qui plante.</li>
+            <li>Mode <code>--dry-run</code> pour voir ce qui sera converti avant d'écrire le moindre fichier.</li>
+            <li>Filtres : par source, par nombre de tours minimum, avec ou sans les sorties d'outils, dossier de sortie au choix.</li>
+          </ul>
+
+          <h4>Le générateur de contexte</h4>
+          <p>
+            Un second script analyse l'historique et le classe automatiquement par thème
+            (développement, études, administratif, matériel, etc.) à l'aide d'une liste de mots-clés,
+            puis produit un document de contexte réutilisable. 92 conversations réparties en 7 thèmes.
+          </p>
+
+          <h4>Ce que j'ai appris</h4>
+          <ul class="bul">
+            <li>Les <em>formats propriétaires évoluent</em> : le script doit détecter plusieurs générations de format et dégrader proprement</li>
+            <li>Écrire pour l'échec : warnings explicites, mode dry-run, et ne jamais écraser des données sans sauvegarde</li>
+            <li>Un outil CLI utile se documente tout seul — un <code>--help</code> clair et un README qui disent ce que l'outil <em>ne fait pas</em></li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-reseau" data-cat="reseau">
+        <summary>📂 Réseau — routage statique, VLSM, VLAN et DHCP sur trois LAN</summary>
+        <div class="deep-body">
+          <h4>Topologie montée pour de vrai</h4>
+          <p>
+            Au lieu de seulement dessiner la topologie dans un logiciel, je l'ai montée avec
+            des machines virtuelles Windows Server : un routeur à quatre interfaces (trois LAN
+            plus une sortie Internet), deux serveurs DHCP dont un à deux interfaces servant de
+            relais, et un poste client.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Machine</th><th>Rôle</th><th>Interfaces</th></tr></thead>
+              <tbody>
+                <tr><td>RTR</td><td>Routeur</td><td>LAN 1 · LAN 2 · LAN 3 · NAT</td></tr>
+                <tr><td>DHCP1</td><td>Serveur DHCP</td><td>LAN 2</td></tr>
+                <tr><td>DHCP2</td><td>Serveur DHCP relais</td><td>LAN 1 · LAN 3</td></tr>
+                <tr><td>CLIENT</td><td>Poste utilisateur</td><td>LAN 1</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Configuration et VLSM</h4>
+          <p>
+            L'adressage a été découpé en VLSM — des masques de longueurs différentes sur un même
+            plan d'adressage — avec un lien point-à-point et plusieurs routes statiques vers un
+            next-hop unique. Un second exercice à quatre routeurs a poussé jusqu'à cinq masques
+            différents (<code>/22</code>, <code>/23</code>, <code>/24</code>, <code>/25</code>, <code>/30</code>)
+            avec des sauts de routeur en cascade.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Interface</th><th>Adresse</th><th>Masque</th></tr></thead>
+              <tbody>
+                <tr><td>FastEthernet 0/0</td><td>172.16.6.254</td><td>/24</td></tr>
+                <tr><td>FastEthernet 0/1</td><td>172.16.7.129</td><td>/30</td></tr>
+                <tr><td colspan="3">+ 5 routes statiques vers le next-hop 172.16.7.130, dont un réseau /25</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>La progression Packet Tracer</h4>
+          <p>
+            Douze maquettes classées par niveau : routage statique sur des topologies de 3 à
+            5 réseaux, puis RIP v1 et v2, puis VLAN, ports <em>access</em> et <em>trunk</em> avec
+            encapsulation 802.1Q, puis routage inter-VLAN par sous-interfaces, et enfin
+            VLSM + DHCP + liaison série. Ces maquettes sont un bac à sable : on casse
+            la configuration, on la répare, on recommence sans risquer la machine réelle.
+          </p>
+
+          <h4>Mon aide-mémoire</h4>
+          <p>
+            Au fil des TP j'ai écrit mon propre aide-mémoire Cisco, parce que je passais plus de
+            temps à chercher la syntaxe qu'à comprendre la commande. Il couvre les modes du CLI,
+            les interfaces, les pools DHCP, l'agent de relais, la création de VLAN, la différence
+            entre port access et trunk, l'encapsulation Dot1Q, les sous-interfaces de routeur,
+            et la différence entre RIPv1 (sans masque, à éviter) et RIPv2.
+          </p>
+
+          <h4>Côté Windows Server</h4>
+          <p>
+            En complément, j'ai travaillé sur l'administration Windows : installation et
+            configuration de l'annuaire Active Directory, intégration de postes clients au
+            domaine, stratégies de groupe, liaison d'une application de gestion d'inventaire
+            à l'annuaire via LDAP, et automatisation en PowerShell.
+          </p>
+          <div class="draft-block">
+            <p><span class="draft">À compléter</span></p>
+            <p>
+              Ces TP Windows Server (GLPI, Active Directory, LDAP, GPO, PowerShell) sont documentés
+              dans des compte-rendus PDF que je n'ai pas encore résumés ici. Rédigez une phrase
+              par TP avec ce que vous y avez réellement fait, et ajoutez une capture d'écran —
+              c'est ce qui manque pour que cette partie soit aussi convaincante que la partie Cisco.
+            </p>
+          </div>
+
+          <h4>Ce que j'ai appris</h4>
+          <ul class="bul">
+            <li>Un plan d'adressage se conçoit avant de configurer : la taille des sous-réseaux découle du nombre d'hôtes réel</li>
+            <li>Le DHCP ne traverse pas les routeurs — d'où le relais, et c'est le point exact où beaucoup de configurations échouent</li>
+            <li>Un port <em>access</em> transporte un seul VLAN, un <em>trunk</em> en transporte plusieurs : c'est toute la différence entre un réseau qui marche et un réseau qui « marche parfois »</li>
+            <li>Une topologie simulée et une topologie réelle ne se comportent pas pareil : tester les deux vaut le coup du temps perdu</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-veille" data-cat="analyse">
+        <summary>📂 Veille « passkeys &amp; IA » — 12 mois, 25 sources, et le refus des raccourcis</summary>
+        <div class="deep-body">
+          <h4>Pourquoi ce sujet</h4>
+          <p>
+            Les passkeys sont annoncés comme la fin du mot de passe. La réalité est plus subtile :
+            ils protègent très bien contre le vol d'identifiants, mais pas contre le vol de session,
+            ni contre une attaque par relais, ni contre un appareil compromis. C'est précisément
+            l'écart entre le discours et les faits qui rend le sujet intéressant.
+          </p>
+
+          <h4>Méthode</h4>
+          <ul class="bul">
+            <li>Relevé chronologique de 25 événements majeurs sur 12 mois, chacun avec sa source primaire et une note de pertinence.</li>
+            <li>Chaque chiffre est accompagné de ce qu'il faut dire dessus : qui l'a produit, sur quelles données, et ce qu'il ne prouve pas. Un « 5 milliards de passkeys » et un « 54 % de clic sur un phishing généré par IA » ne sont pas comparables à un taux universel.</li>
+            <li>Repérage systematic des contre-exemples et des nuances, y compris quand elles contredisent la nouveauté.</li>
+          </ul>
+
+          <h4>Ce que la veille corrige</h4>
+          <ul class="bul">
+            <li>« Sans mot de passe » ne veut pas dire « sans authentification ni risque ».</li>
+            <li>OAuth est un protocole d'<em>autorisation</em>, pas d'authentification : les deux se confondent constamment dans les discussions.</li>
+            <li>Un mot de passe fort n'empêche ni une attaque par relais, ni l'inscription frauduleuse d'une seconde méthode, ni le vol d'un jeton déjà obtenu.</li>
+            <li>Le nouveau problème n'est plus d'authentifier un humain, mais d'<em>autoriser un agent</em> : identité, délégation bornée, consentement vérifiable, traçabilité, révocation.</li>
+          </ul>
+
+          <h4>Ce que j'en retiens pour mon travail</h4>
+          <p>
+            C'est ce document qui m'a fait utiliser <code>password_hash()</code> partout, vérifier
+            l'audience des jetons, et réduire la surface d'attaque plutôt que d'ajouter des couches.
+            Une veille sert à ça : pas à accumuler des liens, mais à changer une décision technique.
+          </p>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-php" data-cat="backend">
+        <summary>📂 Gestion des Étudiants — sessions PHP, validation et échappement</summary>
+        <div class="deep-body">
+          <h4>Le sujet</h4>
+          <p>
+            Le sujet fourni par l'enseignant était volontairement incomplet : une structure HTML,
+            un formulaire et cinq fonctions à écrire. C'est le premier TP où j'ai dû produire
+            du back-end complet plutôt que de l'affichage.
+          </p>
+
+          <h4>Ce que j'ai fait</h4>
+          <ul class="bul">
+            <li><strong>Persistance en session</strong> — les étudiants sont ajoutés dans <code>$_SESSION</code>, donc la liste survit aux changements de page sans base de données ni fichier.</li>
+            <li><strong>Validation côté serveur</strong> — le nom et le prénom passent par une expression régulière qui n'accepte que lettres, espaces, apostrophes et tirets ; l'âge doit être un nombre entre 15 et 30 ; la classe doit appartenir à une liste blanche (<code>in_array</code>).</li>
+            <li><strong>Échappement en sortie</strong> — chaque valeur affichée passe par <code>htmlspecialchars()</code>. C'est la mesure anti-XSS de base, et elle se met au même endroit que l'affichage.</li>
+            <li><strong>Statistiques calculées</strong> — âge moyen avec arrondi, et comptage des étudiants par classe.</li>
+          </ul>
+
+          <h4>Le point qui m'a fait réfléchir</h4>
+          <p>
+            J'ai d'abord validé avec du JavaScript, côté navigateur. C'est une erreur : le navigateur
+            est chez l'utilisateur, pas chez moi. Une règle de validation qui n'existe que dans
+            la page peut être contournée en une ligne de commande. Depuis, je considère que
+            <em>toute</em> validation de sécurité doit exister deux fois — une fois pour le confort,
+            une fois côté serveur pour la vérité.
+          </p>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-bdd" data-cat="analyse">
+        <summary>📂 Base de données « cinéma » — 13 tables et un jeu de données réel</summary>
+        <div class="deep-body">
+          <h4>Pourquoi ce sujet est intéressant</h4>
+          <p>
+            Contrairement aux bases d'école qui contiennent cinq lignes, celle-ci contient
+            2 000 films et 200 personnes. Cela change tout : on ne peut pas se contenter d'une
+            structure « qui marche » — il faut des index, des clés étrangères cohérentes
+            et des données propres.
+          </p>
+
+          <h4>Le modèle</h4>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Table</th><th>Rôle</th><th>Point notable</th></tr></thead>
+              <tbody>
+                <tr><td>film</td><td>Œuvres et leur diffusion</td><td>Clés étrangères vers genre et distributeur, dates d'affichage, index sur les deux</td></tr>
+                <tr><td>distrib</td><td>Studios de distribution</td><td>30 distributions réelles</td></tr>
+                <tr><td>genre</td><td>Classification</td><td>Table de référence</td></tr>
+                <tr><td>salle</td><td>Salles et capacités</td><td>17 salles réparties sur 4 étages</td></tr>
+                <tr><td>grille_programme</td><td>Association film ↔ salle ↔ personnel</td><td>Table de jointure sans clé primaire — le point faible du modèle</td></tr>
+                <tr><td>personnel</td><td>Équipe d'exploitation</td><td>Horaire enuméré (matin / après-midi / nuit) : une vraie contrainte métier</td></tr>
+                <tr><td>membre</td><td>Adhérents</td><td>Rattachés à un abonnement et à leur dernier film</td></tr>
+                <tr><td>abonnement</td><td>Formules (GOLD, Classic, pass day…)</td><td>Durée et prix</td></tr>
+                <tr><td>reduction</td><td>Réductions tarifaires</td><td>Pourcentages Jeune, Senior…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Ce que j'ai appris</h4>
+          <ul class="bul">
+            <li>Une contrainte <code>ENUM</code> exprime une règle métier que le code applicatif ne peut qu'approximer — et elle ne peut pas être contournée.</li>
+            <li>Regarder un modèle existant révèle ses choix et leurs erreurs : ici, une table de jointure sans clé primaire autorise silencieusement des doublons de séance.</li>
+            <li>Charger des données réelles oblige à concevoir pour l'interrogation, pas seulement pour l'affichage.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-python" data-cat="python">
+        <summary>📂 Projets Python — un jeu d'esquive et un navigateur simulé</summary>
+        <div class="deep-body">
+          <h4>Jeu d'esquive — boucle de jeu, événements et collisions</h4>
+          <p>
+            Un projet plus ambitieux qu'un simple exercice : il y a une vraie boucle de jeu, des
+            entrées clavier, un état de partie et une condition d'arrêt. La logique est pilotée
+            par une minuterie qui se rappelle toutes les 50 millisecondes.
+          </p>
+          <ul class="bul">
+            <li><strong>Entrées</strong> — le clavier déplace le joueur ; chaque appui est traité comme un événement, pas comme une boucle d'attente.</li>
+            <li><strong>Collisions</strong> — détection par distance entre deux objets, avec un seuil qui correspond à la taille réelle des sprites.</li>
+            <li><strong>État de partie</strong> — vies restantes, compteur d'objets esquivés, affichage à l'écran, et fin de partie avec remise à zéro.</li>
+            <li><strong>Nettoyage</strong> — les objets sortis de l'écran sont supprimés de la liste, sinon la mémoire et le nombre de calculs grossissent à chaque partie.</li>
+          </ul>
+          <p>
+            <em>À signal :</em> la version du dessus est la seconde itération. La première
+            (137 lignes) faisait le plateau mais pas les vies ni le score — j'avais
+            compris le dessin avant de comprendre la logique de jeu.
+          </p>
+
+          <h4>Navigateur simulé — écrire le code qui ne peut pas mentir</h4>
+          <p>
+            Le second projet reproduit le fonctionnement d'un navigateur : une pile pour l'historique
+            « arrière », une pile pour « avant », et la page courante. Chaque fonction commence par
+            une assertion qui vérifie qu'on est dans un état valide.
+          </p>
+          <ul class="bul">
+            <li>Utiliser une double file (<code>deque</code>) rend les deux opérations de navigation en temps constant, là où une liste ferait une copies du tableau à chaque étape.</li>
+            <li>Naviguer dans une nouvelle page vide la pile « avant » : c'est le détail que tout le monde oublie et qui trahit une vraie simulation.</li>
+            <li>Les assertions documentent les préconditions et transforment un bug silencieux en échec bruyant.</li>
+          </ul>
+
+          <h4>Où j'en suis</h4>
+          <p>
+            Python est mon langage de scripts et de données. Je l'utilise aujourd'hui pour
+            l'outillage (voir « Boîte à outils ») plutôt que pour des applications :
+            c'est là qu'il est le plus utile dans mon travail.
+          </p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PARCOURS ══════════════════ -->
+<section id="parcours">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">✦ Parcours</span>
+      <h2>Mon chemin</h2>
+      <p>La formation, les projets et les expériences qui ont construit ma façon de travailler.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-when">2026 → en cours</div>
+        <h3>BTS SIO SLAM — 1<sup>re</sup> année</h3>
+        <div class="where">En alternance · Île-de-France</div>
+        <p data-edit>
+          Filière développement : algorithmique, programmation objet, bases de données, web, réseaux,
+          cybersécurité. Les projets Fair'repair, Ma Vie Admin et la veille passkeys sont les travaux
+          menés dans ce cadre.
+        </p>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-when">2026</div>
+        <h3>Projet Fair'repair — de l'idée à la version finale</h3>
+        <div class="where">Projet de BTS · PHP / MySQL</div>
+        <p data-edit>
+          Réécriture complète du projet en MVC orienté objet après une première version
+          procédurale : routeur centralisé, 11 contrôleurs, 7 modèles, base de données à 8 tables,
+          paiement et géolocalisation. Rédaction d'un guide du code de 33 pages pour le projet.
+        </p>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-when">2026</div>
+        <h3>Projets personnels et outillage</h3>
+        <div class="where">HTML / JavaScript · Python</div>
+        <p data-edit>
+          Ma Vie Admin (application de gestion 100 % locale, 2 273 lignes), une boîte à outils
+          Python de 739 lignes et 13 suites de tests automatisés pour vérifier l'application.
+        </p>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-when">2026</div>
+        <h3>Réseaux et infrastructures</h3>
+        <div class="where">Cisco IOS · Packet Tracer · VMware</div>
+        <p data-edit>
+          Labo à trois LAN avec routage statique, VLSM et DHCP multi-serveurs, monté sur machines
+          virtuelles Windows Server, plus sept maquettes Packet Tracer sur le routage et RIP.
+        </p>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-when">Avant</div>
+        <h3>Bac général — spécialité Maths et NSI</h3>
+        <div class="where">Numérique et sciences informatiques</div>
+        <p data-edit>
+          La spécialité NSI a donné le socle : algorithmique, structures de données et bases de
+          programmation. L'autodidactisme a commencé avant, au collège.
+        </p>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-when">À venir <span class="draft">à compléter</span></div>
+        <h3>Expériences professionnelles</h3>
+        <div class="where"> stages et emplois</div>
+        <p data-edit>
+          Ajoutez ici vos stages, jobs d'été et activités (bénévolat, service civique, associations).
+          Une ligne par expérience : le poste, ce que vous y avez fait, et une chose apprise.
+          Les recruteurs cherchent ce que vous <em>avez fait</em>, pas seulement où vous étiez.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">✦ Contact</span>
+      <h2>Parlons de votre projet</h2>
+      <p>Un poste, un projet, une question de technique : ma boîte mail est ouverte.</p>
+    </div>
+
+    <div class="contact reveal">
+      <div>
+        <p data-edit>
+          Je réponds à tout message lié au développement ou à une alternance.
+          N'hésitez pas à me contacter même si aucune offre n'est publiée — c'est souvent comme ça
+          que les opportunités arrivent.
+        </p>
+
+        <div class="contact-links">
+          <!-- Remplacez le href par vos vraies adresses -->
+          <a href="mailto:prenom.nom@email.com">
+            <span class="ico" aria-hidden="true">✉️</span>
+            <span class="val" data-edit>prenom.nom@email.com</span>
+          </a>
+          <a href="#" title="Remplacez par votre profil GitHub">
+            <span class="ico" aria-hidden="true">💻</span>
+            <span class="val" data-edit>github.com/votre-pseudo</span>
+          </a>
+          <a href="#" title="Remplacez par votre profil LinkedIn">
+            <span class="ico" aria-hidden="true">💼</span>
+            <span class="val" data-edit>linkedin.com/in/votre-profil</span>
+          </a>
+          <a href="#" title="Remplacez par l'adresse de votre CV">
+            <span class="ico" aria-hidden="true">📄</span>
+            <span class="val" data-edit>CV (PDF)</span>
+          </a>
+        </div>
+      </div>
+
+      <!--
+        FORMULAIRE — mode brouillon.
+        Pour l'activer : suivez la marche à pas dans le fichier README.md
+        (section « Activer le formulaire de contact »).
+      -->
+      <form class="form" id="contact-form" novalidate>
+        <div>
+          <label for="c-nom">Votre nom</label>
+          <input type="text" id="c-nom" name="nom" autocomplete="name" required>
+        </div>
+        <div>
+          <label for="c-email">Votre e-mail</label>
+          <input type="email" id="c-email" name="email" autocomplete="email" required>
+        </div>
+        <div>
+          <label for="c-message">Votre message</label>
+          <textarea id="c-message" name="message" rows="4" required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Envoyer le message</button>
+        <p class="note" id="form-status" hidden></p>
+        <p class="note">
+          <strong>⚠️ Brouillon :</strong> ce formulaire n'envoie rien pour l'instant.
+          Voir le <code>README.md</code> pour le brancher en 10 minutes
+          (Formspree, Netlify Forms ou Web3Forms — aucune carte bancaire requise).
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════ PIED DE PAGE ══════════════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <p>© <span data-year>2026</span> <span data-edit>Prénom NOM</span> — Conçu et développé à la main, sans dépendance.</p>
+    <nav aria-label="Liens de pied de page">
+      <a href="#accueil">Haut de page</a>
+      <a href="#projets">Projets</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" type="button" aria-label="Remonter en haut">↑</button>
+
+<script src="assets/script.js" defer></script>
+</body>
+</html>
