@@ -50,7 +50,7 @@ et signalé.
 |---|---|---|
 | `<title>` et `<meta description>` de `index.html` | votre nom, votre description | 🔴 |
 | Héros | `[Prénom]`, `[Prénom NOM]`, votre âge et votre ville | 🔴 |
-| **La photo** | voir étape 2 | 🔴 |
+| **La photo** | pas de portrait — le bloc a été retiré du héros | ✅ |
 | Contact | `prenom.nom@email.com`, GitHub, LinkedIn, lien du CV | 🔴 |
 | Section « À propos » | relisez et raccourcissez : c'est la partie la plus lue | 🔴 |
 | Parcours | ajoutez vos **stages et emplois** (le bloc « À venir ») | 🔴 |
@@ -64,23 +64,21 @@ endroits vraiment à compléter.
 
 ---
 
-## 📸 Étape 2 — Mettre une photo et des captures
+## 📸 Étape 2 — Les captures d'écran
 
 ### Votre portrait
 
-Déposez votre photo dans `assets/` (ex. `assets/photo.jpg`), puis remplacez le bloc
-dans la section héros :
+Pas de photo sur ce site : le bloc `div.avatar` a été retiré de la section héros et
+les styles associés supprimés de `styles.css`. La carte du héros commence directement
+par le nom et les informations clés, ce qui reste crédible et évite un cadre vide.
+
+Si vous changez d'avis, il suffit d'ajouter dans `<aside class="hero-card">` :
 
 ```html
-<!-- AVANT -->
-<div class="avatar">METTRE<br>PHOTO<br>ICI</div>
-
-<!-- APRÈS -->
-<div class="avatar"><img src="assets/photo.jpg" alt="Portrait de Prénom NOM"></div>
+<div class="avatar"><img src="assets/photo.jpg" alt="Portrait de Roy Titli"></div>
 ```
 
-Format carré (carré parfait), environ 600×600 px, poids faible. Le CSS applique
-déjà l'arrondi rond et la bordure.
+…et de rétablir les règles `.hero-card .avatar` dans `assets/styles.css`.
 
 ### Les captures d'écran de vos projets
 

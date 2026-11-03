@@ -224,15 +224,8 @@ h2{font-size:var(--step3);margin-bottom:13px}
 
 .hero-card{
   width:270px;flex-shrink:0;background:var(--card);border:1px solid var(--line);
-  border-radius:var(--radius-lg);padding:26px 22px;box-shadow:var(--shadow-md);text-align:center;
+  border-radius:var(--radius-lg);padding:26px 22px;box-shadow:var(--shadow-md);text-align:left;
 }
-.hero-card .avatar{
-  width:104px;height:104px;margin:0 auto 16px;border-radius:50%;
-  background:linear-gradient(135deg,var(--acc-soft),var(--acc-soft-2));
-  border:2px dashed var(--acc);display:grid;place-items:center;color:var(--muted);
-  font-size:.72rem;font-weight:700;text-align:center;line-height:1.35;padding:8px;overflow:hidden;
-}
-.hero-card .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .hero-card .st{font-weight:800;font-size:1.02rem}
 .hero-card .st-sub{color:var(--muted);font-size:.82rem;margin-top:3px}
 .hero-card .facts{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);display:grid;gap:9px;text-align:left}
@@ -243,7 +236,6 @@ h2{font-size:var(--step3);margin-bottom:13px}
 @media (max-width:880px){
   .hero-inner{grid-template-columns:1fr;gap:32px}
   .hero-card{width:100%;max-width:340px;margin-inline:auto;text-align:left}
-  .hero-card .avatar{margin-inline:0}
   .hero-card .facts{text-align:left}
 }
 
