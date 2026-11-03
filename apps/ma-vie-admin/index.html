@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma Vie Admin – Finances &amp; Papiers</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B8%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#fff6f8; --card:#ffffff; --ink:#4b3a45; --head:#a03467; --mut:#a98f9b; --line:#f8dfe8;
+  --acc:#f2789f; --acc-dark:#e25583; --acc-soft:#ffe4ee; --acc-deep:#d94f84;
+  --lav:#a78bfa; --lav-soft:#efeaff;
+  --red:#e5484d; --red-soft:#ffe3e5; --orange:#ee7a45; --orange-soft:#ffeadf;
+  --yellow:#d89a1f; --yellow-soft:#fdf3d2; --green:#59b67a; --green-soft:#e3f6e9;
+  --blue:#7d8cf0; --blue-soft:#eaeaff;
+  --shadow:0 2px 6px rgba(226,85,131,.07),0 10px 28px rgba(226,85,131,.09);
+  --radius:18px;
+}
+*{box-sizing:border-box; margin:0; padding:0}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.5; color:var(--ink);
+  background:
+    radial-gradient(circle at 6% 10%, rgba(255,190,215,.30), transparent 38%),
+    radial-gradient(circle at 95% 88%, rgba(240,195,255,.26), transparent 42%),
+    radial-gradient(circle at 98% 6%, rgba(255,205,170,.20), transparent 30%),
+    var(--bg);
+  background-attachment:fixed;
+}
+::-webkit-scrollbar{width:10px; height:10px}
+::-webkit-scrollbar-thumb{background:#f3c2d4; border-radius:99px; border:2px solid var(--bg)}
+::-webkit-scrollbar-track{background:transparent}
+
+.layout{display:flex; min-height:100vh}
+
+/* ---------- Fleurs décoratives ---------- */
+.deco-flower{position:fixed; z-index:0; pointer-events:none; user-select:none; opacity:.15; animation:flotter 9s ease-in-out infinite}
+.deco-flower.f1{top:4%; right:2.5%; font-size:66px; transform:rotate(14deg)}
+.deco-flower.f2{bottom:5%; left:32%; font-size:54px; transform:rotate(-12deg); animation-delay:2s}
+.deco-flower.f3{bottom:16%; right:4%; font-size:46px; opacity:.10; animation-delay:4s}
+.deco-flower.f4{top:38%; left:1%; font-size:40px; opacity:.10; animation-delay:6s}
+@keyframes flotter{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-9px) rotate(5deg)}}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:248px; flex-shrink:0; z-index:3;
+  background:linear-gradient(180deg,#fff3f6 0%,#ffeaf1 55%,#fde6ee 100%);
+  border-right:1px solid var(--line); color:#7d5871;
+  display:flex; flex-direction:column; padding:22px 14px; position:sticky; top:0; height:100vh;
+}
+.logo{display:flex; align-items:center; gap:11px; padding:4px 10px 18px; border-bottom:1px dashed #f3c9d8; margin-bottom:14px}
+.logo .ic{font-size:29px; filter:drop-shadow(0 2px 4px rgba(240,110,154,.35))}
+.logo b{color:var(--head); font-size:15.5px; font-weight:800; display:block; line-height:1.2; letter-spacing:.2px}
+.logo small{color:var(--mut); font-size:11px}
+.nav{display:flex; flex-direction:column; gap:3px; flex:1}
+.nav button{
+  display:flex; align-items:center; gap:11px; width:100%; text-align:left; cursor:pointer;
+  background:transparent; border:0; color:#8a6a7e; font:inherit; font-weight:600;
+  padding:10.5px 12px; border-radius:14px; transition:all .16s;
+}
+.nav button:hover{background:#ffe3ec; color:var(--acc-dark); transform:translateX(2px)}
+.nav button.active{
+  background:linear-gradient(135deg,#ff9dbb,#f06e9a); color:#fff;
+  box-shadow:0 5px 14px rgba(240,110,154,.38);
+}
+.nav .ic{width:22px; text-align:center; display:inline-flex; justify-content:center}
+.nav .ic svg{width:19px; height:19px}
+.nav .badge{
+  margin-left:auto; background:var(--red); color:#fff; font-size:11px; font-weight:800;
+  border-radius:99px; padding:1px 7px; min-width:20px; text-align:center;
+}
+.side-foot{padding:10px 12px; font-size:11.5px; color:var(--mut); border-top:1px dashed #f3c9d8; margin-top:14px}
+.side-foot b{color:#b0527f}
+
+/* ---------- Main ---------- */
+main{flex:1; min-width:0; padding:24px 30px 70px; position:relative; z-index:1}
+.topbar{display:flex; align-items:center; gap:12px; margin-bottom:20px}
+.topbar h1{
+  font-size:23px; font-weight:800;
+  background:linear-gradient(120deg,#f06e9a,#a88bf0);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.topbar .sub{color:var(--mut); font-size:13.5px}
+.spacer{flex:1}
+
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; margin-bottom:18px}
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:16px 18px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+}
+.card::after{
+  content:"🌸"; position:absolute; right:-8px; top:-10px; font-size:42px; opacity:.08;
+  transform:rotate(14deg); pointer-events:none;
+}
+.card .k{color:var(--acc-dark); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; display:flex; align-items:center; gap:7px}
+.card .k svg,.card .k .em{font-size:14px}
+.card .v{font-size:24px; font-weight:800; margin-top:6px; color:var(--head)}
+.card .s{font-size:12.5px; color:var(--mut); margin-top:2px}
+.card.good .v{color:var(--green)} .card.bad .v{color:var(--red)} .card.info .v{color:var(--blue)}
+
+.panel{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:18px 20px; box-shadow:var(--shadow); margin-bottom:18px;
+}
+.panel h2{font-size:16px; font-weight:800; margin-bottom:4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--head)}
+.panel h2 .gh{font-weight:600; font-size:13px; color:var(--mut); margin-left:auto}
+.panel .p-sub{color:var(--mut); font-size:13px; margin-bottom:14px}
+
+/* ---------- Forms ---------- */
+.grid-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; align-items:end}
+.field label{display:block; font-size:12px; font-weight:700; color:var(--acc-dark); margin-bottom:4px}
+.field input,.field select,.field textarea{
+  width:100%; padding:9px 11px; border:1.5px solid var(--line); border-radius:12px; font:inherit;
+  background:#fffafc; color:var(--ink); outline:none; transition:border .15s, box-shadow .15s, background .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--acc); box-shadow:0 0 0 3.5px var(--acc-soft); background:#fff}
+.field textarea{resize:vertical; min-height:44px}
+.field .hint{font-size:11.5px; color:var(--mut); margin-top:3px}
+.grid-mois{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px}
+.grid-mois .field{margin:0}
+.grid-mois .field label{font-size:11px; font-weight:700; color:var(--mut); margin-bottom:2px}
+.grid-mois .field input{padding:6px 8px; font-size:13px; text-align:right}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:6px; cursor:pointer; border:1px solid transparent;
+  border-radius:12px; padding:9px 15px; font:inherit; font-weight:700; font-size:14px;
+  background:linear-gradient(135deg,#ff9dbb,#f06e9a); color:#fff; white-space:nowrap;
+  box-shadow:0 3px 10px rgba(240,110,154,.28); transition:all .14s;
+}
+.btn:hover{filter:brightness(1.06); transform:translateY(-1px)}
+.btn.ghost{background:#fff; color:var(--ink); border-color:var(--line); box-shadow:none}
+.btn.ghost:hover{background:var(--acc-soft); border-color:var(--acc-soft); color:var(--acc-dark)}
+.btn.danger{background:#fff; color:var(--red); border-color:#fbc2c6; box-shadow:none}
+.btn.danger:hover{background:var(--red-soft)}
+.btn.small{padding:5px 10px; font-size:12.5px; border-radius:10px}
+.btn.green{background:linear-gradient(135deg,#8fd9a8,#59b67a); box-shadow:0 3px 10px rgba(89,182,122,.25)}
+.btn.gray{background:linear-gradient(135deg,#d9b8c6,#b98ba2); box-shadow:0 3px 10px rgba(185,139,162,.25)}
+.btn.lav{background:linear-gradient(135deg,#c4b5fd,#a78bfa); box-shadow:0 3px 10px rgba(167,139,250,.25)}
+
+/* ---------- Rows / lists ---------- */
+.row{display:flex; align-items:center; gap:12px; padding:10px 4px; border-bottom:1px solid #fbeaef}
+.row:last-child{border-bottom:0}
+.row .ic{width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0}
+.row .r-main{flex:1; min-width:0}
+.row .r-t{font-weight:700; font-size:14.5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:var(--ink)}
+.row .r-s{font-size:12.5px; color:var(--mut)}
+.row .r-v{font-weight:800; font-size:15px; text-align:right; white-space:nowrap; color:var(--head)}
+.row .r-v small{display:block; color:var(--mut); font-weight:600; font-size:11.5px}
+.row.actions .btn{margin-left:0}
+.actions-row{display:flex; gap:6px; align-items:center}
+
+/* ---------- Badges ---------- */
+.badge{display:inline-flex; align-items:center; gap:4px; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:99px; white-space:nowrap}
+.badge.green{background:var(--green-soft); color:var(--green)}
+.badge.red{background:var(--red-soft); color:var(--red)}
+.badge.orange{background:var(--orange-soft); color:var(--orange)}
+.badge.yellow{background:var(--yellow-soft); color:var(--yellow)}
+.badge.blue{background:var(--blue-soft); color:var(--blue)}
+.badge.gray{background:#f8ecf1; color:#b98ba2}
+
+/* ---------- Progress / bars / charts ---------- */
+.bar{height:9px; background:#f7d9e4; border-radius:99px; overflow:hidden}
+.bar > div{height:100%; border-radius:99px; background:linear-gradient(90deg,#ff9dbb,#ec6f9d); transition:width .3s}
+.chartV{display:flex; align-items:flex-end; gap:10px; height:150px; padding-top:10px}
+.chartV .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; height:100%; justify-content:flex-end}
+.chartV .col .val{font-size:11px; color:var(--mut); font-weight:700}
+.chartV .col .stick{width:100%; max-width:46px; border-radius:8px 8px 3px 3px; min-height:3px; background:linear-gradient(180deg,#ff9dbb,#ec6f9d)}
+.chartV .col .lbl{font-size:11.5px; color:var(--acc-dark); font-weight:600}
+.chip{display:inline-block; font-size:11.5px; font-weight:700; color:#b0527f; background:var(--acc-soft); padding:2px 10px; border-radius:99px}
+
+/* ---------- Séances par mois ---------- */
+.ws-month{border:1px solid #f3d8e3; border-radius:13px; padding:10px 12px 4px; margin-bottom:10px; background:#fff}
+.ws-month-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:13px}
+.ws-month-lbl{font-weight:800; color:var(--acc-dark); font-size:14px; text-transform:uppercase; letter-spacing:.4px}
+.ws-month-stats{flex:1; color:var(--mut); font-size:12px; min-width:120px}
+.ws-month-net{font-weight:800; color:var(--green); white-space:nowrap}
+.ws-bar{margin:6px 0 4px}
+.ws-month .row{padding:8px 6px}
+
+/* ---------- Tables ---------- */
+table{width:100%; border-collapse:collapse; font-size:14px}
+th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--acc-dark); padding:8px 10px; border-bottom:2px solid var(--line); background:#fff7fa}
+td{padding:9px 10px; border-bottom:1px solid #fbeaef; vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right}
+tfoot td{font-weight:800; color:var(--head); border-top:2px solid var(--line); border-bottom:0; background:#fffafc}
+
+.alert-box{border-radius:13px; padding:11px 15px; font-size:13.5px; margin-bottom:14px; border:1px solid #f9c7a8; background:var(--orange-soft); color:#a34d1f}
+.alert-box a{color:inherit; font-weight:700}
+.alert-box.red{border-color:#f8b8bd; background:var(--red-soft); color:#a5353a}
+.alert-box.blue{border-color:#c9c8f7; background:var(--blue-soft); color:#5a5fc0}
+.alert-box.green{border-color:#b8e6c6; background:var(--green-soft); color:#2e7d4c}
+
+.empty{text-align:center; color:var(--mut); padding:26px 10px; font-size:14px}
+.empty .big{font-size:34px; display:block; margin-bottom:6px}
+
+.seg{display:inline-flex; background:#fbe4ec; border-radius:12px; padding:3px; gap:3px}
+.seg button{border:0; background:transparent; padding:6px 14px; border-radius:10px; cursor:pointer; font:inherit; font-weight:700; font-size:13px; color:#b0527f}
+.seg button.active{background:#fff; color:var(--acc-dark); box-shadow:0 2px 6px rgba(226,85,131,.18)}
+
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.job-card{border:1.5px solid var(--line); border-radius:16px; padding:14px 16px; background:#fffdfe; cursor:pointer; transition:all .16s}
+.job-card:hover{border-color:var(--acc); box-shadow:var(--shadow); transform:translateY(-2px)}
+.job-card .jc-top{display:flex; align-items:center; gap:10px}
+.job-card .jc-top .ic{width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px}
+.job-card h3{font-size:15px; color:var(--head)}
+.job-card .jc-stats{display:flex; gap:14px; margin-top:8px; font-size:13px; color:var(--mut)}
+.job-card .jc-stats b{color:var(--ink); font-size:14.5px}
+
+.doc{border:1.5px solid var(--line); border-radius:16px; padding:13px 15px; background:#fffdfe; display:flex; gap:12px; align-items:flex-start}
+.doc.expired{border-color:#f6a7ad; background:#fff9fa}
+.doc .d-main{flex:1; min-width:0}
+.doc .d-t{font-weight:800; font-size:14.5px; color:var(--ink)}
+.doc .d-s{font-size:12.5px; color:var(--mut); margin-top:1px}
+.doc .d-dates{font-size:12.5px; color:#6d5161; margin-top:5px; display:flex; gap:14px; flex-wrap:wrap}
+
+.progress-label{display:flex; justify-content:space-between; font-size:12.5px; font-weight:700; color:var(--mut); margin-bottom:5px}
+
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
+  background:linear-gradient(135deg,#7c5a6e,#5d3f50); color:#fff; padding:12px 20px; border-radius:14px;
+  font-size:14px; font-weight:600; box-shadow:0 12px 34px rgba(93,63,80,.4); transition:all .25s; z-index:99; pointer-events:none;
+  border:1px solid rgba(255,255,255,.14);
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+.kbd{background:#fff0f5; border:1px solid var(--line); border-radius:8px; padding:1px 7px; font-size:12px; font-weight:700; color:var(--acc-dark)}
+
+.grid-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px}
+.grid-3 .card{margin:0}
+
+/* ---------- Print ---------- */
+@media print{
+  .sidebar,.topbar,.no-print,.deco-flower{display:none !important}
+  main{padding:0}
+  .page{display:block !important}
+  body{background:#fff; background-image:none}
+  .card,.panel{box-shadow:none; border:1px solid #e5c4d2; break-inside:avoid}
+  .topbar h1{color:#a03467; -webkit-text-fill-color:#a03467}
+}
+@media (max-width:960px){
+  .sidebar{width:74px; padding:16px 8px}
+  .logo b,.logo small,.nav button span:not(.ic),.side-foot{display:none}
+  .nav button{justify-content:center}
+  .nav .badge{display:none}
+  main{padding:16px}
+  .grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<span class="deco-flower f1">🌸</span>
+<span class="deco-flower f2">🌷</span>
+<span class="deco-flower f3">🪻</span>
+<span class="deco-flower f4">🌼</span>
+<div class="layout">
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar no-print">
+    <div class="logo">
+      <span class="ic">🌸</span>
+      <span><b>Ma Vie Admin</b><small>finances &amp; papiers</small></span>
+    </div>
+        <nav class="nav" id="nav">
+      <button data-page="accueil"   onclick="App.go('accueil')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.8 12 3l9 7.8"/><path d="M5 9.6V21h14V9.6"/><path d="M9.5 21v-6h5v6"/></svg></span><span>Accueil</span></button>
+      <button data-page="depenses"  onclick="App.go('depenses')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h12v19l-2-1.4-2 1.4-2-1.4L10 21l-2-1.4L6 21z"/><path d="M9 8.5h6M9 12.5h6M9 16.5h3"/></svg></span><span>Dépenses</span></button>
+      <button data-page="epargne"   onclick="App.go('epargne')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.1 10.4a6 6 0 1 1-7.7 8.1"/><path d="M7 6.5h1v4"/><path d="M16.5 13.5h.01"/></svg></span><span>Épargne</span></button>
+      <button data-page="travail"   onclick="App.go('travail')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M16 20V6a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v14"/></svg></span><span>Travail &amp; heures</span></button>
+      <button data-page="impots"    onclick="App.go('impots')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M8.5 7.5h7"/><path d="M9 12.5h.01M12 12.5h.01M15 12.5h.01M9 16.5h.01M12 16.5h.01M15 16.5h.01"/></svg></span><span>Impôts</span></button>
+      <button data-page="documents" onclick="App.go('documents')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7.5z"/><path d="M14 2.5V7.5h5"/><path d="M9 12.5h6M9 16.5h4"/></svg></span><span>Documents</span></button>
+      <button data-page="rappels"   onclick="App.go('rappels')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 0 0-12 0c0 6.5-2.5 8-2.5 8h17s-2.5-1.5-2.5-8"/><path d="M10.3 20a1.9 1.9 0 0 0 3.4 0"/></svg></span><span>Rappels</span><span class="badge" id="nav-badge" style="display:none">0</span></button>
+      <button data-page="reglages"  onclick="App.go('reglages')"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M2 14h4M10 8h4M18 16h4"/></svg></span><span>Réglages</span></button>
+    </nav>
+    <div class="side-foot"><b>🌸 Données locales</b><br>tout est stocké dans ce navigateur. Pense aux sauvegardes (Réglages).</div>
+  </aside>
+
+  <!-- ==================== MAIN ==================== -->
+  <main>
+    <header class="topbar no-print">
+      <div><h1 id="page-title">Accueil</h1><div class="sub" id="page-sub"></div></div>
+      <span class="spacer"></span>
+      <button class="btn ghost" onclick="window.print()">🖨️ Imprimer / PDF</button>
+    </header>
+
+    <!-- ============ ACCUEIL ============ -->
+    <section id="page-accueil" class="page">
+      <div class="panel no-print">
+        <div class="grid-form">
+          <div class="field"><label>Période affichée</label>
+            <div style="display:flex; gap:8px; align-items:center">
+              <button class="btn ghost small" onclick="App.navMonth(-1)">‹</button>
+              <div class="chip" id="acc-month-label" style="font-size:13px; padding:7px 14px">…</div>
+              <button class="btn ghost small" onclick="App.navMonth(1)">›</button>
+              <button class="btn ghost small" onclick="App.navMonth(0)">Ce mois</button>
+            </div>
+          </div>
+          <div class="field"><label>Rapport</label>
+            <button class="btn ghost" onclick="window.print()" style="width:100%; justify-content:center">🖨️ Rapport du mois (PDF)</button>
+          </div>
+        </div>
+      </div>
+      <div id="dash-cards" class="cards"></div>
+      <div id="dash-alertes"></div>
+      <div class="grid2">
+        <div class="panel"><h2>📊 Dépenses – 6 derniers mois</h2><div id="dash-chart6"></div></div>
+        <div class="panel"><h2>🧩 Répartition du mois</h2><div id="dash-repart"></div></div>
+      </div>
+      <div class="panel"><h2>🏦 Épargne &amp; objectifs</h2><div id="dash-epargne"></div></div>
+    </section>
+
+    <!-- ============ DEPENSES ============ -->
+    <section id="page-depenses" class="page">
+      <div class="row" style="border:0; padding:0 0 8px; gap:8px">
+        <button class="btn ghost small" onclick="App.navMonth(-1)">‹ Mois préc.</button>
+        <div class="chip" id="exp-month-label">…</div>
+        <button class="btn ghost small" onclick="App.navMonth(1)">Mois suiv. ›</button>
+        <button class="btn ghost small" onclick="App.navMonth(0)">Ce mois</button>
+      </div>
+      <div class="panel">
+        <h2>➕ Ajouter une dépense</h2>
+        <form class="grid-form" onsubmit="return App.addExpense(event)">
+          <div class="field"><label>Date</label><input type="date" id="exp-date"></div>
+          <div class="field"><label>Catégorie</label><select id="exp-cat"></select></div>
+          <div class="field"><label>Montant (€)</label><input type="text" id="exp-montant" inputmode="decimal" placeholder="42,50"></div>
+          <div class="field"><label>Note (optionnel)</label><input type="text" id="exp-note" placeholder="Ex : courses Lidl"></div>
+          <div class="field"><label>Type de sortie</label>
+            <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer">
+              <input type="checkbox" id="exp-transfert"> 🏦💸 C'est un <b>transfert vers un autre compte</b> (pas le mien)
+            </label>
+            <div class="hint">L'argent sort bien de ton compte (solde et reste du mois), mais ce n'est <b>pas une dépense pour toi</b> : pas de budget, pas dans tes statistiques.</div>
+          </div>
+          <div class="field"><button class="btn" id="exp-btn" type="submit">Ajouter</button></div>
+        </form>
+      </div>
+      <div id="exp-budget-alert"></div>
+      <div class="grid2">
+        <div class="panel"><h2>💸 Dépenses du mois <span class="gh" id="exp-total"></span></h2><div id="exp-summary"></div></div>
+        <div class="panel"><h2>🎯 Budgets mensuels</h2><p class="p-sub">Modifie tes plafonds, ils sont enregistrés automatiquement.</p><div id="budgets-editor"></div></div>
+      </div>
+      <div class="panel">
+        <h2>🔁 Charges récurrentes <span class="gh">reportées automatiquement chaque mois</span></h2>
+        <form class="grid-form" onsubmit="return App.addRec(event)">
+          <div class="field"><label>Nom</label><input type="text" id="rec-nom" placeholder="Ex : Loyer, Netflix, Téléphone…"></div>
+          <div class="field"><label>Catégorie</label><select id="rec-cat"></select></div>
+          <div class="field"><label>Montant (€)</label><input type="text" id="rec-montant" inputmode="decimal" placeholder="480"></div>
+          <div class="field"><label>Jour du mois (1–31)</label><input type="number" id="rec-day" min="1" max="31" value="1"></div>
+          <div class="field"><label>Début (optionnel)</label><input type="date" id="rec-start"></div>
+          <div class="field"><button class="btn" id="rec-btn" type="submit">Ajouter la charge</button></div>
+        </form>
+        <div id="rec-list"></div>
+      </div>
+      <div class="panel"><h2>📜 Dépenses du mois</h2><div id="exp-list"></div></div>
+      <div class="panel"><h2>🗓️ Historique complet</h2><div id="exp-all"></div></div>
+    </section>
+
+    <!-- ============ EPARGNE ============ -->
+    <section id="page-epargne" class="page">
+      <div id="ep-cards" class="cards"></div>
+      <div id="ep-shift" class="panel no-print"></div>
+      <div id="ep-depot" class="panel no-print"></div>
+      <div class="panel">
+        <h2>➕ Ajouter une opération (épargne ou compte courant)</h2>
+        <form class="grid-form" onsubmit="return App.addOp(event)">
+          <div class="field"><label>Type</label><select id="ep-type" onchange="App.epType(this.value)"><option value="depot">💰 Dépôt (je dépose)</option><option value="retrait">🏧 Retrait</option></select></div>
+          <div class="field"><label>Où ?</label><select id="ep-account" onchange="App.epAccount(this.value)"><option value="epargne">💰 Épargne (objectif)</option><option value="courant">🏦 Compte courant (banque)</option></select>
+            <div class="hint">Ton épargne suit un objectif 🎯 ; le compte courant est ton solde banque.</div>
+          </div>
+          <div class="field" id="ep-origine-field"><label>Cet argent vient d'où ?</label><select id="ep-origine">
+              <option value="courant">🏦 Pris sur mon compte courant</option>
+              <option value="externe">🎁 Déjà dans l'épargne (ajouté à part)</option>
+            </select>
+            <div class="hint">« Déjà dans l'épargne » = argent qui <b>n'a pas quitté ton compte courant</b> (il était déjà sur le livret) : il ne diminue pas ton solde bancaire.</div>
+          </div>
+          <div class="field"><label>Montant (€)</label><input type="text" id="ep-montant" inputmode="decimal" placeholder="100"></div>
+          <div class="field" id="ep-goal-field"><label>Objectif (optionnel)</label><select id="ep-goal"></select>
+            <div class="hint">Réservé à l'épargne.</div>
+          </div>
+          <div class="field"><label>Date</label><input type="date" id="ep-date"></div>
+          <div class="field"><label>Note (optionnel)</label><input type="text" id="ep-note" placeholder="Ex : virement du 15"></div>
+          <div class="field"><button class="btn" id="ep-btn" type="submit">Ajouter</button>
+            <button class="btn ghost" id="ep-cancel" type="button" style="display:none" onclick="App.cancelEditOp()">Annuler</button>
+            <div class="hint" id="ep-edit-hint" style="display:none">✏️ Tu modifies une opération déjà enregistrée — 💾 pour valider.</div>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>🎯 Objectifs d'épargne</h2>
+        <form class="grid-form" style="margin-bottom:12px" onsubmit="return App.addGoal(event)">
+          <div class="field"><label>Nom de l'objectif</label><input type="text" id="goal-nom" placeholder="Ex : fonds d'urgence, voyage, permis…"></div>
+          <div class="field"><label>Montant cible (€)</label><input type="text" id="goal-cible" inputmode="decimal" placeholder="500"></div>
+          <div class="field"><button class="btn green" type="submit">Créer l'objectif</button></div>
+        </form>
+        <div id="goal-list"></div>
+      </div>
+      <div class="panel"><h2>🧾 Historique des opérations</h2><div id="ep-list"></div></div>
+    </section>
+
+    <!-- ============ TRAVAIL ============ -->
+    <section id="page-travail" class="page">
+      <div class="panel">
+        <h2>💼 Tes travaux <span class="gh">un taux horaire + tes heures = tes revenus</span></h2>
+        <div class="grid-form">
+          <div class="field"><label>Nom du travail</label><input type="text" id="job-nom" placeholder="Ex : Restaurant, Boulangerie…"></div>
+          <div class="field"><label>Taux horaire brut (€/h)</label><input type="text" id="job-taux" inputmode="decimal" placeholder="11,65"></div>
+          <div class="field"><label>Coefficient net (net ÷ brut)</label><input type="text" id="job-coef" inputmode="decimal" placeholder="0,80">
+            <div class="hint">Par défaut 0,80. Si tu saisis ton taux <b>net</b>, mets 1.</div>
+          </div>
+          <div class="field"><label>Type de contrat (pour l'impôt)</label><select id="job-type">
+            <option value="">— Choisis (optionnel) —</option>
+            <option value="cdi">💼 CDI</option>
+            <option value="cdd">📄 CDD</option>
+            <option value="apprenti">🎓 Apprentissage</option>
+            <option value="ursaff-vente">🛒 Auto-entrepreneur : vente (URSSAF)</option>
+            <option value="ursaff-services">🛠️ Auto-entrepreneur : services (URSSAF)</option>
+            <option value="ursaff-liberal">💼 Auto-entrepreneur : libéral (URSSAF)</option>
+            <option value="autre">📦 Autre</option>
+          </select>
+            <div class="hint">Permet de déclarer le salaire de ce travail (Impôts → Revenus déclarés).</div>
+          </div>
+          <div class="field"><label>Date de début</label><input type="date" id="job-debut"></div>
+          <div class="field"><button class="btn" type="submit" onclick="App.addJob(event)">Ajouter le travail</button></div>
+        </div>
+      </div>
+      <div class="panel no-print">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+          <div class="seg" id="work-seg">
+            <button data-p="mois" onclick="App.setPeriod('mois')">Mois</button>
+            <button data-p="annee" onclick="App.setPeriod('annee')">Année</button>
+            <button data-p="tout" onclick="App.setPeriod('tout')">Tout</button>
+          </div>
+          <span id="work-period-label" class="chip"></span>
+          <span style="flex:1"></span>
+          <select id="job-switch" onchange="App.selectJob(this.value)" style="max-width:250px"></select>
+          <button class="btn ghost small" onclick="App.navMonth(-1)">‹</button>
+          <button class="btn ghost small" onclick="App.navMonth(1)">›</button>
+        </div>
+      </div>
+      <div id="work-summary" class="cards"></div>
+      <div id="work-jobs"></div>
+      <div id="work-detail"></div>
+      <div class="panel"><h2>📈 Statistiques des heures &amp; payes</h2><div id="work-sessions"></div></div>
+      <div class="panel"><h2>📅 Heures &amp; paye par mois <span class="gh" id="work-year-label"></span></h2><div id="work-chart"></div></div>
+    </section>
+
+    <!-- ============ IMPOTS ============ -->
+    <section id="page-impots" class="page">
+      <div class="panel no-print">
+        <div class="grid-form">
+          <div class="field"><label>Année de revenus</label><input type="number" id="tax-annee" value="2026" onchange="App.setTaxYear(this.value)"></div>
+          <div class="field"><label>Situation familiale</label><select id="tax-situation" onchange="App.setSituation(this.value)">
+            <option value="celib">🌸 Célibataire</option>
+            <option value="celib1">🌱 Célibataire + 1 enfant</option>
+            <option value="couple">💕 Couple (marié / PACS)</option>
+            <option value="couple1">💕 Couple + 1 enfant</option>
+            <option value="couple2">💕 Couple + 2 enfants</option>
+            <option value="couple3">💕 Couple + 3 enfants</option>
+          </select></div>
+          <div class="field"><label>Parts de quotient familial</label><input type="number" id="tax-parts" value="1" min="1" step="0.5" onchange="App.setParts(this.value)">
+            <div class="hint">1 = célibataire sans enfant</div>
+          </div>
+          <div class="field"><label>Abattement 10 % (salariés)</label><select id="tax-abat" onchange="App.setAbat(this.value)"><option value="1">Activé (recommandé)</option><option value="0">Désactivé</option></select></div>
+          <div class="field"><label>Crédits d'impôt (€, total année)</label><input type="text" id="tax-credits" inputmode="decimal" placeholder="0" onchange="App.setCredits(this.value)">
+            <div class="hint">Ex : emploi à domicile, dons…</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel no-print">
+        <h2>💰 Revenus déclarés (salaire net par mois, par travail)</h2>
+        <p class="p-sub">Choisis un <b>travail</b> (avec son type de contrat CDI / CDD / apprenti / URSSAF) puis entre le <b>net reçu pour chaque mois</b>. Son impôt est <b>calculé à part</b> de tes heures de travail (deux revenus différents, jamais additionnés). Laisse vide (ou 0) pour un mois sans paye.</p>
+        <form class="no-print" onsubmit="return App.addIncome(event)">
+          <div class="grid-form">
+            <div class="field"><label>💼 Quel travail ?</label><select id="inc-job"></select><div class="hint" id="inc-job-hint"></div></div>
+            <div class="field"><label>Montant identique (€)</label>
+              <div style="display:flex; gap:6px; align-items:center">
+                <input type="text" id="inc-fill" inputmode="decimal" placeholder="Ex : 1250,75" style="flex:1">
+                <button type="button" class="btn ghost small" onclick="App.fillIncomeMonths()">🪄 Tout</button>
+              </div>
+              <div class="hint">Remplit les 12 mois, puis corrige les mois différents.</div>
+            </div>
+            <div class="field"><button class="btn" type="submit">➕ Ajouter pour l'année</button></div>
+          </div>
+          <div class="grid-mois">
+            <div class="field"><label>Janv.</label><input type="text" id="inc-m-01" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Févr.</label><input type="text" id="inc-m-02" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Mars</label><input type="text" id="inc-m-03" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Avr.</label><input type="text" id="inc-m-04" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Mai</label><input type="text" id="inc-m-05" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Juin</label><input type="text" id="inc-m-06" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Juil.</label><input type="text" id="inc-m-07" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Août</label><input type="text" id="inc-m-08" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Sept.</label><input type="text" id="inc-m-09" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Oct.</label><input type="text" id="inc-m-10" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Nov.</label><input type="text" id="inc-m-11" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><label>Déc.</label><input type="text" id="inc-m-12" inputmode="decimal" placeholder="0"></div>
+          </div>
+        </form>
+        <div id="inc-list" style="margin-top:12px"></div>
+      </div>
+      <div id="tax-summary"></div>
+      <div id="tax-info"></div>
+      <div class="panel"><h2>📋 Détail par travail</h2><div id="tax-table"></div></div>
+      <div class="panel"><h2>⏱️ Heures de travail : net par mois (année <span id="tax-year-lbl"></span>)</h2><div id="tax-chart"></div></div>
+      <div class="panel"><h2>💰 Salaire déclaré : net par mois (année <span id="tax-year-lbl2"></span>)</h2><div id="tax-chart-inc"></div></div>
+    </section>
+
+    <!-- ============ DOCUMENTS ============ -->
+    <section id="page-documents" class="page">
+      <div id="doc-banner"></div>
+      <div class="panel">
+        <h2>➕ Ajouter un document à surveiller</h2>
+        <form class="grid-form" onsubmit="return App.addDoc(event)">
+          <div class="field"><label>Type</label><select id="doc-type" onchange="App.docTypeChange(this.value)"></select>
+            <div class="hint" id="doc-type-hint">📄 Ex : titre de séjour, passeport, carte bancaire, CMU, <b>titre de transport</b>…</div>
+          </div>
+          <div class="field"><label>Nom / libellé</label><input type="text" id="doc-nom" placeholder="Ex : Titre de séjour – renouvellement"></div>
+          <div class="field"><label>Numéro (optionnel)</label><input type="text" id="doc-numero" placeholder="…"></div>
+          <div class="field"><label>Organisme</label><input type="text" id="doc-organisme" placeholder="Ex : Préfecture, CAF…"></div>
+          <div class="field"><label id="doc-delivrance-label" for="doc-delivrance">Date de délivrance</label><input type="date" id="doc-delivrance"></div>
+          <div class="field"><label id="doc-expiration-label" for="doc-expiration">Date d'expiration</label><input type="date" id="doc-expiration"></div>
+          <div class="field"><label>Rappel avant expiration</label><select id="doc-rappel">
+            <option value="7">7 jours</option><option value="30" selected>30 jours</option>
+            <option value="90">90 jours</option><option value="180">6 mois</option>
+            <option value="365">1 an</option>
+          </select></div>
+          <div class="field"><label>État de la demande</label><select id="doc-statut" onchange="App.docStatutChange(this.value)">
+            <option value="valide">Valide (document obtenu)</option>
+            <option value="demande">Demande en cours (dossier déposé)</option>
+            <option value="en-cours">En cours de renouvellement</option>
+            <option value="refusee">Refusée</option>
+          </select>
+            <div class="hint" id="doc-statut-hint">Choisis « Demande en cours » si tu l'as demandé mais que tu ne l'as pas encore.</div>
+          </div>
+          <div class="field"><label>Notes (optionnel)</label><input type="text" id="doc-notes" placeholder="Ex : RDV préfecture le…"></div>
+          <div class="field"><button class="btn" type="submit">Ajouter</button></div>
+        </form>
+      </div>
+      <div class="panel"><h2>📄 Mes documents</h2><div id="doc-list"></div></div>
+    </section>
+
+    <!-- ============ RAPPELS ============ -->
+    <section id="page-rappels" class="page">
+      <div class="panel">
+        <h2>➕ Rappel personnalisé</h2>
+        <form class="grid-form" onsubmit="return App.addRap(event)">
+          <div class="field"><label>Titre</label><input type="text" id="rap-titre" placeholder="Ex : Renouveler l'assurance"></div>
+          <div class="field"><label>Date</label><input type="date" id="rap-date"></div>
+          <div class="field"><label>Répétition</label><select id="rap-repeat"><option value="aucun">Aucune</option><option value="annuel">Annuelle</option><option value="trimestre">Trimestrielle</option></select></div>
+          <div class="field"><label>Notes (optionnel)</label><input type="text" id="rap-notes" placeholder="Détail utile…"></div>
+          <div class="field"><button class="btn" type="submit" style="background:#f59e0b">Ajouter le rappel</button></div>
+        </form>
+        <p class="p-sub" style="margin:10px 0 0"><button class="btn ghost small" onclick="App.addSuggested()">⚡ Ajouter les rappels suggérés (impôts, CAF, assurance…)</button></p>
+      </div>
+      <div id="rap-list"></div>
+    </section>
+
+    <!-- ============ REGLAGES ============ -->
+    <section id="page-reglages" class="page">
+      <div class="panel">
+        <h2>👤 Profil</h2>
+        <div class="grid-form">
+          <div class="field"><label>Ton prénom (optionnel)</label><input type="text" id="set-nom" placeholder="Comment t'appeler ?"></div>
+          <div class="field"><label>Coefficient net par défaut (net ÷ brut)</label><input type="text" id="set-coef" placeholder="0,80"></div>
+          <div class="field"><button class="btn" onclick="App.applySettings()">Enregistrer</button></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>🗂️ Sauvegarde &amp; données</h2>
+        <p class="p-sub">Sauvegarde régulièrement : cela protège tes données si tu effaces le cache du navigateur, et te permet de passer tes données sur un autre ordinateur.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap">
+          <button class="btn" onclick="App.exportData()">⬇️ Exporter (JSON)</button>
+          <button class="btn gray" onclick="App.exportExpensesCSV()">🧾 Dépenses (CSV)</button>
+          <button class="btn gray" onclick="App.exportWorkCSV()">💼 Heures (CSV)</button>
+          <button class="btn lav" onclick="App.exportICS()">📅 Calendrier (.ics)</button>
+          <button class="btn ghost" onclick="document.getElementById('import-file').click()">⬆️ Importer (JSON)</button>
+          <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="App.importData(event)">
+          <button class="btn ghost small" onclick="App.loadSample()">✨ Données d'exemple</button>
+          <button class="btn danger" onclick="App.resetData()">🗑️ Tout effacer</button>
+        </div>
+        <div id="storage-info" style="margin-top:12px; font-size:13px; color:var(--mut)"></div>
+      </div>
+      <div class="alert-box blue">ℹ️ <b>Confidentialité :</b> toutes tes données restent dans ce navigateur (localStorage). Aucun serveur, aucune connexion internet requise. L'appli calcule des <b>estimations</b> (impôts notamment) : elles t'aident à anticiper mais ne remplacent pas la déclaration officielle.</div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Ma Vie Admin – appli 100% locale (aucun serveur)
+   ============================================================ */
+
+const BAREME = [
+  { upTo: 11497,  rate: 0.00 },
+  { upTo: 29315,  rate: 0.11 },
+  { upTo: 83823,  rate: 0.30 },
+  { upTo: 180294, rate: 0.41 },
+  { upTo: Infinity, rate: 0.45 }
+];
+
+const CATS = [
+  { id:"nourriture",   label:"Nourriture",       ic:"🍎", c:"#16a34a" },
+  { id:"maison",       label:"Maison",           ic:"🏠", c:"#2563eb" },
+  { id:"transport",    label:"Transport",        ic:"🚌", c:"#7c3aed" },
+  { id:"sante",        label:"Santé",            ic:"💊", c:"#dc2626" },
+  { id:"loisirs",      label:"Loisirs / Plaisir",ic:"🎉", c:"#f59e0b" },
+  { id:"abonnements",  label:"Abonnements",      ic:"📱", c:"#0891b2" },
+  { id:"vetements",    label:"Vêtements",        ic:"👕", c:"#db2777" },
+  { id:"autre",        label:"Autre",            ic:"📦", c:"#64748b" }
+];
+const catById = id => CATS.find(c => c.id === id) || CATS[CATS.length-1];
+
+const DOC_TYPES = [
+  { id:"titre-sejour", label:"Titre de séjour",           ic:"🪪" },
+  { id:"passeport",    label:"Passeport",                 ic:"🛂" },
+  { id:"titre-voyage", label:"Titre de voyage (demande)", ic:"🎫" },
+  { id:"titre-transport", label:"Titre de transport (aide)", ic:"🚌" },
+  { id:"cb",           label:"Carte bancaire",            ic:"💳" },
+  { id:"carte-vitale", label:"Carte Vitale / CMU / C2S",  ic:"🩺" },
+  { id:"caf",          label:"CAF / Allocations",         ic:"👨‍👩‍👧" },
+  { id:"impots",       label:"Impôts",                    ic:"🧾" },
+  { id:"assurance",    label:"Assurance",                 ic:"🛡️" },
+  { id:"permis",       label:"Permis de conduire",        ic:"🚗" },
+  { id:"demande",      label:"Demande / dossier en cours", ic:"📂" }
+];
+const dtById = id => DOC_TYPES.find(t => t.id === id) || DOC_TYPES[DOC_TYPES.length-1];
+
+const MOIS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const MOIS_SHORT = ["Janv.","Févr.","Mars","Avr.","Mai","Juin","Juil.","Août","Sept.","Oct.","Nov.","Déc."];
+
+/* ---------- utilitaires ---------- */
+const $ = id => document.getElementById(id);
+let editingGoal = null; /* objectif en cours d'édition (nom / montant cible) */
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const todayStr = () => new Date().toISOString().slice(0,10);
+const ymOf = s => (s||"").slice(0,7);
+const yyOf = s => (s||"").slice(0,4);
+const mkNow = () => ymOf(todayStr());
+const mkAdd = (mk, delta) => {
+  const [y,m] = mk.split("-").map(Number);
+  const d = new Date(y, m-1+delta, 1);
+  return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0");
+};
+const mkLabel = mk => { const [y,m] = mk.split("-").map(Number); return MOIS[m-1] + " " + y; };
+const num = v => { if (v === "" || v === null || v === undefined) return 0; const n = parseFloat(String(v).replace(",", ".")); return isNaN(n) ? 0 : n; };
+const fmt = n => n.toLocaleString("fr-FR", { style:"currency", currency:"EUR" });
+const fmt0 = n => Math.round(n).toLocaleString("fr-FR") + " €";
+const fmtH = min => { const h = min/60; return (Math.round(h*100)/100).toLocaleString("fr-FR", {maximumFractionDigits:2}) + " h"; };
+const daysUntil = dateStr => { if(!dateStr) return null; return Math.floor((new Date(dateStr+"T23:59:59") - Date.now())/86400000); };
+const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+
+const App = {};
+
+/* ---------- état ---------- */
+function defaults(){
+  const mk = mkNow();
+  return {
+    settings: { nom:"", coefNet:0.80, abattement:true, parts:1, situation:"celib", creditsImpots:0, pauseAuto:true },
+    ui: { page:"accueil", month:mk, workPeriod:"mois", jobId:null, editingExp:null, editingSession:null, editingRec:null, editingOp:null },
+    budgets: { nourriture:250, maison:600, transport:80, sante:40, loisirs:120, abonnements:40, vetements:50, autre:100 },
+    expenses: [], ops: [], goals: [], jobs: [], sessions: [], docs: [], rappels: [], recurring: [], incomes: []
+  };
+}
+let D = null;
+const load = () => {
+  try {
+    const raw = localStorage.getItem("mavie_finances_v1");
+    const parsed = raw ? JSON.parse(raw) : null;
+    D = Object.assign(defaults(), parsed || {});
+    D.settings = Object.assign(defaults().settings, D.settings || {});
+    D.ui = Object.assign(defaults().ui, D.ui || {});
+    /* migration : anciens revenus déclarés {net,mois} → un montant par mois de l'année */
+    (D.incomes || []).forEach(i => {
+      if (i.months) return;
+      const m = {};
+      const cnt = Math.min(12, Math.max(1, i.mois || 12));
+      for (let k = 1; k <= cnt; k++) m[String(k).padStart(2, "0")] = i.net || 0;
+      i.months = m;
+    });
+  } catch(e){ D = defaults(); }
+};
+const save = () => { localStorage.setItem("mavie_finances_v1", JSON.stringify(D)); };
+
+let toastTimer = null;
+function toast(msg){
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+/* ---------- navigation ---------- */
+const PAGE_TITLES = {
+  accueil:"Accueil", depenses:"Dépenses", epargne:"Épargne", travail:"Travail & heures",
+  impots:"Impôts", documents:"Documents", rappels:"Rappels", reglages:"Réglages"
+};
+App.go = page => {
+  D.ui.page = page; save();
+  document.querySelectorAll(".page").forEach(s => s.style.display = "none");
+  const sec = $("page-"+page); if (sec) sec.style.display = "block";
+  document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.page === page));
+  $("page-title").textContent = PAGE_TITLES[page] || "Accueil";
+  const sub = $("page-sub");
+  if (page === "tableau" || page === "accueil") sub.textContent = "";
+  render();
+};
+
+App.navMonth = delta => { D.ui.month = delta === 0 ? mkNow() : mkAdd(D.ui.month, delta); save(); render(); };
+App.setPeriod = p => { D.ui.workPeriod = p; save(); render(); };
+
+/* ============================================================
+   RENDU
+   ============================================================ */
+function render(){
+  renderBadge();
+  switch(D.ui.page){
+    case "accueil": renderAccueil(); break;
+    case "depenses": renderDepenses(); break;
+    case "epargne": renderEpargne(); break;
+    case "travail": renderTravail(); break;
+    case "impots": renderImpots(); break;
+    case "documents": renderDocuments(); break;
+    case "rappels": renderRappels(); break;
+    case "reglages": renderReglages(); break;
+  }
+}
+
+function renderBadge(){
+  const urgent = docAlerts().filter(x => x.level === "red").length + rappelsDue().length;
+  const b = $("nav-badge");
+  if (urgent > 0){ b.style.display = "inline-flex"; b.textContent = urgent > 99 ? "99+" : urgent; }
+  else b.style.display = "none";
+}
+
+/* ---------- agrégats ---------- */
+function daysInMonth(mk){ const [y,m] = mk.split("-").map(Number); return new Date(y, m, 0).getDate(); }
+function recurringForMonth(mk){
+  const dim = daysInMonth(mk);
+  const mkStart = mk + "-01", mkEnd = mk + "-" + dim;
+  return (D.recurring || []).filter(r =>
+    r.active !== false &&
+    (!r.start || r.start <= mkEnd) &&
+    (!r.end || r.end >= mkStart)
+  ).map(r => ({
+    id: r.id, recurring: true, cat: r.cat, amount: r.amount, name: r.name, day: r.day || 1,
+    date: mk + "-" + String(Math.min(r.day || 1, dim)).padStart(2, "0")
+  }));
+}
+function monthExpenses(mk){
+  return D.expenses.filter(e => ymOf(e.date) === mk).concat(recurringForMonth(mk));
+}
+/* Un transfert vers un AUTRE compte (pas le mien) : l'argent sort bien de ma banque,
+   mais ce n'est PAS une dépense pour moi (pas de budget, pas de graphique, pas dans mes dépenses). */
+const estTransfert = e => !!e.transfere;
+function monthDepenses(mk){ return monthExpenses(mk).filter(e => !estTransfert(e)); }
+function monthTransferts(mk){ return monthExpenses(mk).filter(estTransfert); }
+function monthTotalExp(mk){ return monthExpenses(mk).reduce((s,e) => s + e.amount, 0); }
+function monthRevNet(mk){
+  return D.sessions.filter(s => ymOf(s.date) === mk).reduce((s,x) => s + sessionNet(x), 0);
+}
+function monthRevBrut(mk){
+  return D.sessions.filter(s => ymOf(s.date) === mk).reduce((s,x) => s + sessionBrut(x), 0);
+}
+/* Une opération d'épargne peut venir de 2 sources :
+   - "pris sur le compte courant" (par défaut) : cet argent SORT du compte courant → réduit son solde
+   - "ajouté directement" (déjà sur le livret, argent séparé) : ne touche PAS au solde du compte courant */
+const ajoutDirect = o => (o.account || "epargne") === "epargne" && o.type === "depot" && o.from === "externe";
+function monthSaving(mk){
+  /* épargne du mois réellement financée par le compte courant (les ajouts directs sont exclus) */
+  return D.ops.filter(o => (o.account || "epargne") === "epargne" && ymOf(o.date) === mk)
+    .reduce((s,o) => s + (o.type === "depot" ? (o.from === "externe" ? 0 : o.amount) : -o.amount), 0);
+}
+/* Ce qui est RÉELLEMENT arrivé en compte courant ce mois = tes dépôts saisis
+   (salaire reçu + autres bénéfices). Si aucun dépôt saisi, reconstitution par tes heures du mois dernier. */
+function dispoMois(mk){
+  const dep = D.ops.filter(o => (o.account || "epargne") === "courant" && o.type === "depot" && ymOf(o.date) === mk).reduce((s,o)=>s+o.amount,0);
+  if (dep > 0) return { valeur: dep, manuel: true };
+  return { valeur: monthRevNet(mkAdd(mk, -1)), manuel: false };
+}
+
+/* Solde du compte courant = ce que tu as VRAIMENT sur ton compte, depuis le début :
+   tout ce qui est ARRIVÉ (tes dépôts en compte courant ; sinon tes heures payées jusqu'à maintenant)
+   − tout ce qui est SORTI (dépenses + épargne virée + retraits). */
+function soldeCompteCourant(){
+  const ac = o => o.account || "epargne";
+  const somme = (f, typ, ext) => D.ops.filter(o => ac(o) === f && o.type === typ
+      && (ext ? o.from === "externe" : o.from !== "externe")).reduce((s,o)=>s+o.amount,0);
+  const depC = somme("courant","depot"), retC = somme("courant","retrait");
+  const depE = somme("epargne","depot");           /* mis de côté en sortant du compte courant */
+  const depEDirect = somme("epargne","depot", true); /* déjà sur le livret : n'est pas sorti du compte courant */
+  const retE = somme("epargne","retrait");
+  const recu = depC > 0 ? depC : D.sessions.filter(s => ymOf(s.date) < mkNow()).reduce((s,x)=>s+sessionNet(x),0);
+  /* les transferts vers un autre compte sortent bien de la banque, mais ce ne sont pas des dépenses */
+  const depenses = D.expenses.filter(e => !estTransfert(e)).reduce((s,e)=>s+e.amount,0);
+  const transferts = D.expenses.filter(estTransfert).reduce((s,e)=>s+e.amount,0);
+  const epargne = depE - retE;
+  return { recu, depenses, transferts, epargne, epargneDirecte: depEDirect, retraits: retC,
+           solde: recu - retC - epargne - depenses - transferts };
+}
+/* Le taux horaire peut CHANGER dans le temps (ex : passage à 51 % du SMIC le 01/09/2026).
+   job.rate = taux actuel · job.rateHist = [{ from:"2026-09", rate:6.28 }, …] trié du plus ancien au plus récent. */
+function rateAt(j, mk){
+  if (!j) return 0;
+  const hist = [...(j.rateHist || [])].sort((a,b) => String(a.from).localeCompare(String(b.from)));
+  if (!hist.length) return j.rate || 0;
+  let r = null;
+  for (const h of hist) if (!h.from || String(h.from) <= mk) r = h.rate;
+  return r == null ? hist[0].rate : r;
+}
+function rateAffecte(j, mk){  /* le taux a-t-il changé avant ce mois ? */
+  const hist = [...(j.rateHist || [])].sort((a,b) => String(a.from).localeCompare(String(b.from)));
+  const i = hist.findIndex(h => String(h.from) === mk);
+  return i > 0;
+}
+/* taux en cours + taux précédent (pour les affichages) */
+function tauxInfos(j){
+  const hist = [...(j.rateHist || [])].sort((a,b) => String(a.from).localeCompare(String(b.from)));
+  const applies = hist.filter(h => String(h.from) <= mkNow());
+  const cur = applies.length ? applies[applies.length - 1] : null;
+  const prev = cur ? (hist[hist.indexOf(cur) - 1] || null) : null;
+  return { cur, prev, actuel: cur ? cur.rate : (j.rate || 0), depuis: cur ? cur.from : null };
+}
+function sessionBrut(s){ const j = jobById(s.jobId); if(!j) return 0; return s.minutes/60 * rateAt(j, ymOf(s.date)) * (s.mult || 1); }
+function sessionNet(s){ const j = jobById(s.jobId); if(!j) return 0; return sessionBrut(s) * (j.coef ?? D.settings.coefNet); }
+/* Règle de pause : 11h→18h (7 h) ⇒ 30 min · 11h→21h (10 h) ⇒ 1 h · moins de 7 h ⇒ rien */
+function autoPauseMinutes(diff){
+  if (diff >= 600) return 60;
+  if (diff >= 420) return 30;
+  return 0;
+}
+function jobById(id){ return D.jobs.find(j => j.id === id); }
+function isJobLocked(j){ return !!j.end; }
+function sessionsOfJob(id){ return D.sessions.filter(s => s.jobId === id); }
+
+function daysSince(s){
+  if (!s) return null;
+  const t = new Date(s + "T00:00:00").getTime();
+  if (isNaN(t)) return null;
+  return Math.max(0, Math.round((Date.now() - t) / 86400000));
+}
+function docAlerts(){
+  const out = [];
+  D.docs.forEach(d => {
+    const statut = d.statut;
+    const days = daysUntil(d.expiration);
+    const pending = statut === "demande" || statut === "en-cours";
+    if (days === null){
+      /* pas d'échéance : on suit l'avancement de la demande */
+      if (statut === "refusee") out.push({ doc:d, days:null, level:"red", text:"Refusée — à relancer ou refaire" });
+      else if (pending) out.push({ doc:d, days:null, level:"orange", text:`En attente depuis ${daysSince(d.delivrance) ?? "?"} j` });
+      else out.push({ doc:d, days:null, level:"ok", text:"Enregistré (sans échéance)" });
+      return;
+    }
+    let level = "ok", text = "";
+    if (days < 0){ level = "red"; text = `Expiré depuis ${Math.abs(days)} j`; }
+    else if (days <= 7){ level = "red"; text = `Expire dans ${days} j !`; }
+    else if (days <= (d.alertDays || 30)){ level = "orange"; text = `Expire dans ${days} j`; }
+    else { level = "ok"; text = `Valide (${days} j restants)`; }
+    out.push({ doc:d, days, level, text });
+  });
+  return out.sort((a,b) => (a.days ?? 1e9) - (b.days ?? 1e9));
+}
+function rappelsDue(){
+  const now = new Date().toISOString().slice(0,10);
+  return D.rappels.filter(r => (r.date || "") < now || (r.date || "") === now);
+}
+
+function chartV(items, unit){
+  if (!items.length) return '<div class="empty"><span class="big">📊</span>Aucune donnée pour cette période.</div>';
+  const max = Math.max(...items.map(i => i.value));
+  return `<div class="chartV">` + items.map(i => `
+    <div class="col">
+      <div class="val">${unit === "eur" ? fmt0(i.value) : i.value}</div>
+      <div class="stick" style="height:${max ? Math.max(4, i.value/max*100) : 4}%; background:${i.color || "var(--acc)"}"></div>
+      <div class="lbl">${i.label}</div>
+    </div>`).join("") + `</div>`;
+}
+
+/* ---------- ACCUEIL ---------- */
+function renderAccueil(){
+  const mk = D.ui.month;
+  $("acc-month-label").textContent = mkLabel(mk);
+  const rev = monthRevNet(mk), ep = monthSaving(mk);
+  const depensesMois = monthDepenses(mk).reduce((s,e)=>s+e.amount,0);   /* vraies dépenses */
+  const transfertsMois = monthTransferts(mk).reduce((s,e)=>s+e.amount,0); /* vers un autre compte */
+  const sortiMois = depensesMois + transfertsMois;
+  const d = dispoMois(mk);                     /* argent réellement arrivé ce mois = tes dépôts en compte courant */
+  const dispo = d.valeur;
+  const reste = dispo - sortiMois - ep;
+  const budgetTotal = D.budgets ? Object.values(D.budgets).reduce((a,b)=>a+b,0) : 0;
+  $("dash-cards").innerHTML = `
+    <div class="card"><div class="k">⏱️ Heures de ${mkLabel(mk)}</div><div class="v">${fmt(rev)}</div><div class="s">tu les reçois en compte courant ${mkLabel(mkAdd(mk,1))}</div></div>
+    <div class="card good"><div class="k">🏦 Dispo ce mois</div><div class="v">${fmt(dispo)}</div><div class="s">${d.manuel ? "l'argent réellement reçu ce mois · tes dépôts en compte courant (salaire + bénéfices)" : "arrivé en compte courant · tes heures de " + mkLabel(mkAdd(mk,-1))}</div></div>
+    <div class="card bad"><div class="k">🧾 Dépenses du mois</div><div class="v">${fmt(depensesMois)}</div><div class="s">sorties du compte courant · ${fmt(depensesMois - budgetTotal)} vs budget total${transfertsMois ? ` · + ${fmt(transfertsMois)} 🏦💸 transférés ailleurs` : ""}</div></div>
+    <div class="card info"><div class="k">🏦 Épargne du mois</div><div class="v">${ep >= 0 ? "+" : ""}${fmt(ep)}</div><div class="s">mise de côté nette</div></div>
+    <div class="card ${reste >= 0 ? "good" : "bad"}"><div class="k">💶 Reste du mois</div><div class="v">${fmt(reste)}</div><div class="s">dispo − dépenses${transfertsMois ? " − transferts" : ""} − épargne</div></div>`;
+
+  /* alertes */
+  const alerts = [];
+  docAlerts().filter(a => a.level !== "ok").slice(0,3).forEach(a => {
+    alerts.push(`<div class="alert-box ${a.level === "red" ? "red" : ""}">⚠️ <b>${esc(a.doc.name)}</b> : ${a.text}. <a href="#" onclick="App.go('documents'); return false">Voir</a></div>`);
+  });
+  const over = Object.entries(D.budgets || {}).filter(([cat, limit]) => limit > 0 && monthDepenses(mk).filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0) > limit);
+  over.slice(0,3).forEach(([cat]) => {
+    const c = catById(cat);
+    alerts.push(`<div class="alert-box">📈 Budget <b>${c.label}</b> dépassé ce mois. <a href="#" onclick="App.go('depenses'); return false">Voir</a></div>`);
+  });
+  const rd = rappelsDue();
+  rd.slice(0,3).forEach(r => alerts.push(`<div class="alert-box">⏰ Rappel : <b>${esc(r.titre)}</b> (${r.date}). <a href="#" onclick="App.go('rappels'); return false">Voir</a></div>`));
+  $("dash-alertes").innerHTML = alerts.length ? alerts.join("") : `<div class="alert-box green">✅ Tout est tranquille : aucun rappel urgent ni budget dépassé.</div>`;
+
+  /* 6 derniers mois */
+  const six = [];
+  for (let i = 5; i >= 0; i--){
+    const k = mkAdd(mk, -i);
+    six.push({ label: MOIS[Number(k.split("-")[1])-1].slice(0,3), value: monthDepenses(k).reduce((s,e)=>s+e.amount,0), color: "#ec6f9d" });
+  }
+  $("dash-chart6").innerHTML = chartV(six, "eur");
+
+  /* répartition du mois (vraies dépenses : les transferts vers un autre compte sont à part) */
+  const exps = monthDepenses(mk);
+  const total = exps.reduce((s,e) => s+e.amount, 0);
+  if (!exps.length){
+    $("dash-repart").innerHTML = '<div class="empty"><span class="big">🧾</span>Ajoute tes dépenses du mois pour voir la répartition.</div>';
+  } else {
+    const byCat = {};
+    exps.forEach(e => byCat[e.cat] = (byCat[e.cat] || 0) + e.amount);
+    const rows = Object.entries(byCat).sort((a,b) => b[1]-a[1]);
+    $("dash-repart").innerHTML = rows.map(([cat, v]) => {
+      const c = catById(cat);
+      return `<div style="margin-bottom:10px">
+        <div class="progress-label"><span>${c.ic} ${c.label}</span><span>${fmt(v)} · ${Math.round(v/total*100)} %</span></div>
+        <div class="bar"><div style="width:${v/total*100}%; background:${c.c}"></div></div>
+      </div>`;
+    }).join("");
+  }
+
+  /* épargne */
+  const acFn = o => o.account || "epargne";
+  const soldeCC = soldeCompteCourant();
+  const totalEpargne = D.ops.filter(o => acFn(o)==="epargne").reduce((s,o) => s + (o.type === "depot" ? o.amount : -o.amount), 0);
+  let goalsHtml = "<div class='empty'><span class='big'>🎯</span>Aucun objectif pour l'instant. Crée-en un dans l'onglet Épargne.</div>";
+  if (D.goals.length){
+    goalsHtml = D.goals.map(g => {
+      const cur = D.ops.filter(o => o.goalId === g.id).reduce((s,o) => s + (o.type==="depot" ? o.amount : -o.amount), 0);
+      const pct = g.target > 0 ? Math.min(100, Math.round(cur/g.target*100)) : 0;
+      return `<div style="margin-bottom:10px">
+        <div class="progress-label"><span>${esc(g.name)}</span><span>${fmt(cur)} / ${fmt(g.target)} (${pct} %)</span></div>
+        <div class="bar"><div style="width:${pct}%"></div></div>
+      </div>`;
+    }).join("");
+  }
+  $("dash-epargne").innerHTML = `
+    <div style="font-size:12.5px;color:var(--mut);margin-bottom:10px">💡 L'argent en compte courant de ce mois = tes <b>dépôts saisis</b> (salaire reçu + autres bénéfices) ; tes heures de <b>${mkLabel(mk)}</b> rejoindront le compte courant le mois prochain.</div>
+    <div class="cards" style="margin-bottom:14px">
+      <div class="card good"><div class="k">🏦 Compte courant (solde réel)</div><div class="v">${fmt(soldeCC.solde)}</div><div class="s">tout reçu − tout sorti (dépenses, épargne, retraits)</div></div>
+      <div class="card info"><div class="k">Total épargné</div><div class="v">${fmt(totalEpargne)}</div></div>
+      <div class="card"><div class="k">Dépôts épargne ce mois</div><div class="v">${fmt(D.ops.filter(o => acFn(o)==="epargne" && o.type==="depot" && ymOf(o.date)===mk).reduce((s,o)=>s+o.amount,0))}</div><div class="s">${(() => { const dir = D.ops.filter(o => acFn(o)==="epargne" && o.type==="depot" && o.from==="externe" && ymOf(o.date)===mk).reduce((s,o)=>s+o.amount,0); return dir ? "dont " + fmt(dir) + " 🎁 déjà sur le livret" : "pris sur ton compte courant"; })()}</div></div>
+    </div>
+    <div style="font-weight:800; margin-bottom:8px">🎯 Objectifs</div>${goalsHtml}`;
+}
+
+/* ---------- DEPENSES ---------- */
+function renderDepenses(){
+  const mk = D.ui.month;
+  $("exp-month-label").textContent = mkLabel(mk);
+  $("exp-date").value = todayStr();
+  const sel = $("exp-cat");
+  sel.innerHTML = CATS.map(c => `<option value="${c.id}">${c.ic} ${c.label}</option>`).join("");
+  const selR = $("rec-cat");
+  if (selR) selR.innerHTML = CATS.map(c => `<option value="${c.id}">${c.ic} ${c.label}</option>`).join("");
+  if (D.ui.editingRec){ const btn = $("rec-btn"); if (btn) btn.textContent = "💾 Enregistrer"; }
+  const totalDep = monthDepenses(mk).reduce((s,e)=>s+e.amount,0);
+  const totalTransf = monthTransferts(mk).reduce((s,e)=>s+e.amount,0);
+  $("exp-total").textContent = "Total : " + fmt(totalDep) + (totalTransf ? " · transferts ailleurs : " + fmt(totalTransf) : "");
+
+  /* budget alert (les transferts ne comptent pas dans les budgets) */
+  const over = Object.entries(D.budgets || {}).filter(([cat, limit]) => limit > 0 && monthDepenses(mk).filter(e => e.cat === cat).reduce((s,e)=>s+e.amount,0) > limit);
+  $("exp-budget-alert").innerHTML = over.length
+    ? `<div class="alert-box">📈 Budget dépassé : ${over.map(([cat]) => catById(cat).label).join(", ")}</div>`
+    : "";
+
+  /* summary by cat — barres = part réelle du total du mois (jamais gonflées à 100 %) */
+  const byCat = {};
+  monthDepenses(mk).forEach(e => byCat[e.cat] = (byCat[e.cat] || 0) + e.amount);
+  if (!Object.keys(byCat).length){
+    $("exp-summary").innerHTML = '<div class="empty"><span class="big">💸</span>Aucune dépense ce mois-ci.</div>';
+  } else {
+    $("exp-summary").innerHTML = Object.entries(byCat).sort((a,b) => b[1]-a[1]).map(([cat, v]) => {
+      const c = catById(cat);
+      const budget = (D.budgets || {})[cat] || 0;
+      const overB = budget > 0 && v > budget;
+      const part = Math.round(v/totalDep*100);   /* % du total des dépenses du mois (la barre suit cette valeur) */
+      return `<div style="margin-bottom:10px">
+        <div class="progress-label">
+          <span>${c.ic} ${c.label} ${budget > 0 ? `<span class="badge ${overB ? "red" : "gray"}">budget ${fmt0(budget)}</span>` : ""}</span>
+          <span>${fmt(v)} · ${part} % du mois${budget > 0 ? ` · ${Math.round(v/budget*100)} % du budget` : ""}</span>
+        </div>
+        <div class="bar"><div style="width:${part}%; background:${c.c}"></div></div>
+      </div>`;
+    }).join("");
+  }
+
+  /* budgets editor */
+  $("budgets-editor").innerHTML = CATS.map(c => `
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+      <span style="width:160px">${c.ic} ${c.label} (€)</span>
+      <input type="text" value="${(D.budgets||{})[c.id] || 0}" data-cat="${c.id}" onchange="App.setBudget(this)" style="width:90px; padding:6px 8px; border:1px solid var(--line); border-radius:8px; font:inherit; text-align:right">
+    </div>`).join("") +
+    `<div style="margin-top:8px; font-size:12.5px; color:var(--mut)">Astuce : 0 = pas de limite pour cette catégorie.</div>`;
+
+  /* charges récurrentes */
+  renderRecList();
+
+  /* list du mois */
+  const rows = monthExpenses(mk).sort((a,b) => b.date.localeCompare(a.date));
+  $("exp-list").innerHTML = rows.length ? rows.map(e => {
+    const c = catById(e.cat);
+    return `<div class="row actions">
+      <div class="ic" style="background:${c.c}1a">${e.transfere ? "🏦" : c.ic}</div>
+      <div class="r-main"><div class="r-t">${e.transfere ? "Transfert vers un autre compte" : c.label} ${estTransfert(e) ? '<span class="badge blue">🏦💸 pas une dépense pour moi</span>' : ""}${e.recurring ? '<span class="badge" style="background:var(--acc-soft);color:var(--acc-dark)">🔁 récurrent</span>' : ""}${e.note ? ` · <span style="color:var(--mut); font-weight:500">${esc(e.note)}</span>` : ""}</div>
+        <div class="r-s">${e.date}${e.recurring ? " · " + esc(e.name) : ""}${estTransfert(e) ? " · compte qui n'est pas le tien" : ""}</div></div>
+      <div class="r-v">${fmt(e.amount)}</div>
+      <div class="actions-row no-print">
+        ${e.recurring
+          ? `<button class="btn ghost small" onclick="App.editRec('${e.id}')">✏️</button><button class="btn danger small" onclick="App.delRec('${e.id}')">🗑️</button>`
+          : `<button class="btn ghost small" onclick="App.editExp('${e.id}')">✏️</button><button class="btn danger small" onclick="App.delExp('${e.id}')">🗑️</button>`}
+      </div>
+    </div>`;
+  }).join("") : '<div class="empty"><span class="big">📭</span>Rien ce mois-ci. Ajoute ta première dépense !</div>';
+
+  /* historique complet (dépenses manuelles + charges récurrentes) */
+  const all = [...D.expenses].sort((a,b) => b.date.localeCompare(a.date));
+  const byMk = {};
+  all.forEach(e => { const k = ymOf(e.date); (byMk[k] = byMk[k] || []).push(e); });
+  for (let i = 23; i >= 0; i--){ const k = mkAdd(mkNow(), -i); byMk[k] = byMk[k] || []; }
+  const monthKeys = Object.keys(byMk).sort().reverse();
+  if (!monthKeys.length){
+    $("exp-all").innerHTML = '<div class="empty"><span class="big">🗓️</span>Aucune dépense enregistrée.</div>';
+    return;
+  }
+  $("exp-all").innerHTML = monthKeys.map(k => {
+    const list = [...byMk[k], ...recurringForMonth(k)].sort((a,b) => a.date.localeCompare(b.date));
+    const tot = list.reduce((s,e) => s+e.amount, 0);
+    if (!list.length) return "";
+    const nRec = list.filter(e => e.recurring).length;
+    return `
+      <div style="margin-bottom:16px">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <b>${mkLabel(k)}</b><span class="chip">${list.length} dépense(s)${nRec ? " · " + nRec + " 🔁" : ""} · ${fmt(tot)}</span>
+        </div>
+        <table><tbody>
+        ${list.slice(0,40).map(e => {
+          const c = catById(e.cat);
+          const label = (estTransfert(e) ? "🏦💸 Transfert" : c.ic + " " + c.label) + (e.recurring ? " 🔁" : "");
+          const detail = e.recurring ? " – " + esc(e.name) : (e.note ? " – " + esc(e.note) : "");
+          return `<tr><td>${e.date}</td><td>${label}${detail}</td><td class="num">${fmt(e.amount)}</td></tr>`;
+        }).join("")}
+        </tbody></table>
+      </div>`;
+  }).join("");
+}
+
+function renderRecList(){
+  const wrap = $("rec-list"); if (!wrap) return;
+  wrap.innerHTML = (D.recurring || []).length ? (D.recurring || []).map(r => {
+    const c = catById(r.cat);
+    const active = r.active !== false;
+    return `<div class="row actions">
+      <div class="ic" style="background:${active ? "var(--acc-soft)" : "#f4edf1"}">🔁</div>
+      <div class="r-main"><div class="r-t">${esc(r.name)} <span class="chip">${c.ic} ${c.label}</span>
+        ${active ? '<span class="badge green">active</span>' : '<span class="badge gray">en pause</span>'}</div>
+        <div class="r-s">Prélevée le ${r.day || 1}${r.start ? " · depuis le " + r.start : ""}${r.end ? " · jusqu'au " + r.end : ""}</div></div>
+      <div class="r-v">${fmt(r.amount)}<small>/mois</small></div>
+      <div class="actions-row no-print">
+        <label style="display:flex; align-items:center; gap:5px; font-size:12px; color:var(--mut); cursor:pointer"><input type="checkbox" ${active ? "checked" : ""} onchange="App.toggleRec('${r.id}', this.checked)"> active</label>
+        <button class="btn ghost small" onclick="App.editRec('${r.id}')">✏️</button>
+        <button class="btn danger small" onclick="App.delRec('${r.id}')">🗑️</button>
+      </div>
+    </div>`;
+  }).join("") : "<div class='empty'><span class='big'>🔁</span>Ajoute tes charges fixes (loyer, abonnement…) : elles apparaîtront automatiquement dans tes dépenses chaque mois.</div>";
+}
+
+/* ---------- EPARGNE ---------- */
+function renderEpargne(){
+  const mk = D.ui.month;
+  const ac = o => o.account || "epargne";
+  const s = soldeCompteCourant();
+  const totalEpar = D.ops.filter(o => ac(o)==="epargne").reduce((s,o) => s + (o.type==="depot" ? o.amount : -o.amount), 0);
+  /* reçu du mois (net) : déposé en compte courant − épargne virée (l'épargne sort du compte courant) */
+  const depotsCourantM = D.ops.filter(o => ac(o)==="courant" && o.type==="depot" && ymOf(o.date)===mk).reduce((s,o)=>s+o.amount,0);
+  const depotsEparM = D.ops.filter(o => ac(o)==="epargne" && o.type==="depot" && o.from !== "externe" && ymOf(o.date)===mk).reduce((s,o)=>s+o.amount,0);
+  const depotsMois = depotsCourantM - depotsEparM;
+  $("ep-cards").innerHTML = `
+    <div class="card good"><div class="k">🏦 Solde compte courant</div><div class="v">${fmt(s.solde)}</div><div class="s">reçu ${fmt(s.recu)} − dépenses ${fmt(s.depenses)}${s.transferts ? " − transferts " + fmt(s.transferts) : ""} − épargne virée ${fmt(s.epargne)}${s.retraits ? " − retraits " + fmt(s.retraits) : ""} · tout reçu − tout sorti, depuis le début${s.epargneDirecte ? ` · 🎁 ${fmt(s.epargneDirecte)} déjà sur le livret (non décomptés)` : ""}</div></div>
+    <div class="card info"><div class="k">💰 Total épargné</div><div class="v">${fmt(totalEpar)}</div><div class="s">dépôts − retraits (épargne)</div></div>
+    <div class="card"><div class="k">📥 Dépôts ce mois (net)</div><div class="v">+${fmt(depotsMois)}</div><div class="s">compte courant − épargne virée</div></div>
+    <div class="card"><div class="k">🎯 Objectifs en cours</div><div class="v">${D.goals.length}</div><div class="s">${D.goals.length ? D.goals.map(g=>esc(g.name)).join(" · ") : "crée ton premier objectif"}</div></div>`;
+
+  /* 💡 Décalage d'un mois : le compte courant de ce mois = les heures du mois dernier ;
+     les heures de ce mois = l'argent qui arrivera le mois prochain. */
+  const prevKey = mkAdd(mk, -1), nextKey = mkAdd(mk, 1);
+  const netOf = k => D.sessions.filter(s => ymOf(s.date) === k).reduce((s,x)=>s+sessionNet(x),0);
+  const dp = dispoMois(mk);
+  const shift = $("ep-shift");
+  if (shift){
+    shift.innerHTML = `
+      <h2>💡 D'où vient l'argent de ce mois ?</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+        <div class="card good"><div class="k">🏦 Dispo ce mois</div><div class="v">${fmt(dp.valeur)}</div><div class="s">${dp.manuel ? "l'argent réellement reçu ce mois-ci : tes dépôts en compte courant (salaire + autres bénéfices)" : "ce sont tes heures de <b>" + mkLabel(prevKey) + "</b>, arrivées en compte courant ce mois-ci"}</div></div>
+        <div class="card"><div class="k">⏱️ Heures de ${mkLabel(mk)}</div><div class="v">${fmt(netOf(mk))}</div><div class="s">ce que tu gagnes ce mois-ci → à ajouter aux dépôts du mois prochain (<b>${mkLabel(nextKey)}</b>)</div></div>
+      </div>
+      <div class="hint" style="margin-top:10px">✍️ L'argent du compte courant = tes <b>dépôts saisis</b> (salaire reçu + bénéfices) au formulaire ci-dessous : c'est ce que tu as vraiment reçu. Tes heures de ce mois seront, elles, reçues le mois prochain.</div>`;
+  }
+
+  /* 🧾 De quoi est fait ton dépôt ? salaire (heures du mois précédent) + bénéfices (aides, primes…) */
+  const depot = $("ep-depot");
+  if (depot){
+    const rows = [];
+    for (let i = 0; i < 3; i++){
+      const k = mkAdd(mk, -i);
+      const recu = D.ops.filter(o => (o.account || "epargne") === "courant" && o.type === "depot" && ymOf(o.date) === k).reduce((s,o)=>s+o.amount,0);
+      const salaire = monthRevNet(mkAdd(k, -1));   /* décalage d'un mois : les heures du mois précédent */
+      if (recu > 0 || salaire > 0) rows.push({ k, recu, salaire, bonus: recu - salaire });
+    }
+    const totMin = D.sessions.reduce((s,x)=>s+(x.minutes||0),0);
+    const totNet = D.sessions.reduce((s,x)=>s+sessionNet(x),0);
+    const taux = totMin ? totNet / (totMin/60) : 0;
+    depot.innerHTML = `
+      <h2>🧾 De quoi est fait ton dépôt ?</h2>
+      <div style="font-size:12.5px;color:var(--mut);margin-bottom:10px">Ton dépôt en <b>compte courant</b> = ton <b>salaire</b> (tes heures du mois précédent) + tes <b>bénéfices</b> en plus (aide au transport, primes…). La différence 🎁 te montre tout ce que tu as gagné en plus de tes heures.</div>
+      <table>
+        <thead><tr><th>Mois</th><th class="num">💶 Dépôt reçu</th><th class="num">🕐 dont salaire</th><th class="num">🎁 Bénéfices +</th></tr></thead>
+        <tbody>${rows.length ? rows.map(r => `<tr>
+          <td>${mkLabel(r.k)}</td>
+          <td class="num">${fmt(r.recu)}</td>
+          <td class="num">${fmt(r.salaire)}</td>
+          <td class="num" style="color:${Math.abs(r.bonus) < 0.005 ? "var(--mut)" : r.bonus > 0 ? "var(--green)" : "var(--red)"}">${Math.abs(r.bonus) < 0.005 ? "—" : (r.bonus > 0 ? "+" : "−") + fmt(Math.abs(r.bonus))}</td>
+        </tr>`).join("") : `<tr><td colspan="4">Saisis un dépôt en compte courant (formulaire ci-dessous) et tes heures (onglet Travail) : la différence = tes bénéfices en plus du salaire.</td></tr>`}</tbody>
+      </table>
+      <div class="hint" style="margin-top:10px">🕐 Ton salaire net moyen ≈ <b>${fmt(taux)}/h</b> · ${D.sessions.length} séance(s) de travail · le dépôt reçu = ce que tu as vraiment eu dans ton compte.</div>`;
+  }
+
+  $("ep-date").value = todayStr();
+  const gsel = $("ep-goal");
+  gsel.innerHTML = `<option value="">Pot général (pas d'objectif)</option>` + D.goals.map(g => `<option value="${g.id}">${esc(g.name)}</option>`).join("");
+
+  /* goals (l'épargne seule est rattachée à un objectif) */
+  $("goal-list").innerHTML = D.goals.length ? D.goals.map(g => {
+    const cur = D.ops.filter(o => o.goalId === g.id).reduce((s,o) => s + (o.type==="depot" ? o.amount : -o.amount), 0);
+    const pct = g.target > 0 ? Math.min(100, cur/g.target*100) : 0;
+    if (editingGoal === g.id){
+      /* mode édition : changer le nom et le montant cible directement (sans supprimer) */
+      return `<div class="row actions">
+      <div class="ic" style="background:var(--acc-soft)">✏️</div>
+      <div class="r-main" style="display:grid;gap:6px">
+        <input type="text" id="goal-edit-nom" value="${esc(g.name)}" placeholder="Nom de l'objectif">
+        <input type="text" id="goal-edit-cible" value="${g.target}" placeholder="Montant cible (€)">
+      </div>
+      <div class="actions-row no-print">
+        <button class="btn small" onclick="App.saveGoal('${g.id}')">💾</button>
+        <button class="btn ghost small" onclick="App.cancelEditGoal()">Annuler</button>
+      </div>
+    </div>`;
+    }
+    return `<div class="row actions">
+      <div class="ic" style="background:var(--acc-soft)">🎯</div>
+      <div class="r-main">
+        <div class="r-t">${esc(g.name)}</div>
+        <div class="progress-label" style="margin:4px 0 4px"><span>${fmt(cur)} / ${fmt(g.target)}</span><span>${Math.round(pct)} %</span></div>
+        <div class="bar"><div style="width:${pct}%"></div></div>
+      </div>
+      <div class="actions-row no-print">
+        <button class="btn small" title="Modifier le nom ou le montant cible" onclick="App.editGoal('${g.id}')">✏️</button>
+        <button class="btn danger small" onclick="App.delGoal('${g.id}')">🗑️</button>
+      </div>
+    </div>`;
+  }).join("") : "<div class='empty'><span class='big'>🎯</span>Crée un objectif (fonds d'urgence, voyage, permis…) pour suivre ta progression.</div>";
+
+  /* ops list */
+  const ops = [...D.ops].sort((a,b) => b.date.localeCompare(a.date));
+  $("ep-list").innerHTML = ops.length ? ops.map(o => {
+    const g = o.goalId ? D.goals.find(x => x.id === o.goalId) : null;
+    const pos = o.type === "depot";
+    const badge = ac(o) === "courant" ? '<span class="badge blue">🏦 Compte courant</span>' : '<span class="badge green">💰 Épargne</span>';
+    const direct = ac(o) === "epargne" && o.from === "externe" ? ' <span class="badge gray">🎁 déjà sur le livret (ne sort pas du compte courant)</span>' : "";
+    return `<div class="row actions">
+      <div class="ic" style="background:${pos ? "var(--green-soft)" : "var(--red-soft)"}">${pos ? "📥" : "📤"}</div>
+      <div class="r-main"><div class="r-t">${pos ? "Dépôt" : "Retrait"} ${badge}${direct}${g ? " · " + esc(g.name) : ""}</div>
+        <div class="r-s">${o.date}${o.note ? " · " + esc(o.note) : ""}</div></div>
+      <div class="r-v" style="color:${pos ? "var(--green)" : "var(--red)"}">${pos ? "+" : "−"}${fmt(o.amount)}</div>
+      <div class="actions-row no-print">
+        <button class="btn ghost small" title="Modifier (montant, date, origine…)" onclick="App.editOp('${o.id}')">✏️</button>
+        <button class="btn danger small" onclick="App.delOp('${o.id}')">🗑️</button>
+      </div>
+    </div>`;
+  }).join("") : '<div class="empty"><span class="big">🏦</span>Ajoute tes dépôts : dans ton <b>épargne</b> (objectif 🎯) ou sur ton <b>compte courant</b> (banque 🏦).</div>';
+}
+
+/* ---------- TRAVAIL ---------- */
+function renderTravail(){
+  const p = D.ui.workPeriod;
+  document.querySelectorAll("#work-seg button").forEach(b => b.classList.toggle("active", b.dataset.p === p));
+  $("work-period-label").textContent =
+    p === "mois" ? mkLabel(D.ui.month) :
+    p === "annee" ? "Année " + yyOf(todayStr()) + " (toutes tes payes de l'année)" : "Toutes les périodes";
+  $("work-year-label").textContent = "Année " + yyOf(todayStr());
+  const sw = $("job-switch");
+  if (sw){
+    sw.innerHTML = `<option value="">— 🔄 Travail en cours : choisir —</option>` +
+      D.jobs.map(j => `<option value="${j.id}" ${j.id === D.ui.jobId ? "selected" : ""}>${esc(j.name)}${j.type ? " (" + incomeType(j.type).ic + " " + incomeType(j.type).label + ")" : ""}</option>`).join("");
+  }
+
+  /* summary */
+  const all = D.sessions.filter(sessionInPeriod);
+  const hrs = all.reduce((s,x) => s + x.minutes, 0);
+  const brut = all.reduce((s,x) => s + sessionBrut(x), 0);
+  const net = all.reduce((s,x) => s + sessionNet(x), 0);
+  $("work-summary").innerHTML = `
+    <div class="card info"><div class="k">⏱️ Heures travaillées</div><div class="v">${fmtH(hrs)}</div><div class="s">${all.length} séance(s) de travail</div></div>
+    <div class="card"><div class="k">💶 Paye brute</div><div class="v">${fmt(brut)}</div></div>
+    <div class="card good"><div class="k">💰 Paye nette (est.)</div><div class="v">${fmt(net)}</div><div class="s">brut × coefficient (défaut 0,80)</div></div>
+    <div class="card"><div class="k">💼 Travaux actifs</div><div class="v">${D.jobs.filter(j => !isJobLocked(j)).length}</div><div class="s">${D.jobs.length} au total</div></div>`;
+
+  /* jobs */
+  $("work-jobs").innerHTML = D.jobs.length ? D.jobs.map(j => {
+    const ses = all.filter(s => s.jobId === j.id);
+    const jhrs = ses.reduce((s,x) => s + x.minutes, 0);
+    const jnet = ses.reduce((s,x) => s + sessionNet(x), 0);
+    const locked = isJobLocked(j);
+    return `<div class="job-card" onclick="App.selectJob('${j.id}')">
+      <div class="jc-top">
+        <span class="ic" style="background:${locked ? "#f1f5f9" : "var(--acc-soft)"}">${locked ? "🔒" : "💼"}</span>
+        <div style="flex:1"><h3>${esc(j.name)}</h3>
+          <div style="font-size:12.5px; color:var(--mut)">${fmt(tauxInfos(j).actuel)}/h brut · net ≈ ×${(j.coef ?? D.settings.coefNet).toLocaleString("fr-FR")}${tauxInfos(j).depuis ? ` · depuis ${mkLabel(tauxInfos(j).depuis)}` : ""}</div>
+        </div>
+        ${locked ? `<span class="badge gray">Terminé</span>` : `<span class="badge green">En cours</span>`}
+        ${j.type ? `<span class="badge blue">${incomeType(j.type).ic} ${incomeType(j.type).label}</span>` : ""}
+      </div>
+      <div class="jc-stats"><span>⏱️ <b>${fmtH(jhrs)}</b></span><span>💰 <b>${fmt(jnet)}</b></span><span>📅 depuis ${j.start || "?"}</span></div>
+    </div>`;
+  }).join("") : '<div class="empty"><span class="big">💼</span>Aucun travail enregistré. Ajoute ton premier travail avec son taux horaire.</div>';
+
+  renderWorkDetail();
+  renderWorkSessions();
+  renderWorkChart();
+}
+
+function sessionInPeriod(s){
+  const p = D.ui.workPeriod;
+  if (p === "mois") return ymOf(s.date) === D.ui.month;
+  if (p === "annee") return yyOf(s.date) === yyOf(todayStr());
+  return true;
+}
+
+App.selectJob = id => { D.ui.jobId = id; save(); renderTravail(); };
+App.closeJobDetail = () => { D.ui.jobId = null; save(); renderTravail(); };
+
+function renderWorkDetail(){
+  const wrap = $("work-detail");
+  const j = D.jobs.find(x => x.id === D.ui.jobId);
+  if (!j){ wrap.innerHTML = ""; return; }
+  const locked = isJobLocked(j);
+  const ti = tauxInfos(j);
+  const ses = D.sessions.filter(s => s.jobId === j.id).sort((a,b) => b.date.localeCompare(a.date));
+  const hrs = ses.reduce((s,x) => s + x.minutes, 0);
+  const net = ses.reduce((s,x) => s + sessionNet(x), 0);
+
+  const addForm = locked ? `
+    <div class="alert-box red no-print">🔒 <b>Ce travail est terminé (${j.end || "?"}).</b> Tu ne peux plus ajouter d'heures, mais tu peux consulter toutes les statistiques ci-dessous. Si tu as terminé par erreur : <button class="btn small" style="background:var(--acc)" onclick="App.reactiverJob('${j.id}')">Réactiver</button></div>`
+    : `
+    <div style="margin-top:16px; border-top:1px dashed var(--line); padding-top:12px">
+      <b style="font-size:13.5px; color:var(--head)">💶 Taux horaire (il peut changer dans le temps)</b>
+      <div class="hint" style="margin:4px 0 8px">${ti.cur ? `Taux actuel : <b>${fmt(ti.actuel)}/h</b> · valable depuis <b>${mkLabel(ti.depuis)}</b>${ti.prev ? ` · avant : <b>${fmt(ti.prev.rate)}/h</b> (jusqu'à ${mkLabel(mkAdd(ti.depuis, -1))})` : ""}` : `Taux actuel : <b>${fmt(j.rate)}/h</b> (jamais modifié)`}</div>
+      <form class="grid-form" onsubmit="return App.setJobRate(event)">
+        <div class="field"><label>Nouveau taux à partir de</label><input type="month" id="jr-mois" value="${mkNow()}"></div>
+        <div class="field"><label>Taux (€/h)</label><input type="text" id="jr-taux" inputmode="decimal" placeholder="6,28"></div>
+        <div class="field"><button class="btn lav" type="submit">💶 Appliquer ce taux</button></div>
+      </form>
+      <div class="hint">💡 Exemple : 51 % du SMIC à partir de septembre 2026 → 6,28 €/h. Les heures déjà saisies avant cette date gardent l'ancien taux, celles après utilisent le nouveau.</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:16px 0 8px">
+      <h2 style="margin:0">➕ Ajouter des heures</h2>
+      <label style="display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:var(--acc-dark); cursor:pointer; margin-left:auto">
+        <input type="checkbox" id="ws-pauseauto" checked onchange="App.previewPause()"> 🤖 Pause auto&nbsp;<span class="gh" style="font-weight:600; color:var(--mut)">≥7h⇒30 min · ≥10h⇒1h</span>
+      </label>
+    </div>
+    <form class="grid-form no-print" onsubmit="return App.addSession(event)">
+      <div class="field"><label>📅 Date</label><input type="date" id="ws-date"></div>
+      <div class="field"><label>🕘 Début</label><input type="time" id="ws-start" onchange="App.previewPause()"></div>
+      <div class="field"><label>🕔 Fin</label><input type="time" id="ws-end" onchange="App.previewPause()"></div>
+      <div class="field"><label>☕ Pause (minutes)</label><input type="number" id="ws-pause" min="0" step="5" value="0" placeholder="0"></div>
+      <div class="field"><label>⌛ Ou durée directe (heures)</label><input type="text" id="ws-minutes" inputmode="decimal" placeholder="7,5"></div>
+      <div class="field"><label>🧨 Heures majorées (×1,25)</label><select id="ws-mult"><option value="1">Non</option><option value="1.25">Oui (dimanche / nuit)</option></select></div>
+      <div class="field"><button class="btn" id="ws-btn" type="submit">Ajouter la séance</button></div>
+    </form>
+    <div class="hint" style="margin-top:8px; font-size:12.5px; color:var(--mut)">💡 Exemple : <b>11:00 → 18:00</b> ⇒ pause 30 min auto · <b>11:00 → 21:00</b> ⇒ pause 1h auto · moins de 7 h ⇒ aucune pause. Renseigne seulement début + fin, l'appli calcule le reste !</div>
+    <div style="margin-top:16px; border-top:1px dashed var(--line); padding-top:12px" class="no-print">
+      <b style="font-size:13.5px; color:var(--head)">⚡ En série : mêmes horaires sur plusieurs jours (comme ton calendrier « Taff »)</b>
+      <form class="grid-form" style="margin-top:8px" onsubmit="return App.addSeries(event)">
+        <div class="field"><label>Du</label><input type="date" id="ws2-start"></div>
+        <div class="field"><label>Au</label><input type="date" id="ws2-end"></div>
+        <div class="field"><label>🕘 Début</label><input type="time" id="ws2-sh" value="11:00"></div>
+        <div class="field"><label>🕔 Fin</label><input type="time" id="ws2-eh" value="18:00"></div>
+        <div class="field"><label>🧨 Majoré</label><select id="ws2-mult"><option value="1">Non</option><option value="1.25">Oui</option></select></div>
+        <div class="field"><label><span style="font-size:12px;font-weight:700;color:var(--acc-dark)">Jours</span></label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut)"><input type="checkbox" id="ws2-week" checked> sans week-ends</label>
+        </div>
+        <div class="field"><button class="btn lav">⚡ Remplir tous ces jours</button></div>
+      </form>
+    </div>
+    <div style="margin-top:14px; border-top:1px dashed var(--line); padding-top:12px" class="no-print">
+      <b style="font-size:13.5px; color:var(--head)">⚡ Saisie rapide : colle toutes tes journées d'un coup</b>
+      <div class="hint" style="margin:4px 0 8px">Une ligne par journée : <b>04/08 11h-21h</b> — accepte aussi <b>4/8</b>, <b>11h-18h</b>, <b>11:00-18:00</b>, <b>11h à 18h</b>. Les pauses sont calculées automatiquement (≥7 h ⇒ 30 min · ≥10 h ⇒ 1 h) et les dates déjà saisies sont ignorées.</div>
+      <textarea id="ws3-lignes" rows="6" style="width:100%;font:inherit;padding:10px;border:1px solid var(--line);border-radius:10px" placeholder="04/08 11h-21h&#10;11/08 11h-18h&#10;12/08 11h-18h"></textarea>
+      <button class="btn" style="margin-top:8px" onclick="App.addJoursTexte()">➕ Ajouter ces journées</button>
+    </div>`;
+
+  /* séances groupées par mois (plus visuel qu'une liste plate) */
+  const monthListHtml = ses.length ? (() => {
+    const byMk = {};
+    ses.forEach(s => { const k = ymOf(s.date); (byMk[k] = byMk[k] || []).push(s); });
+    const mks = Object.keys(byMk).sort().reverse();
+    const maxNet = Math.max(...mks.map(k => byMk[k].reduce((s,x)=>s+sessionNet(x),0)), 1);
+    return mks.map(k => {
+      const ms = byMk[k];
+      const mh = ms.reduce((s,x)=>s+x.minutes,0), mb = ms.reduce((s,x)=>s+sessionBrut(x),0), mn = ms.reduce((s,x)=>s+sessionNet(x),0);
+      return `<div class="ws-month">
+      <div class="ws-month-head">
+        <span class="ws-month-lbl">${mkLabel(k)}</span>
+        <span class="ws-month-stats">${ms.length} séance(s) · ${fmtH(mh)} · brut ${fmt(mb)}</span>
+        <span class="ws-month-net">net ≈ ${fmt(mn)}</span>
+      </div>
+      <div class="bar ws-bar"><div style="width:${Math.round(mn/maxNet*100)}%"></div></div>
+      ${ms.map(s => {
+        const br = sessionBrut(s), ne = sessionNet(s);
+        return `<div class="row actions">
+        <div class="ic" style="background:var(--blue-soft)">🕒</div>
+        <div class="r-main"><div class="r-t">${s.date}${s.start && s.end ? ` <span style="color:var(--mut); font-weight:600">${s.start} → ${s.end}</span>` : ""}${s.pause > 0 ? ` <span class="badge yellow">pause ${s.pause} min</span>` : ""}${s.mult !== 1 ? ' <span class="badge orange">majoré ×1,25</span>' : ""}</div>
+          <div class="r-s">${fmtH(s.minutes)} travaillées${s.start && s.end ? ` (${s.pause > 0 ? "avec pause déduite" : "sans pause"})` : ""} · brut ${fmt(br)} · net ≈ ${fmt(ne)}${s.note ? " · " + esc(s.note) : ""}</div></div>
+        <div class="r-v">+${fmt(ne)}<small>net</small></div>
+        <div class="actions-row no-print">
+          <button class="btn ghost small" onclick="App.editSession('${s.id}')">✏️</button>
+          <button class="btn danger small" onclick="App.delSession('${s.id}')">🗑️</button>
+        </div>
+      </div>`;
+      }).join("")}
+    </div>`;
+    }).join("");
+  })() : '<div class="empty"><span class="big">🕒</span>Aucune séance enregistrée.</div>';
+
+  wrap.innerHTML = `
+  <div class="panel">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap">
+      <span class="ic" style="width:40px;height:40px;border-radius:10px;background:var(--acc-soft);display:flex;align-items:center;justify-content:center;font-size:19px">💼</span>
+      <div style="flex:1"><h2 style="margin:0">${esc(j.name)}</h2>
+        <div class="p-sub" style="margin:0">Taux : ${fmt(ti.actuel)}/h brut${ti.depuis ? ` (depuis ${mkLabel(ti.depuis)})` : ""} · net ≈ ×${(j.coef ?? D.settings.coefNet).toLocaleString("fr-FR")} · début ${j.start || "?"}${j.end ? " · fin " + j.end : ""}</div>
+      </div>
+      <div class="card" style="padding:10px 16px"><div class="k">Total (toutes périodes)</div><div class="v" style="font-size:18px">${fmtH(hrs)}</div><div style="font-size:12.5px;color:var(--mut)">net ≈ ${fmt(net)}</div></div>
+      <button class="btn ghost small no-print" onclick="App.closeJobDetail()">✖ Fermer</button>
+    </div>
+    <div class="no-print" style="margin-top:10px; display:flex; align-items:center; gap:8px; flex-wrap:wrap">
+      <span style="font-size:12.5px; font-weight:700; color:var(--acc-dark)">📋 Type de contrat (impôts) :</span>
+      <select onchange="App.setJobType('${j.id}', this.value)" style="max-width:280px">
+        <option value="">— Aucun (heures seules) —</option>
+        <option value="cdi" ${j.type === "cdi" ? "selected" : ""}>💼 CDI</option>
+        <option value="cdd" ${j.type === "cdd" ? "selected" : ""}>📄 CDD</option>
+        <option value="apprenti" ${j.type === "apprenti" ? "selected" : ""}>🎓 Apprentissage</option>
+        <option value="ursaff-vente" ${j.type === "ursaff-vente" ? "selected" : ""}>🛒 Auto-entrepreneur : vente (URSSAF)</option>
+        <option value="ursaff-services" ${j.type === "ursaff-services" ? "selected" : ""}>🛠️ Auto-entrepreneur : services (URSSAF)</option>
+        <option value="ursaff-liberal" ${j.type === "ursaff-liberal" ? "selected" : ""}>💼 Auto-entrepreneur : libéral (URSSAF)</option>
+        <option value="autre" ${j.type === "autre" ? "selected" : ""}>📦 Autre</option>
+      </select>
+      <span style="font-size:11.5px; color:var(--mut)">Détermine l'abattement fiscal du salaire déclaré de ce travail.</span>
+    </div>
+    ${addForm}
+    <div style="margin-top:14px; font-weight:800">🕒 Séances par mois (${ses.length})</div>
+    <div id="ws-list">${monthListHtml}</div>
+    <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap" class="no-print">
+      ${locked ? "" : `<button class="btn danger" onclick="App.terminerJob('${j.id}')">🏁 Terminer ce travail (lecture seule ensuite)</button>`}
+    </div>
+  </div>`;
+  if ($("ws-date")) $("ws-date").value = todayStr();
+  /* une seule fois : on propose les journées d'août 2026 déjà saisies dans la zone de saisie rapide */
+  const ta3 = $("ws3-lignes");
+  if (ta3 && !ta3.value && D.ui.month === "2026-08" && !localStorage.getItem(CLE_PREMIERES_SAISIES)){
+    ta3.value = AOUT_2026.join("\n");
+  }
+}
+
+function renderWorkSessions(){
+  const wrap = $("work-sessions");
+  const all = D.sessions.filter(sessionInPeriod);
+  if (!all.length){ wrap.innerHTML = '<div class="empty"><span class="big">📉</span>Aucune heure sur cette période.'; return; }
+  /* par mois (plus visuel qu'une liste plate) */
+  const byMk = {};
+  all.forEach(s => { const k = ymOf(s.date); (byMk[k] = byMk[k] || []).push(s); });
+  const mks = Object.keys(byMk).sort();
+  const maxNet = Math.max(...mks.map(k => byMk[k].reduce((s,x)=>s+sessionNet(x),0)), 1);
+  const byJob = {};
+  all.forEach(s => { (byJob[s.jobId] = byJob[s.jobId] || []).push(s); });
+  const totH = all.reduce((s,x)=>s+x.minutes,0), totB = all.reduce((s,x)=>s+sessionBrut(x),0), totN = all.reduce((s,x)=>s+sessionNet(x),0);
+  wrap.innerHTML = `
+  <b style="font-size:13px; color:var(--acc-dark); font-weight:800">🗓️ Séances par mois</b>
+  <table>
+    <thead><tr><th>Mois</th><th class="num">Séances</th><th class="num">Heures</th><th class="num">Brut</th><th class="num">Net (est.)</th><th class="num" style="width:24%">Part du mois</th></tr></thead>
+    <tbody>${mks.map(k => {
+      const ms = byMk[k];
+      const h = ms.reduce((s,x)=>s+x.minutes,0), b = ms.reduce((s,x)=>s+sessionBrut(x),0), n = ms.reduce((s,x)=>s+sessionNet(x),0);
+      return `<tr>
+        <td><b>${mkLabel(k)}</b>${D.ui.workPeriod === "mois" && k === D.ui.month ? ' <span class="badge blue">période affichée</span>' : ""}</td>
+        <td class="num">${ms.length}</td>
+        <td class="num">${fmtH(h)}</td>
+        <td class="num">${fmt(b)}</td>
+        <td class="num">${fmt(n)}</td>
+        <td class="num"><div class="bar" style="height:7px"><div style="width:${Math.round(n/maxNet*100)}%"></div></div></td>
+      </tr>`;
+    }).join("")}</tbody>
+    <tfoot><tr><td>Total</td><td class="num">${all.length}</td><td class="num">${fmtH(totH)}</td><td class="num">${fmt(totB)}</td><td class="num">${fmt(totN)}</td><td></td></tr></tfoot>
+  </table>
+  <b style="display:block; margin-top:14px; font-size:13px; color:var(--acc-dark); font-weight:800">💼 Par travail</b>
+  <table><thead><tr><th>Travail</th><th class="num">Heures</th><th class="num">Brut</th><th class="num">Net (est.)</th></tr></thead><tbody>` +
+    D.jobs.filter(j => byJob[j.id]).map(j => {
+      const ses = byJob[j.id];
+      const h = ses.reduce((s,x)=>s+x.minutes,0), b = ses.reduce((s,x)=>s+sessionBrut(x),0), n = ses.reduce((s,x)=>s+sessionNet(x),0);
+      return `<tr><td>${esc(j.name)} ${isJobLocked(j) ? '<span class="badge gray">terminé</span>' : ""}</td><td class="num">${fmtH(h)}</td><td class="num">${fmt(b)}</td><td class="num">${fmt(n)}</td></tr>`;
+    }).join("") +
+    `<tfoot><tr><td>Total</td><td class="num">${fmtH(totH)}</td><td class="num">${fmt(totB)}</td><td class="num">${fmt(totN)}</td></tr></tfoot></tbody></table>`;
+}
+
+function renderWorkChart(){
+  const year = yyOf(todayStr());
+  const byMk = {};
+  D.sessions.forEach(s => { if (yyOf(s.date) === year){ const k = ymOf(s.date); byMk[k] = (byMk[k]||0) + sessionNet(s); } });
+  const items = [];
+  for (let i=0;i<12;i++){
+    const k = year + "-" + String(i+1).padStart(2,"0");
+    items.push({ label: MOIS[i].slice(0,3), value: byMk[k] || 0, color: "#ec6f9d" });
+  }
+  $("work-chart").innerHTML = chartV(items, "eur");
+}
+
+/* ---------- IMPOTS ---------- */
+const SITUATIONS = {
+  celib:{ parts:1, label:"Célibataire" },
+  celib1:{ parts:1.5, label:"Célibataire + 1 enfant" },
+  couple:{ parts:2, label:"Couple (marié / PACS)" },
+  couple1:{ parts:2.5, label:"Couple + 1 enfant" },
+  couple2:{ parts:3, label:"Couple + 2 enfants" },
+  couple3:{ parts:4, label:"Couple + 3 enfants" }
+};
+function decote(impBrut, parts){
+  const seuil = parts >= 2 ? 3054 : 1836;
+  return impBrut < seuil ? Math.max(0, (seuil - impBrut) * 0.4525) : 0;
+}
+/* Types de contrat (CDI, CDD, apprenti, micro-entrepreneur URSSAF…) — définissent l'abattement fiscal */
+const INCOME_TYPES = [
+  { id: "cdi", ic: "💼", label: "CDI", abat: "10" },
+  { id: "cdd", ic: "📄", label: "CDD", abat: "10" },
+  { id: "apprenti", ic: "🎓", label: "Apprentissage", abat: "exo" },
+  { id: "ursaff-vente", ic: "🛒", label: "Micro-entrepreneur vente (71 %)", abat: "71" },
+  { id: "ursaff-services", ic: "🛠️", label: "Micro-entrepreneur services (50 %)", abat: "50" },
+  { id: "ursaff-liberal", ic: "💼", label: "Micro-entrepreneur libéral (34 %)", abat: "34" },
+  { id: "autre", ic: "📦", label: "Autre", abat: "0" }
+];
+const incomeType = id => {
+  if (id === "ursaff") return INCOME_TYPES.find(t => t.id === "ursaff-services") || INCOME_TYPES[INCOME_TYPES.length - 1]; /* ancien libellé → services 50 % */
+  return INCOME_TYPES.find(t => t.id === id) || INCOME_TYPES[INCOME_TYPES.length - 1];
+};
+/* type effectif d'un revenu déclaré : vient du travail choisi, sinon de l'entrée */
+const incomeTypeOf = i => incomeType(i.jobId ? (jobById(i.jobId) || {}).type : i.type);
+/* net annuel déclaré = somme des 12 mois */
+const incomeAnnualNet = i => Object.entries(i.months || {}).reduce((s, [,v]) => s + (num(v) || 0), 0);
+/* Revenu imposable d'un revenu déclaré : net annuel, puis abattement selon le type de contrat */
+function incomeTaxable(i, st){
+  const t = incomeTypeOf(i);
+  const ann = incomeAnnualNet(i);
+  if (t.abat === "exo") return 0;                 /* apprenti : exonération jusqu'au SMIC annuel */
+  if (t.abat === "10") return ann * (st.abattement ? 0.9 : 1);
+  const off = { "71": 0.29, "50": 0.5, "34": 0.66 }[t.abat];  /* micro-entrepreneur : portion imposable après abattement */
+  return off == null ? ann : ann * off;
+}
+function renderImpots(){
+  const y = D.settings.taxYear || Number(yyOf(todayStr()));
+  $("tax-annee").value = y;
+  $("tax-parts").value = D.settings.parts;
+  $("tax-abat").value = D.settings.abattement ? "1" : "0";
+  $("tax-credits").value = D.settings.creditsImpots || 0;
+  const sitSel = $("tax-situation");
+  if (sitSel) sitSel.value = D.settings.situation || "celib";
+  $("tax-year-lbl").textContent = y;
+
+  const ses = D.sessions.filter(s => yyOf(s.date) === String(y));
+  const brut = ses.reduce((s,x)=>s+sessionBrut(x),0);
+  const netSess = ses.reduce((s,x)=>s+sessionNet(x),0);
+  const incomes = D.incomes.filter(i => i.annee === y);
+  const netIncAn = incomes.reduce((s,i)=>s + incomeAnnualNet(i), 0);
+  const taxableInc = incomes.reduce((s,i)=>s + incomeTaxable(i, D.settings), 0);
+  const credits = D.settings.creditsImpots || 0;
+  const sitLabel = (SITUATIONS[D.settings.situation] || {}).label || `${D.settings.parts} part(s)`;
+
+  /* ⏱️ Tes heures : on affiche JUSTE le net réellement touché (aucun impôt dessus).
+     🧾 L'impôt (barème, décote, crédits) ne porte que sur le salaire net déclaré. */
+  const ibI = taxAnnee(taxableInc, D.settings.parts);
+  const dec = decote(ibI, D.settings.parts);
+  const finI = Math.max(0, ibI - dec - credits);
+
+  /* net que tu as réellement touché, mois par mois (heures) */
+  const netByM = {};
+  ses.forEach(s => { const k = ymOf(s.date).slice(5); netByM[k] = (netByM[k]||0) + sessionNet(s); });
+  const chipsH = MOIS_SHORT.map((m,i) => { const k = String(i+1).padStart(2,"0"); const v = netByM[k]; return v ? `<span class="chip">${m} ${fmt0(v)}</span>` : ""; }).filter(Boolean).join("");
+
+  $("tax-summary").innerHTML = `
+  <div class="panel">
+    <h2>⏱️ Tes heures de travail — le net que tu as réellement touché (année ${y})</h2>
+    <div style="display:flex; align-items:baseline; gap:14px; flex-wrap:wrap">
+      <span style="font-size:26px;font-weight:800;color:var(--ink)">${fmt(netSess)}</span>
+      <span class="chip">brut ${fmt(brut)}</span>
+      <span class="chip">${ses.length} séance${ses.length > 1 ? "s" : ""}${ses.length ? "" : " · aucune séance cette année"}</span>
+    </div>
+    ${ses.length ? `<div style="margin-top:8px">${chipsH}</div>` : ""}
+    <div class="hint" style="margin-top:8px">ℹ️ Aucun impôt calculé sur tes heures ici — seul ton <b>salaire net déclaré</b> est imposé (ci-dessous).</div>
+  </div>
+  <div class="panel" style="margin-top:16px">
+    <h2>💰 Impôt sur ton salaire net déclaré (année ${y})</h2>
+    <div class="cards">
+      <div class="card info"><div class="k">Salaire net déclaré</div><div class="v">${fmt(netIncAn)}</div><div class="s">${incomes.length ? incomes.length + " revenu(s) déclaré(s)" : "aucun revenu déclaré"} · ${esc(sitLabel)}</div></div>
+      <div class="card"><div class="k">📋 Imposable (salaire)</div><div class="v">${fmt(taxableInc)}</div><div class="s">selon le type de contrat de chaque travail</div></div>
+      <div class="card"><div class="k">🧮 Impôt brut (barème)</div><div class="v">${fmt(ibI)}</div><div class="s">avant décote et crédits</div></div>
+      <div class="card bad"><div class="k">🧾 Impôt final estimé</div><div class="v">${fmt(finI)}</div><div class="s">${dec > 0 ? `décote −${fmt(dec)}` : ""}${credits > 0 ? (dec > 0 ? " · " : "") + `crédits −${fmt(credits)}` : ""}${dec === 0 && credits === 0 ? "brut − décote − crédits" : ""}</div></div>
+      <div class="card good"><div class="k">💳 Prélèvement mensuel</div><div class="v">${fmt(finI/12)}</div><div class="s">≈ par mois si ton taux est à jour</div></div>
+    </div>
+  </div>`;
+
+  $("tax-info").innerHTML = `
+    <div class="alert-box blue">ℹ️ <b>Estimation indicative</b> (barème ${y-1} pour les revenus ${y}). L'impôt porte <b>uniquement</b> sur ton <b>salaire net déclaré</b>${incomes.length ? ` : net ${fmt(netIncAn)} → imposable ${fmt(taxableInc)}` : ""}. Détail : impôt brut <b>${fmt(ibI)}</b>${dec > 0 ? ` − décote <b>${fmt(dec)}</b>` : ""}${credits > 0 ? ` − crédits d'impôt <b>${fmt(credits)}</b>` : ""} = <b>${fmt(finI)}</b>. Tes <b>heures de travail</b> ne sont pas imposées ici : tu vois juste le net que tu as réellement touché. Le calcul réel dépend aussi de ton taux de prélèvement à la source et de ta situation complète.</div>`;
+
+  /* liste des revenus déclarés + choix du travail */
+  const selJob = $("inc-job");
+  if (selJob){
+    const cur = D.ui.jobId && D.jobs.some(x => x.id === D.ui.jobId) ? D.ui.jobId : "";
+    selJob.innerHTML = `<option value="">— Choisis un travail —</option>` +
+      D.jobs.map(j => `<option value="${j.id}" ${j.id === cur ? "selected" : ""}>${esc(j.name)}${j.type ? " (" + incomeType(j.type).ic + " " + incomeType(j.type).label + ")" : ""}</option>`).join("");
+    const hint = $("inc-job-hint");
+    if (hint) hint.textContent = D.jobs.some(j => j.type)
+      ? "Le type de contrat du travail détermine son abattement fiscal (10 % CDI/CDD, 50 % services, 71 % vente, 34 % libéral, exonération apprenti)."
+      : "Astuce : dans l'onglet Travail, choisis le « type de contrat » d'un travail (CDI, CDD…) pour pouvoir déclarer son salaire ici.";
+  }
+  const lInc = $("inc-list");
+  if (lInc){
+    lInc.innerHTML = incomes.length ? incomes.map(i => {
+      const j = i.jobId ? jobById(i.jobId) : null;
+      const t = incomeTypeOf(i);
+      const netAn = incomeAnnualNet(i);
+      const tax = incomeTaxable(i, D.settings);
+      const badge = t.abat === "exo" ? '<span class="badge green">exonéré</span>'
+        : t.abat === "0" ? '<span class="badge orange">sans abattement auto</span>'
+        : t.abat === "10" ? `<span class="badge gray">abattement 10 %${D.settings.abattement ? "" : " (désactivé)"}</span>`
+        : `<span class="badge blue">abattement ${t.abat} %</span>`;
+      const moisPayes = Object.entries(i.months || {}).filter(([,v]) => num(v) > 0);
+      const chips = moisPayes.slice(0, 6).map(([m, v]) => `<span class="chip">${MOIS_SHORT[Number(m)-1]} ${fmt0(v)}</span>`).join("");
+      return `<div class="row actions">
+        <div class="ic" style="background:var(--acc-soft)">${t.ic}</div>
+        <div class="r-main"><div class="r-t">${j ? esc(j.name) : "Revenu déclaré"} ${badge}</div>
+          <div class="r-s">${chips}${moisPayes.length > 6 ? "…" : ""} · total ${fmt(netAn)}/an · imposable ${fmt(tax)}${t.abat === "exo" ? " · exonéré jusqu'au SMIC annuel" : ""}</div></div>
+        <div class="actions-row no-print"><button class="btn danger small" onclick="App.delIncome('${i.id}')">🗑️</button></div>
+      </div>`;
+    }).join("")
+    : "<div class='empty'><span class='big'>💰</span>Choisis un travail avec un type de contrat, entre le net de chaque mois, puis « Ajouter ». Son impôt est calculé <b>séparément</b> de tes heures de travail.</div>";
+  }
+  const filler = $("inc-fill"); if (filler) filler.value = "";
+  for (let k = 1; k <= 12; k++){ const el = $("inc-m-" + String(k).padStart(2,"0")); if (el) el.value = ""; }
+
+  const byJob = {};
+  ses.forEach(s => { (byJob[s.jobId] = byJob[s.jobId] || []).push(s); });
+  $("tax-table").innerHTML = ses.length ? `<table><thead><tr><th>Travail</th><th class="num">Heures</th><th class="num">Brut</th><th class="num">Net (est.)</th></tr></thead><tbody>` +
+    D.jobs.filter(j => byJob[j.id]).map(j => {
+      const ss = byJob[j.id];
+      return `<tr><td>${esc(j.name)}</td><td class="num">${fmtH(ss.reduce((s,x)=>s+x.minutes,0))}</td><td class="num">${fmt(ss.reduce((s,x)=>s+sessionBrut(x),0))}</td><td class="num">${fmt(ss.reduce((s,x)=>s+sessionNet(x),0))}</td></tr>`;
+    }).join("") +
+    `<tfoot><tr><td>Total</td><td class="num">${fmtH(ses.reduce((s,x)=>s+x.minutes,0))}</td><td class="num">${fmt(brut)}</td><td class="num">${fmt(netSess)}</td></tr></tfoot></tbody></table>`
+    : "<div class='empty'><span class='big'>🧮</span>Aucune heure déclarée pour cette année. Ajoute tes séances dans l'onglet Travail.</div>";
+
+  const byMk = {};
+  ses.forEach(s => { const k = ymOf(s.date); byMk[k] = (byMk[k]||0) + sessionNet(s); });
+  const items = [];
+  for (let i=0;i<12;i++){
+    const k = y + "-" + String(i+1).padStart(2,"0");
+    items.push({ label: MOIS[i].slice(0,3), value: byMk[k] || 0, color: "#a78bfa" });
+  }
+  $("tax-chart").innerHTML = chartV(items, "eur");
+  const yl2 = $("tax-year-lbl2"); if (yl2) yl2.textContent = y;
+
+  const byMk2 = {};
+  incomes.forEach(i => { Object.entries(i.months || {}).forEach(([m, v]) => { const mk2 = y + "-" + m; byMk2[mk2] = (byMk2[mk2]||0) + (num(v)||0); }); });
+  const items2 = [];
+  for (let i=0;i<12;i++){
+    const k = y + "-" + String(i+1).padStart(2,"0");
+    items2.push({ label: MOIS[i].slice(0,3), value: byMk2[k] || 0, color: "#ec6f9d" });
+  }
+  $("tax-chart-inc").innerHTML = chartV(items2, "eur");
+}
+
+function taxAnnee(taxable, parts){
+  if (taxable <= 0 || parts <= 0) return 0;
+  const par = taxable / parts;
+  let imp = 0, prev = 0;
+  for (const s of BAREME){
+    if (par <= s.upTo){ imp += (par - prev) * s.rate; break; }
+    imp += (s.upTo - prev) * s.rate; prev = s.upTo;
+  }
+  return Math.max(0, imp * parts);
+}
+
+App.setTaxYear = v => { D.settings.taxYear = Number(v) || Number(yyOf(todayStr())); save(); renderImpots(); };
+App.setParts = v => { D.settings.parts = Math.max(0.5, Number(v) || 1); save(); renderImpots(); };
+App.setAbat = v => { D.settings.abattement = v === "1"; save(); renderImpots(); };
+App.setSituation = v => {
+  D.settings.situation = v;
+  if (SITUATIONS[v]) D.settings.parts = SITUATIONS[v].parts;
+  save(); renderImpots();
+};
+App.setCredits = v => { D.settings.creditsImpots = Math.max(0, num(v)); save(); renderImpots(); };
+App.addIncome = ev => {
+  if (ev) ev.preventDefault();
+  const jobId = $("inc-job").value;
+  const j = jobById(jobId);
+  if (!j) return toast("⚠️ Choisis d'abord le travail dont tu déclares le salaire.");
+  if (!j.type) return toast("⚠️ Ce travail n'a pas de type de contrat. Ajoute-le dans l'onglet Travail (CDI, CDD, apprenti…) pour pouvoir déclarer son salaire.");
+  const months = {};
+  let total = 0;
+  for (let k = 1; k <= 12; k++){
+    const mk = String(k).padStart(2, "0");
+    const v = num($("inc-m-" + mk).value);
+    months[mk] = v;
+    total += v;
+  }
+  if (total <= 0) return toast("⚠️ Renseigne le net reçu pour au moins un mois de l'année.");
+  D.incomes.push({ id: uid(), jobId, annee: D.settings.taxYear || Number(yyOf(todayStr())), months });
+  save(); renderImpots();
+  toast("✅ Revenus de l'année ajoutés au calcul d'impôt (" + incomeType(j.type).label + ").");
+  return false;
+};
+App.fillIncomeMonths = () => {
+  const v = $("inc-fill").value;
+  if (num(v) <= 0) return toast("⚠️ Entre d'abord un montant dans « Montant identique (€) ».");
+  for (let k = 1; k <= 12; k++){ const el = $("inc-m-" + String(k).padStart(2, "0")); if (el) el.value = v; }
+  toast("🪄 Montant appliqué aux 12 mois — corrige les mois différents.");
+};
+App.delIncome = id => { if (!confirm("Supprimer ce revenu déclaré ?")) return; D.incomes = D.incomes.filter(i => i.id !== id); save(); renderImpots(); };
+
+/* ---------- DOCUMENTS ---------- */
+function renderDocuments(){
+  const sel = $("doc-type");
+  sel.innerHTML = DOC_TYPES.map(t => `<option value="${t.id}">${t.ic} ${t.label}</option>`).join("");
+  const list = $("doc-list");
+  if (!D.docs.length){ list.innerHTML = '<div class="empty"><span class="big">📄</span>Ajoute tes documents (titre de séjour, passeport, carte bancaire, CMU…) <b>et tes demandes en cours</b> (titre de voyage, renouvellement…) pour tout suivre au même endroit.</div>'; }
+  else {
+    const sorted = docAlerts();
+    list.innerHTML = sorted.map(({doc:d, level, text}) => {
+      const t = dtById(d.type);
+      const pend = d.statut === "demande" || d.statut === "en-cours";
+      const enDemande = pend || d.statut === "refusee";
+      const waitDays = pend ? daysSince(d.delivrance) : null;
+      const statutBadge = d.statut === "en-cours" ? '<span class="badge yellow">⏳ En cours de renouvellement</span>'
+        : d.statut === "demande" ? '<span class="badge blue">📨 Demande en cours</span>'
+        : d.statut === "refusee" ? '<span class="badge red">❌ Refusée</span>' : "";
+      const levelBadge = d.expiration
+        ? (level === "red" ? `<span class="badge red">${text}</span>`
+          : level === "orange" ? `<span class="badge orange">${text}</span>`
+          : `<span class="badge green">${text}</span>`)
+        : "";
+      let datesHtml = "";
+      if (enDemande && !d.expiration){
+        datesHtml = d.delivrance
+          ? `<span>📅 Demande déposée le : <b>${d.delivrance}</b></span>`
+          : "<span>📅 Date de dépôt non renseignée — pense à l'ajouter</span>";
+        if (waitDays !== null) datesHtml += `<span>⏳ <b>En attente depuis ${waitDays} j</b></span>`;
+      } else {
+        if (d.delivrance) datesHtml += `<span>📅 Délivré : ${d.delivrance}</span>`;
+        if (d.expiration) datesHtml += `<span>⏳ Expire : ${d.expiration}</span>`;
+      }
+      if (d.expiration) datesHtml += `<span>🔔 Rappel ${d.alertDays || 30} j avant</span>`;
+      return `<div class="doc ${level === "red" ? "expired" : ""}">
+        <span class="ic" style="width:40px;height:40px;border-radius:10px;background:${enDemande ? "var(--blue-soft)" : "#f8ecf2"};display:flex;align-items:center;justify-content:center;font-size:19px">${t.ic}</span>
+        <div class="d-main">
+          <div class="d-t">${esc(d.name)} ${levelBadge} ${statutBadge}</div>
+          <div class="d-s">${t.label}${d.organisme ? " · " + esc(d.organisme) : ""}${d.numero ? " · N° " + esc(d.numero) : ""}</div>
+          <div class="d-dates">${datesHtml}</div>
+          ${d.notes ? `<div class="d-s">📝 ${esc(d.notes)}</div>` : ""}
+        </div>
+        <div class="actions-row no-print"><button class="btn danger small" onclick="App.delDoc('${d.id}')">🗑️</button></div>
+      </div>`;
+    }).join("");
+  }
+  const alertes = docAlerts();
+  const urgent = alertes.filter(x => x.level === "red");
+  const pending = D.docs.filter(d => !d.expiration && (d.statut === "demande" || d.statut === "en-cours"));
+  $("doc-banner").innerHTML = urgent.length
+    ? `<div class="alert-box red">🚨 <b>${urgent.length} document(s) expiré(s) ou refusé(s) !</b> Pense au renouvellement (titre de séjour : commence ~3 mois avant).</div>`
+    : pending.length
+    ? `<div class="alert-box blue">📨 <b>${pending.length} demande(s) en cours</b> (titre de voyage, renouvellement…). Pense à suivre leur avancement.</div>`
+    : alertes.some(x => x.level === "orange")
+    ? `<div class="alert-box">🕐 Certains documents expirent bientôt. Vérifie la liste ci-dessous.</div>`
+    : `<div class="alert-box green">✅ Aucun document urgent.</div>`;
+}
+
+/* ---------- RAPPELS ---------- */
+function renderRappels(){
+  const wrap = $("rap-list");
+  const sections = [];
+
+  /* docs */
+  const docs = docAlerts().filter(x => x.level !== "ok");
+  sections.push(`<div class="panel"><h2>📄 Documents à surveiller <span class="gh">${docs.length}</span></h2>` +
+    (docs.length ? docs.map(({doc:d, level, text}) => `
+      <div class="row">
+        <div class="ic" style="background:${level === "red" ? "var(--red-soft)" : "var(--yellow-soft)"}">${dtById(d.type).ic}</div>
+        <div class="r-main"><div class="r-t">${esc(d.name)}</div><div class="r-s">${text}</div></div>
+        <div class="r-v"><span class="badge ${level === "red" ? "red" : "orange"}">${text}</span></div>
+      </div>`).join("")
+    : "<div class='empty'><span class='big'>✅</span>Aucun document à surveiller pour l'instant.</div>") + `</div>`);
+
+  /* custom */
+  const now = new Date().toISOString().slice(0,10);
+  const customs = [...D.rappels].sort((a,b) => (a.date||"").localeCompare(b.date||""));
+  sections.push(`<div class="panel"><h2>⏰ Rappels personnalisés <span class="gh">${customs.length}</span></h2>` +
+    (customs.length ? customs.map(r => {
+      const overdue = (r.date||"") < now;
+      const rep = r.repeat === "annuel" ? " · 🔁 annuel" : r.repeat === "trimestre" ? " · 🔁 trimestriel" : "";
+      return `<div class="row">
+        <div class="ic" style="background:${overdue ? "var(--red-soft)" : "var(--blue-soft)"}">⏰</div>
+        <div class="r-main"><div class="r-t">${esc(r.titre)}</div><div class="r-s">${r.date || "—"}${rep}${overdue ? " · <b style='color:var(--red)'>en retard !</b>" : ""}${r.notes ? " · " + esc(r.notes) : ""}</div></div>
+        <div class="r-v">${overdue ? `<span class="badge red">en retard</span>` : `<span class="badge blue">dans ${daysUntil(r.date)} j</span>`}</div>
+        <div class="actions-row no-print"><button class="btn danger small" onclick="App.delRap('${r.id}')">🗑️</button></div>
+      </div>`;
+    }).join("") : "<div class='empty'><span class='big'>⏰</span>Aucun rappel. Ajoute déclarations, échéances d'assurance, RDV CAF…</div>") + `</div>`);
+
+  wrap.innerHTML = sections.join("");
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+
+/* ------- dépenses ------- */
+App.addExpense = ev => {
+  ev.preventDefault();
+  const date = $("exp-date").value, cat = $("exp-cat").value, amount = num($("exp-montant").value), note = $("exp-note").value.trim();
+  const transfere = !!($("exp-transfert") && $("exp-transfert").checked);
+  if (!date || !amount || amount <= 0) return toast("⚠️ Renseigne une date et un montant valide.");
+  if (D.ui.editingExp){
+    const e = D.expenses.find(x => x.id === D.ui.editingExp);
+    if (e) Object.assign(e, { date, cat, amount, note, transfere });
+    D.ui.editingExp = null;
+    toast("✅ Sortie modifiée.");
+  } else {
+    D.expenses.push({ id: uid(), date, cat, amount, note, transfere });
+    toast(transfere ? "🏦💸 Transfert enregistré (pas une dépense pour toi)." : "✅ Dépense ajoutée.");
+  }
+  $("exp-montant").value = ""; $("exp-note").value = ""; $("exp-transfert").checked = false;
+  save(); renderDepenses();
+  return false;
+};
+App.delExp = id => {
+  if (!confirm("Supprimer cette dépense ?")) return;
+  D.expenses = D.expenses.filter(e => e.id !== id); save(); renderDepenses();
+};
+App.editExp = id => {
+  const e = D.expenses.find(x => x.id === id); if (!e) return;
+  D.ui.editingExp = id;
+  $("exp-date").value = e.date; $("exp-cat").value = e.cat;
+  $("exp-montant").value = e.amount; $("exp-note").value = e.note || "";
+  $("exp-transfert").checked = !!e.transfere;
+  D.ui.page = "depenses"; save();
+  toast("✏️ Modifie et valide via le bouton « Ajouter ».");
+};
+App.setBudget = inp => {
+  D.budgets[inp.dataset.cat] = num(inp.value); save();
+  toast("🎯 Budget mis à jour."); renderDepenses();
+};
+
+/* ------- charges récurrentes ------- */
+App.addRec = ev => {
+  ev.preventDefault();
+  const name = $("rec-nom").value.trim(), cat = $("rec-cat").value, amount = num($("rec-montant").value),
+        day = Math.max(1, Math.min(31, Number($("rec-day").value) || 1)), start = $("rec-start").value;
+  if (!name || !amount || amount <= 0) return toast("⚠️ Donne un nom et un montant valides.");
+  if (D.ui.editingRec){
+    const r = (D.recurring||[]).find(x => x.id === D.ui.editingRec);
+    if (r) Object.assign(r, { name, cat, amount, day, start });
+    D.ui.editingRec = null;
+    toast("✅ Charge récurrente modifiée.");
+  } else {
+    D.recurring.push({ id: uid(), name, cat, amount, day, start, end: null, active: true });
+    toast("🔁 Charge récurrente ajoutée.");
+  }
+  save(); renderDepenses();
+  return false;
+};
+App.delRec = id => {
+  if (!confirm("Supprimer cette charge récurrente ?")) return;
+  D.recurring = (D.recurring||[]).filter(r => r.id !== id); save(); renderDepenses();
+};
+App.toggleRec = (id, on) => {
+  const r = (D.recurring||[]).find(x => x.id === id); if (!r) return;
+  r.active = !!on; save(); renderDepenses();
+};
+App.editRec = id => {
+  const r = (D.recurring||[]).find(x => x.id === id); if (!r) return;
+  D.ui.editingRec = id;
+  $("rec-nom").value = r.name; $("rec-cat").value = r.cat; $("rec-montant").value = r.amount;
+  $("rec-day").value = r.day || 1; $("rec-start").value = r.start || "";
+  const btn = $("rec-btn"); if (btn) btn.textContent = "💾 Enregistrer";
+  toast("✏️ Modifie puis valide.");
+};
+
+/* ------- épargne ------- */
+App.addOp = ev => {
+  ev.preventDefault();
+  const type = $("ep-type").value, amount = num($("ep-montant").value), date = $("ep-date").value, note = $("ep-note").value.trim();
+  const accSel = $("ep-account");
+  const account = (accSel && accSel.value) || "epargne";
+  const goalId = account === "epargne" ? $("ep-goal").value : "";
+  const from = account === "epargne" && type === "depot" ? (($("ep-origine") && $("ep-origine").value) || "courant") : "courant";
+  if (!date || !amount || amount <= 0) return toast("⚠️ Renseigne un montant et une date valides.");
+  if (D.ui.editingOp){
+    const o = D.ops.find(x => x.id === D.ui.editingOp);
+    if (o) Object.assign(o, { date, type, amount, goalId: goalId || null, note, account, from });
+    toast("✅ Opération modifiée.");
+  } else {
+    D.ops.push({ id: uid(), date, type, amount, goalId: goalId || null, note, account, from });
+    toast(type === "depot"
+      ? (account === "courant" ? "🏦 Dépôt enregistré sur ton compte courant !"
+        : from === "externe" ? "🎁 Épargne mise à jour (sans toucher ton compte courant)." : "💰 Bien joué, tu as mis de côté !")
+      : "🏧 Retrait enregistré.");
+  }
+  D.ui.editingOp = null;
+  save(); renderEpargne(); App.epFormReset();
+  return false;
+};
+/* affiche/masque les champs selon le compte choisi + le type d'opération */
+App.epAccount = (v, type) => {
+  const f = $("ep-goal-field");
+  if (f) f.style.display = v === "courant" ? "none" : "";
+  const o = $("ep-origine-field");
+  const t = type || ($("ep-type") ? $("ep-type").value : "depot");
+  if (o) o.style.display = (v === "epargne" && t === "depot") ? "" : "none";
+};
+App.epType = v => App.epAccount($("ep-account").value, v);
+App.epFormReset = () => {
+  $("ep-montant").value = ""; $("ep-note").value = ""; $("ep-date").value = todayStr();
+  const g = $("ep-goal"); if (g) g.value = "";
+  const b = $("ep-btn"); if (b) b.textContent = "Ajouter";
+  const c = $("ep-cancel"); if (c) c.style.display = "none";
+  const h = $("ep-edit-hint"); if (h) h.style.display = "none";
+};
+/* ✏️ modifier une opération existante (montant, date, note… et surtout l'origine de l'épargne) */
+App.editOp = id => {
+  const o = D.ops.find(x => x.id === id); if (!o) return;
+  D.ui.editingOp = id;
+  renderEpargne();
+  $("ep-type").value = o.type;
+  $("ep-account").value = o.account || "epargne";
+  $("ep-montant").value = o.amount;
+  $("ep-date").value = o.date;
+  $("ep-note").value = o.note || "";
+  const g = $("ep-goal"); if (g) g.value = o.goalId || "";
+  const or = $("ep-origine"); if (or) or.value = o.from || "courant";
+  App.epAccount(o.account || "epargne", o.type);
+  const b = $("ep-btn"); if (b) b.textContent = "💾 Enregistrer";
+  const c = $("ep-cancel"); if (c) c.style.display = "";
+  const h = $("ep-edit-hint"); if (h) h.style.display = "";
+};
+App.cancelEditOp = () => { D.ui.editingOp = null; renderEpargne(); App.epFormReset(); };
+App.delOp = id => { if (!confirm("Supprimer cette opération ?")) return; D.ops = D.ops.filter(o => o.id !== id); if (D.ui.editingOp === id) D.ui.editingOp = null; save(); renderEpargne(); };
+App.addGoal = ev => {
+  ev.preventDefault();
+  const name = $("goal-nom").value.trim(), target = num($("goal-cible").value);
+  if (!name || !target) return toast("⚠️ Donne un nom et une cible à ton objectif.");
+  D.goals.push({ id: uid(), name, target });
+  save(); renderEpargne(); $("goal-nom").value = ""; $("goal-cible").value = "";
+  toast("🎯 Objectif créé !"); return false;
+};
+App.delGoal = id => {
+  if (!confirm("Supprimer cet objectif (les dépôts liés seront juste sans objectif) ?")) return;
+  D.ops.forEach(o => { if (o.goalId === id) o.goalId = null; });
+  D.goals = D.goals.filter(g => g.id !== id); if (editingGoal === id) editingGoal = null;
+  save(); renderEpargne();
+};
+App.editGoal = id => { editingGoal = id; renderEpargne(); };
+App.cancelEditGoal = () => { editingGoal = null; renderEpargne(); };
+App.saveGoal = id => {
+  const g = D.goals.find(x => x.id === id);
+  if (!g) return;
+  const name = $("goal-edit-nom").value.trim(), target = num($("goal-edit-cible").value);
+  if (!name) return toast("⚠️ Donne un nom à ton objectif.");
+  if (!target || target <= 0) return toast("⚠️ Donne un montant cible valide à ton objectif.");
+  g.name = name; g.target = target; editingGoal = null;
+  save(); renderEpargne(); toast("✏️ Objectif modifié !");
+};
+
+/* ------- travail ------- */
+App.addJob = ev => {
+  ev.preventDefault();
+  const name = $("job-nom").value.trim(), rate = num($("job-taux").value), coef = num($("job-coef").value) || D.settings.coefNet, start = $("job-debut").value;
+  const ctype = $("job-type") ? $("job-type").value : "";
+  if (!name || !rate || rate <= 0) return toast("⚠️ Donne un nom et un taux horaire valide.");
+  const nj = { id: uid(), name, rate, coef, start, end: null, type: ctype };
+  D.jobs.push(nj);
+  D.ui.jobId = nj.id;
+  save(); renderTravail(); $("job-nom").value = ""; $("job-taux").value = ""; $("job-coef").value = "";
+  const jt = $("job-type"); if (jt) jt.value = "";
+  toast("💼 Travail ajouté !");
+  return false;
+};
+App.terminerJob = id => {
+  const j = jobById(id); if (!j) return;
+  if (!confirm(`Terminer « ${j.name} » ?\nTu ne pourras plus ajouter d'heures (statistiques en lecture seule).`)) return;
+  j.end = todayStr(); save(); renderTravail();
+  toast("🏁 Travail terminé – lecture seule.");
+};
+App.reactiverJob = id => {
+  const j = jobById(id); if (!j) return;
+  if (!confirm("Réactiver ce travail (tu pourras à nouveau ajouter des heures) ?")) return;
+  j.end = null; save(); renderTravail();
+};
+App.setJobType = (id, v) => { const j = jobById(id); if (!j) return; j.type = v; save(); renderTravail(); toast(v ? "✅ Type de contrat mis à jour." : "ℹ️ Type de contrat retiré."); };
+/* 💶 changement de taux horaire à partir d'un mois donné (ex : 51 % du SMIC au 01/09/2026 → 6,28 €/h) */
+App.setJobRate = ev => {
+  ev.preventDefault();
+  const j = jobById(D.ui.jobId); if (!j) return;
+  const from = $("jr-mois").value, taux = num($("jr-taux").value);
+  if (!from || from.length < 7) return toast("⚠️ Choisis le mois à partir duquel le nouveau taux s'applique.");
+  if (!taux || taux <= 0) return toast("⚠️ Renseigne un taux horaire valide.");
+  if (rateAt(j, from) === taux) return toast("ℹ️ Ce taux s'applique déjà à partir de " + mkLabel(from) + ".");
+  /* au 1er changement : on garde l'ancien taux dans l'historique (les heures passées gardent leur prix) */
+  if (!(j.rateHist || []).length){
+    const debut = j.start ? String(j.start).slice(0, 7) : "0000-01";
+    if (debut !== from) j.rateHist = [{ from: debut, rate: j.rate }];
+  }
+  j.rateHist = [...(j.rateHist || []).filter(h => h.from !== from), { from, rate: taux }]
+    .sort((a,b) => String(a.from).localeCompare(String(b.from)));
+  j.rate = taux;                       /* taux actuel = dernier de l'historique */
+  save(); renderTravail();
+  toast(`💶 ${fmt(taux)}/h à partir de ${mkLabel(from)} — les heures avant cette date gardent ${fmt(rateAt(j, mkAdd(from, -1)))}/h.`);
+  return false;
+};
+App.addSession = ev => {
+  ev.preventDefault();
+  const j = jobById(D.ui.jobId); if (!j || isJobLocked(j)) return toast("🔒 Travail terminé : ajout d'heures désactivé.");
+  const date = $("ws-date").value, mult = num($("ws-mult").value) || 1;
+  const start = $("ws-start").value, end = $("ws-end").value;
+  const autoPause = $("ws-pauseauto") ? $("ws-pauseauto").checked : !!D.settings.pauseAuto;
+  let pause = Math.max(0, num($("ws-pause").value) || 0);
+  const hours = num($("ws-minutes").value);
+  let minutes = null;
+  if (start && end){
+    /* calcul automatique : durée = fin − début − pause */
+    const [sh, sm] = start.split(":").map(Number);
+    const [eh, em] = end.split(":").map(Number);
+    let diff = (eh*60 + em) - (sh*60 + sm);
+    if (autoPause) pause = autoPauseMinutes(diff);
+    minutes = diff - pause;
+    if (!date || date.length !== 10) return toast("⚠️ Choisis une date.");
+    if (diff <= 0) return toast("⚠️ L'heure de fin doit être après l'heure de début.");
+    if (minutes <= 0) return toast(`⚠️ La pause (${pause} min) dépasse ou annule la durée travaillée (${fmtH(diff)}).`);
+  } else if (hours > 0){
+    minutes = Math.round(hours * 60);
+  }
+  if (!date || minutes == null || minutes <= 0 || minutes > 24*60) return toast("⚠️ Renseigne la date et soit les horaires (début + fin), soit la durée directe (0–24 h).");
+  if (D.ui.editingSession){
+    const s = D.sessions.find(x => x.id === D.ui.editingSession);
+    if (s) Object.assign(s, { date, minutes, mult, start, end, pause });
+    D.ui.editingSession = null;
+    toast("✅ Séance modifiée.");
+  } else {
+    D.sessions.push({ id: uid(), jobId: j.id, date, minutes, mult, start, end, pause });
+    toast(`✅ Heures ajoutées : +${fmtH(minutes)} (net ≈ ${fmt(sessionNet({jobId:j.id,date,minutes,mult}))}).`);
+  }
+  save(); renderTravail(); $("ws-minutes").value = ""; $("ws-start").value = ""; $("ws-end").value = ""; $("ws-pause").value = "0";
+  return false;
+};
+App.delSession = id => { if (!confirm("Supprimer cette séance ?")) return; D.sessions = D.sessions.filter(s => s.id !== id); save(); renderTravail(); };
+
+App.previewPause = () => {
+  const st = $("ws-start").value, en = $("ws-end").value;
+  if (!st || !en) return;
+  const [sh, sm] = st.split(":").map(Number), [eh, em] = en.split(":").map(Number);
+  const diff = (eh*60 + em) - (sh*60 + sm);
+  if (diff <= 0) return;
+  if ($("ws-pauseauto") ? $("ws-pauseauto").checked : !!D.settings.pauseAuto){
+    $("ws-pause").value = autoPauseMinutes(diff);
+  }
+};
+
+/* ---------- saisie rapide : une ligne par journée (ex : 04/08 11h-21h) ---------- */
+const CLE_PREMIERES_SAISIES = "mavie_finances_v1_saisie_rapide_utilisee";
+/* journées d'août 2026 proposées pré-remplies dans la zone (une seule fois) */
+const AOUT_2026 = ["04/08 11h-21h","07/08 11h-21h","11/08 11h-18h","12/08 11h-18h","13/08 11h-18h",
+                   "15/08 11h-18h","16/08 11h-18h","18/08 11h-18h","21/08 11h-20h","23/08 11h-21h",
+                   "24/08 16h-21h","25/08 11h-21h","27/08 11h-21h","29/08 11h-21h","31/08 17h-21h"];
+App.addJoursTexte = () => {
+  const j = jobById(D.ui.jobId); if (!j || isJobLocked(j)) return toast("🔒 Travail terminé : ajout d'heures désactivé.");
+  const ta = $("ws3-lignes"); if (!ta) return;
+  const lignes = ta.value.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (!lignes.length) return toast("⚠️ Colle d'abord tes lignes (ex : 04/08 11h-21h).");
+  const an = D.ui.month.split("-")[0], cm = Number(D.ui.month.split("-")[1]);
+  const deja = new Set(D.sessions.filter(s => s.jobId === j.id).map(s => s.date));
+  const p2 = n => String(n).padStart(2, "0");
+  let ajoutes = 0, ignores = 0, erreurs = 0;
+  lignes.forEach(l => {
+    /* 04/08 11h-21h · 4/8 11:00-18:00 · 11h à 18h · 12 9h30-12h30 */
+    const m = l.match(/^(\d{1,2})(?:[\/\-.](\d{1,2}))?\s+(\d{1,2})(?:[h:.](\d{1,2})?)?\s*(?:-|–|—|à|a|au|to)\s*(\d{1,2})(?:[h:.](\d{1,2})?)?$/i);
+    if (!m){ erreurs++; return; }
+    const jour = Number(m[1]), mois = m[2] ? Number(m[2]) : cm;
+    const sh = Number(m[3]), sm = Number(m[4] || 0), eh = Number(m[5]), em = Number(m[6] || 0);
+    if (jour < 1 || jour > 31 || mois < 1 || mois > 12 || sh > 23 || eh > 23){ erreurs++; return; }
+    const diff = (eh*60 + em) - (sh*60 + sm);
+    if (diff <= 0){ erreurs++; return; }
+    const date = an + "-" + p2(mois) + "-" + p2(jour);
+    if (deja.has(date)){ ignores++; return; }
+    const pause = autoPauseMinutes(diff);
+    D.sessions.push({ id: uid(), jobId: j.id, date, minutes: diff - pause, mult: 1,
+                      start: p2(sh) + ":" + p2(sm), end: p2(eh) + ":" + p2(em), pause });
+    deja.add(date);
+    ajoutes++;
+  });
+  if (ajoutes){ localStorage.setItem(CLE_PREMIERES_SAISIES, "1"); ta.value = ""; save(); renderTravail(); }
+  const details = [];
+  if (ignores) details.push(ignores + " déjà saisie(s) → ignorée(s)");
+  if (erreurs) details.push(erreurs + " ligne(s) illisible(s)");
+  toast((ajoutes ? "✅ " + ajoutes + " journée(s) ajoutée(s) à « " + (j.name || "ton travail") + " »" : "ℹ️ Aucune nouvelle journée")
+        + (details.length ? " · " + details.join(" · ") : ""));
+};
+
+App.addSeries = ev => {
+  ev.preventDefault();
+  const j = jobById(D.ui.jobId); if (!j || isJobLocked(j)) return toast("🔒 Travail terminé : ajout d'heures désactivé.");
+  const d1 = $("ws2-start").value, d2 = $("ws2-end").value, sh = $("ws2-sh").value, eh = $("ws2-eh").value;
+  const mult = num($("ws2-mult").value) || 1;
+  const weekOnly = $("ws2-week") ? $("ws2-week").checked : false;
+  if (!d1 || !d2 || !sh || !eh) return toast("⚠️ Renseigne les dates et les horaires de la série.");
+  if (d2 < d1) return toast("⚠️ La date de fin doit être après la date de début.");
+  const [hh1, mm1] = sh.split(":").map(Number), [hh2, mm2] = eh.split(":").map(Number);
+  const diff = (hh2*60 + mm2) - (hh1*60 + mm1);
+  if (diff <= 0) return toast("⚠️ L'heure de fin doit être après l'heure de début.");
+  const pause = autoPauseMinutes(diff);
+  const minutes = diff - pause;
+  let added = 0, cur = new Date(d1 + "T00:00:00"), endD = new Date(d2 + "T00:00:00");
+  while (cur <= endD){
+    const iso = cur.toISOString().slice(0,10);
+    if (!weekOnly || (cur.getDay() !== 0 && cur.getDay() !== 6)){
+      D.sessions.push({ id: uid(), jobId: j.id, date: iso, minutes, mult, start: sh, end: eh, pause });
+      added++;
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+  if (!added) return toast("⚠️ Aucun jour ajouté (seulement des week-ends ?).");
+  save(); renderTravail();
+  toast(`⚡ ${added} jour(s) ajouté(s) : ${fmtH(minutes)}/j (pause ${pause} min).`);
+  return false;
+};
+App.editSession = id => {
+  const s = D.sessions.find(x => x.id === id); if (!s) return;
+  D.ui.jobId = s.jobId; D.ui.editingSession = id; save();
+  renderTravail();
+  const input = $("ws-date"); if (!input) return;
+  input.value = s.date;
+  $("ws-start").value = s.start || "";
+  $("ws-end").value = s.end || "";
+  $("ws-pause").value = s.pause || 0;
+  $("ws-minutes").value = (s.minutes/60).toLocaleString("fr-FR");
+  $("ws-mult").value = s.mult || 1;
+  const btn = $("ws-btn"); if (btn) btn.textContent = "💾 Enregistrer la modification";
+  input.scrollIntoView({behavior:"smooth"});
+  toast("✏️ Modifie puis valide.");
+};
+
+/* ------- documents ------- */
+/* aide à la saisie : le titre de transport se refait chaque année */
+App.docTypeChange = type => {
+  const hint = $("doc-type-hint");
+  if (type === "titre-transport"){
+    /* +1 an à partir d'aujourd'hui (on prend midi pour éviter tout décalage de fuseau) */
+    const d1 = new Date(todayStr() + "T12:00:00");
+    d1.setFullYear(d1.getFullYear() + 1);
+    const dansUnAn = d1.toISOString().slice(0,10);
+    if (!$("doc-nom").value.trim()) $("doc-nom").value = "Titre de transport – renouvellement";
+    if (!$("doc-expiration").value) $("doc-expiration").value = dansUnAn;
+    if ($("doc-rappel")) $("doc-rappel").value = "60";
+    if (hint) hint.innerHTML = `🚌 <b>Titre de transport</b> : la demande se refait chaque année → expiration mise à <b>${dansUnAn}</b> (≈ +1 an) et rappel <b>60 jours</b> avant. Change la date si la tienne est différente.`;
+  } else if (hint){
+    hint.textContent = "📄 Ex : titre de séjour, passeport, carte bancaire, CMU, titre de transport…";
+  }
+};
+
+App.addDoc = ev => {
+  ev.preventDefault();
+  const type = $("doc-type").value, name = $("doc-nom").value.trim();
+  if (!name) return toast("⚠️ Donne un nom à ce document.");
+  D.docs.push({
+    id: uid(), type, name,
+    numero: $("doc-numero").value.trim(), organisme: $("doc-organisme").value.trim(),
+    delivrance: $("doc-delivrance").value, expiration: $("doc-expiration").value,
+    alertDays: Number($("doc-rappel").value) || 30, statut: $("doc-statut").value,
+    notes: $("doc-notes").value.trim()
+  });
+  save(); renderDocuments();
+  $("doc-nom").value = ""; $("doc-numero").value = ""; $("doc-organisme").value = "";
+  $("doc-delivrance").value = ""; $("doc-expiration").value = "";
+  toast("📄 Document ajouté et surveillé.");
+  return false;
+};
+App.delDoc = id => { if (!confirm("Supprimer ce document ?")) return; D.docs = D.docs.filter(d => d.id !== id); save(); renderDocuments(); };
+
+App.docStatutChange = v => {
+  const dep = $("doc-delivrance-label"), exp = $("doc-expiration-label"), hint = $("doc-statut-hint");
+  const demand = v === "demande" || v === "en-cours" || v === "refusee";
+  if (dep) dep.textContent = demand ? "Date de dépôt de la demande" : "Date de délivrance";
+  if (exp) exp.textContent = demand ? "Date de réponse espérée (optionnel)" : "Date d'expiration";
+  if (hint) hint.textContent = demand
+    ? "C'est une demande en cours : renseigne la date de dépôt, l'expiration est optionnelle."
+    : "Choisis « Demande en cours » si tu l'as demandé mais que tu ne l'as pas encore reçu.";
+};
+
+/* ------- rappels ------- */
+App.addRap = ev => {
+  ev.preventDefault();
+  const titre = $("rap-titre").value.trim(), date = $("rap-date").value, repeat = $("rap-repeat").value, notes = $("rap-notes").value.trim();
+  if (!titre || !date) return toast("⚠️ Titre et date requis.");
+  D.rappels.push({ id: uid(), titre, date, repeat, notes });
+  save(); renderRappels(); $("rap-titre").value = ""; $("rap-date").value = ""; $("rap-notes").value = "";
+  toast("⏰ Rappel ajouté !"); return false;
+};
+App.delRap = id => { if (!confirm("Supprimer ce rappel ?")) return; D.rappels = D.rappels.filter(r => r.id !== id); save(); renderRappels(); };
+App.addSuggested = () => {
+  const y = Number(D.settings.taxYear || yyOf(todayStr()));
+  const ideas = [
+    { titre:`Déclaration des revenus (échéance en ligne ${y})`, date:`${y}-05-25`, repeat:"annuel", notes:"Déclaration d'impôts en ligne sur impots.gouv.fr" },
+    { titre:"Consulter le taux de prélèvement à la source", date:`${y}-09-01`, repeat:"annuel", notes:"Sur le site des impôts" },
+    { titre:"Déclaration trimestrielle CAF (ressources)", date:`${y}-10-05`, repeat:"trimestre", notes:"À faire tous les 3 mois sur le compte CAF" },
+    { titre:"Renouvellement CMU / C2S", date:`${y}-12-01`, repeat:"annuel", notes:"Vérifier les dates de fin de droits" },
+    { titre:"Échéance assurance habitation", date:`${y}-01-25`, repeat:"annuel", notes:"Comparer et résilier si besoin" }
+  ];
+  let n = 0;
+  ideas.forEach(idea => {
+    if (D.rappels.some(r => r.titre === idea.titre)) return;
+    D.rappels.push({ id: uid(), titre: idea.titre, date: idea.date, repeat: idea.repeat, notes: idea.notes });
+    n++;
+  });
+  save(); renderRappels();
+  toast(n ? `⚡ ${n} rappel(s) suggéré(s) ajouté(s).` : "Déjà ajoutés !");
+};
+
+/* ------- réglages ------- */
+function renderReglages(){
+  $("set-nom").value = D.settings.nom || "";
+  $("set-coef").value = D.settings.coefNet;
+  const info = $("storage-info");
+  try {
+    let used = 0;
+    for (const k of Object.keys(localStorage)) used += (localStorage.getItem(k)||"").length;
+    info.innerHTML = `💾 Espace utilisé : <b>${Math.round(used/1024)} Ko</b> sur ~5 Mo. Dernière sauvegarde : à chaque action.`;
+  } catch(e){ info.textContent = ""; }
+}
+App.applySettings = () => {
+  D.settings.nom = $("set-nom").value.trim();
+  const c = num($("set-coef").value);
+  if (c > 0 && c <= 1.2) D.settings.coefNet = c;
+  save(); render();
+  toast("✅ Réglages enregistrés.");
+};
+App.exportData = () => {
+  const blob = new Blob([JSON.stringify(D, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "mes-finances-" + todayStr() + ".json";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast("⬇️ Sauvegarde exportée !");
+};
+function csvCell(v){ return '"' + String(v ?? "").replace(/"/g, '""') + '"'; }
+function downloadCSV(nom, lignes){
+  const csv = "\uFEFF" + lignes.map(l => l.map(csvCell).join(";")).join("\r\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = nom; a.click();
+  URL.revokeObjectURL(a.href);
+}
+App.exportExpensesCSV = () => {
+  const lignes = [["Date","Catégorie","Montant (€)","Note / nom","Type"]];
+  [...D.expenses].sort((a,b) => a.date.localeCompare(b.date)).forEach(e =>
+    lignes.push([e.date, estTransfert(e) ? "Transfert vers un autre compte" : catById(e.cat).label, String(e.amount).replace(".", ","), e.note || "", estTransfert(e) ? "transfert" : "manuelle"]));
+  (D.recurring || []).forEach(r =>
+    lignes.push(["le " + (r.day || 1) + " chaque mois", catById(r.cat).label, String(r.amount).replace(".", ","), r.name, r.active === false ? "récurrente (en pause)" : "récurrente"]));
+  downloadCSV("depenses-" + todayStr() + ".csv", lignes);
+  toast("🧾 Dépenses exportées (CSV) !");
+};
+App.exportWorkCSV = () => {
+  const lignes = [["Date","Travail","Heures","Brut (€)","Net estimé (€)","Majoré"]];
+  [...D.sessions].sort((a,b) => a.date.localeCompare(b.date)).forEach(s => {
+    const j = jobById(s.jobId);
+    lignes.push([s.date, j ? j.name : "?", String((s.minutes/60).toFixed(2)).replace(".", ","),
+      String(sessionBrut(s).toFixed(2)).replace(".", ","), String(sessionNet(s).toFixed(2)).replace(".", ","),
+      s.mult !== 1 ? "oui" : "non"]);
+  });
+  downloadCSV("travail-" + todayStr() + ".csv", lignes);
+  toast("💼 Heures de travail exportées (CSV) !");
+};
+function icsEscape(t){ return String(t ?? "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n"); }
+function icsDate(d){ return (d || "").replace(/-/g, ""); }
+App.exportICS = () => {
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "") + "Z";
+  const L = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Ma Vie Admin//FR","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
+  const ev = (start, end, sum, desc) => {
+    L.push("BEGIN:VEVENT","UID:" + uid() + "@mavieadmin","DTSTAMP:" + stamp,
+      "DTSTART:" + start, "DTEND:" + end,
+      "SUMMARY:" + icsEscape(sum), "DESCRIPTION:" + icsEscape(desc || ""));
+  };
+  /* séances de travail : évènement « Taff » avec horaires */
+  [...D.sessions].sort((a,b) => a.date.localeCompare(b.date)).forEach(s => {
+    const j = jobById(s.jobId);
+    const nom = (j ? j.name : "Travail");
+    let startIcs, endIcs;
+    if (s.start && s.end){
+      const [hh, mm] = s.start.split(":").map(Number);
+      const tot = hh*60 + mm + s.minutes + (s.pause || 0);
+      const eh = Math.floor(tot/60), em = tot%60;
+      startIcs = icsDate(s.date) + "T" + s.start.replace(":", "") + "00";
+      endIcs = icsDate(s.date) + "T" + String(eh).padStart(2,"0") + String(em).padStart(2,"0") + "00";
+    } else {
+      const stMin = 9*60, tot = stMin + s.minutes;
+      const eh = Math.floor(tot/60), em = tot%60;
+      startIcs = icsDate(s.date) + "T090000";
+      endIcs = icsDate(s.date) + "T" + String(eh).padStart(2,"0") + String(em).padStart(2,"0") + "00";
+    }
+    ev(startIcs, endIcs,
+      `Taff – ${nom}${s.mult !== 1 ? " (majoré×1,25)" : ""}`,
+      `Heures travaillées : ${fmtH(s.minutes)}${s.pause ? `\nPause : ${s.pause} min` : ""}\nBrut : ${fmt(sessionBrut(s))} €\nNet estimé : ${fmt(sessionNet(s))} €`);
+  });
+  /* rappels : événements toute la journée */
+  D.rappels.forEach(r => {
+    ev(icsDate(r.date) + "T000000", icsDate(r.date) + "T235959", "⏰ " + r.titre, r.notes || "");
+  });
+  /* échéances de documents + demandes en cours */
+  D.docs.forEach(d => {
+    if (d.expiration) ev(icsDate(d.expiration) + "T000000", icsDate(d.expiration) + "T235959", "⏳ Expire : " + d.name, d.notes || "");
+    if (!d.expiration && (d.statut === "demande" || d.statut === "en-cours") && d.delivrance){
+      ev(icsDate(d.delivrance) + "T000000", icsDate(d.delivrance) + "T235959", "📨 Demande : " + d.name, "Demande en cours" + (d.notes ? "\n" + d.notes : ""));
+    }
+  });
+  L.push("END:VCALENDAR");
+  const blob = new Blob([L.join("\r\n")], { type: "text/calendar;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "calendrier-" + todayStr() + ".ics"; a.click();
+  URL.revokeObjectURL(a.href);
+  toast("📅 Calendrier exporté ! Importe-le dans Google Agenda / Apple / Outlook.");
+};
+App.importData = ev => {
+  const f = ev.target.files[0]; if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      if (!parsed.expenses && !parsed.jobs) throw new Error("format");
+      D = Object.assign(defaults(), parsed);
+      D.settings = Object.assign(defaults().settings, D.settings || {});
+      D.ui = Object.assign(defaults().ui, D.ui || {});
+      save(); render(); toast("⬆️ Données importées avec succès !");
+    } catch(e){ toast("❌ Fichier invalide."); }
+    ev.target.value = "";
+  };
+  reader.readAsText(f);
+};
+App.resetData = () => {
+  if (!confirm("⚠️ Effacer TOUTES les données ?\nPense à exporter une sauvegarde avant !")) return;
+  localStorage.removeItem("mavie_finances_v1");
+  D = defaults(); save(); render();
+  toast("🗑️ Toutes les données ont été effacées.");
+};
+App.loadSample = () => {
+  if (!confirm("Charger des données d'exemple ? (ça remplace les données actuelles)")) return;
+  const mk = mkNow(), last = mkAdd(mk, -1);
+  const jobId1 = uid(), jobId2 = uid();
+  D = defaults();
+  D.ui.month = mk;
+  D.jobs = [
+    { id: jobId1, name:"Restaurant (1er travail)", rate: 11.65, coef: 0.80, start: last + "-10", end: null, type: "cdi" },
+    { id: jobId2, name:"Cours particuliers", rate: 15, coef: 1, start: last + "-15", end: null, type: "" }
+  ];
+  D.sessions = [
+    { id: uid(), jobId: jobId1, date: last + "-12", minutes: 450, mult: 1 },
+    { id: uid(), jobId: jobId1, date: last + "-18", minutes: 300, mult: 1 },
+    { id: uid(), jobId: jobId1, date: mk + "-03", minutes: 480, mult: 1 },
+    { id: uid(), jobId: jobId1, date: mk + "-07", minutes: 270, mult: 1.25 },
+    { id: uid(), jobId: jobId2, date: mk + "-05", minutes: 120, mult: 1 }
+  ];
+  D.expenses = [
+    { id: uid(), date: last + "-08", cat: "nourriture", amount: 52.40, note: "Courses Carrefour" },
+    { id: uid(), date: last + "-20", cat: "loisirs", amount: 35, note: "Ciné + resto" },
+    { id: uid(), date: mk + "-02", cat: "nourriture", amount: 47.90, note: "Courses Lidl" },
+    { id: uid(), date: mk + "-06", cat: "transport", amount: 24.50, note: "Ticket mensuel" },
+    { id: uid(), date: mk + "-10", cat: "nourriture", amount: 61.20, note: "Courses" }
+  ];
+  D.recurring = [
+    { id: uid(), name: "Loyer", cat: "maison", amount: 480, day: 5, start: "", end: null, active: true },
+    { id: uid(), name: "Netflix", cat: "abonnements", amount: 13.49, day: 12, start: "", end: null, active: true },
+    { id: uid(), name: "Abonnement téléphone", cat: "abonnements", amount: 19.99, day: 20, start: "", end: null, active: true }
+  ];
+  D.ops = [
+    { id: uid(), date: last + "-25", type: "depot", amount: 150, goalId: null, note: "Premier versement", account: "epargne" },
+    { id: uid(), date: mk + "-08", type: "depot", amount: 120, goalId: null, note: "", account: "epargne" },
+    { id: uid(), date: mk + "-03", type: "depot", amount: 850, goalId: null, note: "Paye sur mon compte courant", account: "courant" }
+  ];
+  const anneeInc = Number(yyOf(todayStr()));
+  const mois1250 = {};
+  for (let k = 1; k <= 12; k++) mois1250[String(k).padStart(2, "0")] = 1250;
+  D.incomes = [
+    { id: uid(), jobId: jobId1, annee: anneeInc, months: mois1250 }
+  ];
+  const gId = uid();
+  D.goals = [{ id: gId, name: "Fonds d'urgence", target: 1000 }];
+  D.ops[1].goalId = gId;
+  D.docs = [
+    { id: uid(), type: "titre-sejour", name:"Titre de séjour", organisme:"Préfecture", numero:"", delivrance:"", expiration: mkAdd(mk, 4) + "-15", alertDays: 90, statut: "valide", notes:"Renouvellement à préparer ~3 mois avant" },
+    { id: uid(), type: "passeport", name:"Passeport", organisme:"Mairie", numero:"", delivrance:"", expiration: mkAdd(mk, 22) + "-10", alertDays: 180, statut: "valide", notes:"" },
+    { id: uid(), type: "cb", name:"Carte bancaire", organisme:"Banque", numero: "4242", delivrance:"", expiration: mkAdd(mk, 7) + "-01", alertDays: 30, statut: "valide", notes:"" },
+    { id: uid(), type: "carte-vitale", name:"Carte Vitale / CMU", organisme:"Assurance Maladie", numero:"", delivrance:"", expiration: mkAdd(mk, 2) + "-20", alertDays: 60, statut: "en-cours", notes:"Vérifier les droits CMU" },
+    { id: uid(), type: "titre-voyage", name:"Titre de voyage (demande)", organisme:"Préfecture", numero:"", delivrance: mkAdd(mk, -1) + "-15", expiration:"", alertDays: 30, statut: "demande", notes:"Dossier déposé — en attente de la convocation" }
+  ];
+  D.rappels = [
+    { id: uid(), titre:"Déclaration des revenus (impôts)", date: "2026-05-25", repeat:"annuel", notes:"" },
+    { id: uid(), titre:"Déclaration trimestrielle CAF", date: mkAdd(mk, 1) + "-05", repeat:"trimestre", notes:"" }
+  ];
+  save(); D.ui.page = "accueil"; render(); App.go("accueil");
+  toast("✨ Données d'exemple chargées ! Explore l'appli.");
+};
+
+/* ============================================================
+   INIT
+   ============================================================ */
+load();
+App.go(D.ui.page || "accueil");
+</script>
+</body>
+</html>

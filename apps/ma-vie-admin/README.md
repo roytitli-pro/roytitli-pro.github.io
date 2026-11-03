@@ -1,0 +1,42 @@
+# 🌸 Ma Vie Admin – Finances & papiers
+
+Appli **100 % locale** (aucun compte, aucune connexion internet) pour gérer ton quotidien administratif, avec un petit design rose & floral 🌷
+
+## 🚀 Comment l'ouvrir
+
+**Option 1 (la plus simple)** : double-clique sur **`index.html`** — ça s'ouvre dans ton navigateur (Chrome, Edge ou Firefox recommandé).
+
+**Option 2 (avec un lien)** : dans un terminal, depuis ce dossier :
+```
+python3 -m http.server 8765
+```
+puis ouvre **http://localhost:8765** dans ton navigateur.
+
+Aucune installation. Tes données sont enregistrées automatiquement dans ton navigateur (localStorage) à chaque action.
+
+> ⚠️ Ne jamais « effacer les données du site » dans les réglages du navigateur sans faire une sauvegarde (onglet Réglages → Exporter) car ça supprimerait tes données locales.
+
+## 📋 Ce que fait l'appli
+
+| Onglet | Fonctions |
+|---|---|
+| 🏠 **Accueil** | Vue du mois avec ta logique de trésorerie : ⏱️ **Heures de ce mois** (= ce que tu recevras le mois prochain), 🏦 **Dispo ce mois** (= tes heures du mois dernier, arrivées en compte courant), 🧾 **Dépenses du mois** (sorties du compte courant) et 💶 **Reste du mois = dispo − dépenses − épargne**. Graphique 6 mois + répartition par catégorie + alertes (budgets dépassés, documents qui expirent) + bouton 🖨️ **Rapport du mois (PDF)** |
+| 🧾 **Dépenses** | Ajoute tes achats (nourriture, maison, transports, loisirs…), **🏦💸 transferts vers un autre compte** (case à cocher « pas le mien » : l'argent sort de ta banque et réduit le **solde** et le **Reste du mois**, mais ce n'est **pas une dépense pour toi** — pas de budget, pas dans le résumé par catégorie ni dans le graphique ; mentionnés à part), budgets mensuels par catégorie, **🔁 charges récurrentes** (loyer, abonnements… reportés automatiquement chaque mois, activables en pause) et historique complet mois par mois. **💸 Dépenses du mois** : chaque catégorie a une **barra = sa part réelle du total du mois** (% du mois affiché) — plus de barre à 100 % automatique pour la plus grosse catégorie ; si un budget existe, le % par rapport au budget s'affiche aussi |
+| 🏦 **Épargne** | Dépôts / retraits en précisant **où** : 💰 **Épargne** (rattachée à un objectif 🎯 avec progression) ou 🏦 **Compte courant** (ton solde banque). **Origine de l'argent** : pour un dépôt en épargne, choisis « 🏦 **pris sur mon compte courant** » (par défaut : cet argent sort de ta banque) ou « 🎁 **déjà dans l'épargne** » (l'argent était **déjà sur le livret**, il n'a jamais quitté le compte courant → **ne réduit pas** le solde bancaire). Chaque opération est modifiable avec **✏️** (montant, date, note, origine) et **annulable**. 🏦 **Solde compte courant = ce que tu as VRAIMENT depuis le début** : tout ce qui est **reçu** (tes dépôts en compte courant — sinon tes heures déjà payées) − **dépenses** − **épargne virée** (celle qui sort de ta banque) − retraits, sur toutes les périodes ; l'épargne déjà sur le livret est signalée à part (« non décomptée »). 📥 **Dépôts du mois (net) = dépôts compte courant − épargne virée** (pas courant + épargne). Les retraits ne sont pas affichés à part : ils sont déjà dans tes dépenses. Objectifs modifiables ✏️ (nom + montant cible) sans supprimer. **💡 D'où vient l'argent de ce mois ?** : panneau « Dispo ce mois » = tes **dépôts réellement reçus** (salaire + bénéfices) — pas seulement tes heures. **🧾 De quoi est fait ton dépôt ?** : tableau qui compare ton **dépôt en compte courant** à ton **salaire** (heures du mois précédent) — la différence 🎁 = tes **bénéfices en plus du salaire** (aide au transport, primes…), avec ton **taux net moyen €/h**. **💡 Décalage d'un mois** : tes heures de ce mois seront reçues le mois prochain (tes saisies manuelles restent intactes) |
+| 💼 **Travail** | Plusieurs travaux avec taux horaire (brut) + coefficient net (~0,80). Tu ajoutes tes heures par séance (+ majoré ×1,25) et tu peux donner à chaque travail un **type de contrat** (CDI, CDD, apprentissage, **micro-entrepreneur URSSAF : vente 71 % / services 50 % / libéral 34 %**, autre) pour l'impôt. **🗓️ Séances par mois** : le détail d'un travail (et le panneau « Statistiques des heures & payes ») regroupe tes séances **par mois** avec en-tête (nb de séances, heures, brut, net ≈), barre visuelle de part de gain, puis la liste des séances dans chaque mois ; tableau « Par travail » en dessous. **Sélecteur « 🔄 Travail en cours »** pour changer de travail d'un coup ; un travail créé devient directement le travail en cours. Quand un travail est **terminé**, il passe en lecture seule. **💶 Taux horaire qui change dans le temps** : dans le détail d'un travail, indique « Nouveau taux à partir de [mois] » + le nouveau taux (ex : **51 % du SMIC depuis septembre 2026 → 6,28 €/h**). Les heures saisies **avant** cette date gardent l'ancien taux, celles d'après utilisent le nouveau : brut, net, statistiques mensuelles, « Dépôts / dispo », et l'impôt sont tous recalculés au bon taux (l'ancien taux reste affiché : « avant : 10,00 €/h (jusqu'à août 2026) »). **⚡ Saisie rapide** (dans le détail d'un travail) : colle **une ligne par journée** (`04/08 11h-21h`, accepte `4/8`, `11h-18h`, `11:00-18:00`, `11h à 18h`) et clique **Ajouter ces journées** : les pauses sont calculées automatiquement, les dates déjà saisies sont ignorées (anti-doublon) et les lignes illisibles sont simplement signalées. La zone est **pré-remplie une fois avec les 15 journées d'août 2026** |
+| 🧮 **Impôts** | Estimation fine : **situation familiale** (célibataire, couple, enfants → parts auto), abattement 10 %, **décote** et **crédits d'impôt**. Barème progressif FR, impôt brut, impôt final, prélèvement à la source ≈ par mois, détail par travail et par mois. **💰 Revenus déclarés** : choisis un **travail** (avec son type de contrat CDI/CDD/apprenti/URSSAF) puis entre le **net reçu pour chaque mois** de l'année. **Présentation simple** : tes **heures** montrent juste le **net réellement touché** (mois par mois, aucun impôt dessus) et **l'impôt est calculé uniquement sur ton salaire déclaré** (jamais additionnés) — à chaque revenu son graphique. Bouton 🪄 pour remplir les 12 mois d'un coup |
+| 📄 **Documents** | Titre de séjour, passeport/titre de voyage, **🚌 titre de transport**, carte bancaire, Carte Vitale/CMU/C2S, CAF, impôts, assurances… avec alertes avant expiration (seuils réglables). **🚌 Titre de transport** : en choisissant ce type, l'appli préremplit le nom et **l'expiration à +1 an** (la demande se refait chaque année) avec un **rappel 60 jours avant** — modifiable si ta date est différente. L'échéance apparaît ensuite dans l'onglet **Rappels** quand elle approche |
+| ⏰ **Rappels** | Rappels personnalisés + bouton « rappels suggérés » (impôts, CAF trimestrielle, CMU, assurance…). Badge rouge dans le menu quand il y a de l'urgent |
+| ⚙️ **Réglages** | Nom, coefficient net par défaut, **exports CSV** (dépenses 🧾 / heures 💼), export/import JSON (sauvegarde), réinitialisation, données d'exemple. ⚠️ **L'import d'un .json REMPLACE toutes les données** (il ne fusionne pas) : n'utilise-le qu'avec une sauvegarde complète de la même appli |
+
+## 📌 Conseils
+- **Fais une sauvegarde régulière** : Réglages → ⬇️ Exporter (JSON). Les exports CSV s'ouvrent dans Excel / LibreOffice / Google Sheets.
+- Les montants d'impôts sont des **estimations indicatives** (barème mis à jour chaque année). Choisis ta **situation familiale** et renseigne tes **crédits d'impôt** pour un chiffre plus juste.
+- Pour l'impôt : donne un **type de contrat** à tes travaux (Travail → 💼 type de contrat). Pour un **auto-entrepreneur**, choisis la bonne activité URSSAF : **vente de marchandises (−71 %)**, **services (−50 %)** ou **activité libérale (−34 %)**. Puis déclare dans **Impôts → Revenus déclarés** le **net reçu chaque mois**. Les apprentis sont exonérés d'impôt jusqu'au SMIC annuel.
+- Taux saisi en **net** ? Mets coefficient à **1**.
+- Pour les **charges récurrentes**, indique le jour du mois : elles s'ajoutent toutes seules à tes dépenses de chaque mois (et à l'historique). Tu peux mettre une charge « en pause » sans la supprimer.
+
+## 💡 Évolutions possibles (sur demande)
+- Accessible depuis le téléphone (PWA) et synchronisation entre appareils
+- Graphiques détaillés (par catégorie sur l'année, comparaison mois/mois)
+- Rappels par e-mail ou notification

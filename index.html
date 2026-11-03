@@ -8,6 +8,18 @@
 <meta name="theme-color" content="#fbf7f9">
 <title>Roy Titli — Portfolio · Développeuse web</title>
 
+<!-- Le mode édition (bouton « ✎ Éditer ») ne sert qu'en local.
+     Sur le site publié, il est masqué : un visiteur ne doit pas voir des champs modifiables. -->
+<script>
+  (function () {
+    var h = location.hostname;
+    if (location.protocol === "file:" || h === "localhost" || h === "127.0.0.1" ||
+        h === "[::1]" || h === "") {
+      document.documentElement.classList.add("is-local");
+    }
+  })();
+</script>
+
 <!-- Open Graph (réseaux sociaux) — à personnaliser -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Roy Titli — Développeuse web full-stack">
@@ -291,7 +303,6 @@
           <div class="links">
             <a href="#projet-fairepair">Détail du projet</a>
             <a href="https://github.com/roytitli119-design/Fairepair" title="Dépôt GitHub Fair'repair">Code ↗</a>
-            <span class="off">Démo <span class="draft">à ajouter</span></span>
           </div>
         </div>
       </article>
@@ -321,8 +332,8 @@
           </div>
           <div class="links">
             <a href="#projet-mavie">Détail du projet</a>
-            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
-            <span class="off">Démo <span class="draft">à ajouter</span></span>
+            <a href="https://github.com/roytitli119-design/roytitli119-design.github.io/blob/main/apps/ma-vie-admin/index.html" title="Code source de Ma Vie Admin">Code ↗</a>
+            <a href="apps/ma-vie-admin/">Démo ↗</a>
           </div>
         </div>
       </article>
@@ -351,7 +362,7 @@
           </div>
           <div class="links">
             <a href="#projet-outils">Détail du projet</a>
-            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
+            <a href="https://github.com/roytitli119-design/roytitli119-design.github.io/tree/main/code/boite-a-outils" title="Scripts et tests de la boîte à outils">Code ↗</a>
           </div>
         </div>
       </article>
@@ -408,7 +419,7 @@
           </div>
           <div class="links">
             <a href="#projet-veille">Détail du projet</a>
-            <a href="#" title="Remplacez par le lien vers le document">Lire la veille ↗</a>
+            <a href="https://github.com/roytitli119-design/roytitli119-design.github.io/blob/main/code/veille/veille-passkeys-ia.md" title="La veille complète, datée et sourcée">Lire la veille ↗</a>
           </div>
         </div>
       </article>
@@ -486,7 +497,6 @@
           <div class="tags"><span>PHP</span><span>$_SESSION</span><span>Regex</span><span>htmlspecialchars</span><span>Post-Redirect</span></div>
           <div class="links">
             <a href="#projet-php">Détail du projet</a>
-            <a href="#" title="Remplacez par le lien du dépôt">Code ↗</a>
           </div>
         </div>
       </article>
@@ -564,9 +574,6 @@
             <span class="stat">5 seuils</span>
           </div>
           <div class="tags"><span>Arduino</span><span>C++</span><span>analogRead</span><span>pulseIn</span><span>Électronique</span></div>
-          <div class="links">
-            <span class="off">Schéma <span class="draft">à ajouter</span></span>
-          </div>
         </div>
       </article>
 
