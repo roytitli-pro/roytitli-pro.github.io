@@ -437,7 +437,7 @@ body:not(.editing) [data-edit]{cursor:default}
 .contact{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
   padding:36px;box-shadow:var(--shadow-md);
-  display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;
+  display:grid;grid-template-columns:1fr;gap:34px;align-items:start;
 }
 @media (max-width:780px){.contact{grid-template-columns:1fr;padding:26px}}
 .contact-links{display:grid;gap:11px;margin-top:20px}
