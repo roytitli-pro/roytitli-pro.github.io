@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz BTS SIO — Roy Titli</title>
+<meta name="description" content="Quiz et flashcards pour réviser le BTS SIO : développement, bases de données, réseaux, systèmes, sécurité.">
+<style>
+:root{
+  --bg:#fbf7f9;--bg2:#f3ecf2;--card:#fff;--ink:#1a1418;--ink2:#4a3f47;--muted:#7a6e77;
+  --line:#e6dde4;--acc:#a82e66;--acc2:#7c4dcc;--acc-soft:#f7e6ef;--acc-soft2:#efe7f7;
+  --ok:#1f8a4c;--ok-soft:#e6f4ec;--ko:#b3261e;--ko-soft:#fce8e6;--warn:#b26a00;--warn-soft:#fff4e0;
+  --shadow-sm:0 1px 2px rgba(26,20,24,.06);--shadow-md:0 6px 20px rgba(26,20,24,.08);
+  --radius:14px;--radius-lg:20px;--step1:1rem;--step2:1.2rem;--step3:1.5rem;--step4:2rem;
+}
+[data-theme="dark"]{
+  --bg:#141013;--bg2:#1c161a;--card:#221a20;--ink:#f2eaf0;--ink2:#c9bdc6;--muted:#9a8e97;
+  --line:#3a2f37;--acc:#e06aa0;--acc2:#a98be0;--acc-soft:#3a1f2e;--acc-soft2:#2a1f3a;
+  --ok:#5fd18a;--ok-soft:#1a2e22;--ko:#ff7b72;--ko-soft:#3a1f1f;--warn:#ffb84d;--warn-soft:#3a2a14;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow-md:0 6px 20px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;transition:background .2s,color .2s}
+.wrap{max-width:920px;margin:0 auto;padding:0 22px}
+header{padding:28px 0 18px;border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:grid;place-items:center;color:#fff;font-weight:900;font-size:1.1rem}
+.brand h1{font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
+.brand small{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
+.header-right{display:flex;gap:8px;align-items:center;margin-left:auto}
+.theme-btn{background:var(--card);border:1px solid var(--line);color:var(--ink);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem;display:grid;place-items:center;transition:transform .15s,border-color .15s}
+.theme-btn:hover{transform:rotate(18deg) scale(1.08);border-color:var(--acc)}
+main{padding:32px 0 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:26px 24px;box-shadow:var(--shadow-md);margin-bottom:18px}
+h2{font-size:1.4rem;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:.92rem;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:12px;font-weight:700;font-size:.92rem;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:transform .12s,border-color .12s,background .12s}
+.btn:hover{transform:translateY(-2px);border-color:var(--acc);color:var(--acc)}
+.btn-primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn-primary:hover{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.btn-ghost{background:transparent}
+.btn-sm{padding:7px 12px;font-size:.82rem}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media (max-width:640px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.cat-card{cursor:pointer;text-align:left;padding:18px 16px;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);transition:transform .15s,border-color .15s,box-shadow .15s}
+.cat-card:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:var(--shadow-md)}
+.cat-card .emoji{font-size:1.6rem;margin-bottom:8px}
+.cat-card h3{font-size:1rem;font-weight:800;margin-bottom:2px}
+.cat-card p{color:var(--muted);font-size:.82rem}
+.cat-card .count{display:inline-block;margin-top:8px;font-size:.75rem;font-weight:700;color:var(--acc);background:var(--acc-soft);padding:2px 8px;border-radius:6px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+@media (max-width:640px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+.stat-box{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.stat-box .v{font-size:1.5rem;font-weight:900;color:var(--acc);line-height:1}
+.stat-box .l{font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.q-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px 24px;box-shadow:var(--shadow-md)}
+.q-cat{display:inline-block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--acc);background:var(--acc-soft);padding:3px 9px;border-radius:6px;margin-bottom:12px}
+.q-text{font-size:1.15rem;font-weight:700;line-height:1.4;margin-bottom:20px}
+.options{display:grid;gap:10px}
+.opt{padding:13px 16px;border:1.5px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;font-size:.95rem;text-align:left;transition:border-color .12s,background .12s,transform .12s;display:flex;align-items:center;gap:12px}
+.opt:hover:not(.locked){border-color:var(--acc);transform:translateX(3px)}
+.opt .letter{width:26px;height:26px;border-radius:7px;background:var(--bg2);display:grid;place-items:center;font-weight:800;font-size:.82rem;flex-shrink:0}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.correct .letter{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--ko);background:var(--ko-soft)}
+.opt.wrong .letter{background:var(--ko);color:#fff}
+.opt.locked{cursor:default}
+.feedback{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:.92rem;line-height:1.5;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--ok-soft);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 30%,transparent)}
+.feedback.ko{background:var(--ko-soft);color:var(--ko);border:1px solid color-mix(in srgb,var(--ko) 30%,transparent)}
+.feedback strong{display:block;margin-bottom:4px}
+.q-footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:12px;flex-wrap:wrap}
+.progress{height:6px;background:var(--bg2);border-radius:6px;overflow:hidden;margin-bottom:18px}
+.progress .bar{height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:6px;transition:width .3s}
+.result{text-align:center;padding:32px 20px}
+.result .score{font-size:3.2rem;font-weight:900;color:var(--acc);line-height:1;margin-bottom:6px}
+.result .label{color:var(--muted);font-size:1rem;margin-bottom:22px}
+.result .breakdown{display:grid;gap:8px;max-width:420px;margin:0 auto 24px}
+.result .br{display:flex;justify-content:space-between;padding:8px 12px;background:var(--bg2);border-radius:8px;font-size:.88rem}
+.result .br .k{color:var(--muted)}
+.result .br .v{font-weight:800}
+.flashcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:36px 24px;box-shadow:var(--shadow-md);min-height:260px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;transition:transform .2s}
+.flashcard:hover{transform:translateY(-2px)}
+.flashcard .q{font-size:1.15rem;font-weight:700;line-height:1.4}
+.flashcard .a{font-size:1.05rem;color:var(--ink2);margin-top:18px;padding-top:18px;border-top:1px dashed var(--line);display:none;width:100%}
+.flashcard.revealed .a{display:block}
+.flashcard .hint{color:var(--muted);font-size:.8rem;margin-top:14px}
+.fc-nav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:12px;flex-wrap:wrap}
+.fc-counter{color:var(--muted);font-size:.88rem;font-weight:600}
+.toggle-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.toggle{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .12s}
+.toggle.active{background:var(--acc);border-color:var(--acc);color:#fff}
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty .big{font-size:2.4rem;margin-bottom:10px}
+footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
+a.back{color:var(--muted);font-size:.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px}
+a.back:hover{color:var(--acc)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;gap:12px">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div><h1>Quiz BTS SIO</h1><small>Révision · développement, BDD, réseaux, systèmes, sécurité</small></div>
+    </div>
+    <div class="header-right">
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Changer de thème">☀️</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- HOME -->
+<section id="home">
+  <a class="back" href="../../">← Retour au portfolio</a>
+  <h2>Choisissez votre mode</h2>
+  <p class="sub">Les questions portent sur le programme BTS SIO SLAM : développement, bases de données, réseaux, systèmes, sécurité et méthodes. Les scores sont sauvegardés dans votre navigateur.</p>
+
+  <div class="stats-row" id="stats-row"></div>
+
+  <div class="toggle-row" id="cat-toggles"></div>
+
+  <div class="grid grid-3" style="margin-bottom:18px">
+    <button class="btn btn-primary" id="btn-quiz" type="button">🎯 Quiz (10 questions)</button>
+    <button class="btn" id="btn-flash" type="button">🃏 Flashcards</button>
+    <button class="btn" id="btn-all" type="button">📚 Tout réviser</button>
+  </div>
+
+  <div class="card">
+    <h3 style="font-size:1.05rem;margin-bottom:8px">Ajouter vos propres questions</h3>
+    <p class="sub" style="margin-bottom:12px">Format JSON : <code>{"cat":"dev","q":"Question ?","opts":["A","B","C","D"],"ans":2,"exp":"Explication"}</code></p>
+    <textarea id="custom-input" rows="4" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font-family:monospace;font-size:.82rem" placeholder='[{"cat":"dev","q":"...","opts":["..."],"ans":0,"exp":"..."}]'></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-sm" id="btn-add" type="button">Importer</button>
+      <button class="btn btn-sm btn-ghost" id="btn-clear-custom" type="button">Effacer les questions perso</button>
+      <span id="add-status" style="color:var(--muted);font-size:.82rem;align-self:center"></span>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" hidden>
+  <a class="back" href="#" id="back-quiz">← Accueil</a>
+  <div class="progress"><div class="bar" id="bar" style="width:0%"></div></div>
+  <div class="q-card">
+    <span class="q-cat" id="q-cat"></span>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="q-footer">
+      <span id="q-counter" style="color:var(--muted);font-size:.85rem;font-weight:600"></span>
+      <button class="btn btn-primary btn-sm" id="btn-next" type="button" hidden>Suivant →</button>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" hidden>
+  <div class="result">
+    <div class="score" id="res-score"></div>
+    <div class="label" id="res-label"></div>
+    <div class="breakdown" id="res-breakdown"></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="btn-retry" type="button">Rejouer</button>
+      <button class="btn" id="btn-home" type="button">Accueil</button>
+    </div>
+  </div>
+</section>
+
+<!-- FLASHCARDS -->
+<section id="flash" hidden>
+  <a class="back" href="#" id="back-flash">← Accueil</a>
+  <div class="flashcard" id="flashcard">
+    <div class="q" id="fc-q"></div>
+    <div class="a" id="fc-a"></div>
+    <div class="hint" id="fc-hint">Cliquez pour révéler la réponse</div>
+  </div>
+  <div class="fc-nav">
+    <button class="btn btn-sm" id="fc-prev" type="button">← Précédent</button>
+    <span class="fc-counter" id="fc-counter"></span>
+    <button class="btn btn-sm" id="fc-next" type="button">Suivant →</button>
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+    <button class="btn btn-sm btn-ghost" id="fc-shuffle" type="button">🔀 Mélanger</button>
+    <button class="btn btn-sm btn-ghost" id="fc-known" type="button">✓ Je savais</button>
+    <button class="btn btn-sm btn-ghost" id="fc-unknown" type="button">✗ À revoir</button>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>Quiz BTS SIO · Roy Titli · Données locales, aucun serveur</footer>
+
+<script>
+const CATS = {
+  dev: {name:"Développement", emoji:"💻", color:"#a82e66"},
+  bdd: {name:"Bases de données", emoji:"🗄️", color:"#7c4dcc"},
+  reseau: {name:"Réseaux", emoji:"🌐", color:"#1f7a8c"},
+  systeme: {name:"Systèmes", emoji:"🖥️", color:"#b26a00"},
+  securite: {name:"Sécurité", emoji:"🔒", color:"#b3261e"},
+  methodes: {name:"Méthodes", emoji:"📋", color:"#1f8a4c"}
+};
+
+const Q = [
+// === DÉVELOPPEMENT ===
+{cat:"dev",q:"Qu'est-ce qu'une classe en programmation orientée objet ?",opts:["Un fichier source","Un modèle décrivant des attributs et méthodes","Une variable globale","Une fonction récursive"],ans:1,exp:"Une classe est un gabarit (blueprint) qui définit les attributs et méthodes communs à ses instances (objets)."},
+{cat:"dev",q:"En PHP, quelle superglobale contient les données d'un formulaire envoyé en POST ?",opts:["$_GET","$_POST","$_REQUEST","$_SESSION"],ans:1,exp:"$_POST contient les données envoyées par la méthode POST. $_GET pour GET, $_SESSION pour la session."},
+{cat:"dev",q:"Quel pattern d'architecture sépare la logique métier, les données et l'affichage ?",opts:["Singleton","MVC","Factory","Observer"],ans:1,exp:"MVC = Modèle (données), Vue (affichage), Contrôleur (logique). C'est le pattern le plus courant pour les applications web."},
+{cat:"dev",q:"En JavaScript, que fait `===` ?",opts:["Compare les valeurs uniquement","Compare les valeurs et les types","Assigne une valeur","Teste l'existence"],ans:1,exp:"`===` est l'égalité stricte : valeur ET type doivent être identiques. `==` fait une conversion de type avant comparaison."},
+{cat:"dev",q:"Qu'est-ce qu'une requête préparée (prepared statement) ?",opts:["Une requête mise en cache","Une requête paramétrée envoyée au SGBD séparément des données","Une requête en lecture seule","Une requête optimisée par l'index"],ans:1,exp:"La requête SQL est envoyée avec des placeholders (?), les valeurs sont transmises à part. Le SGBD les traite comme des données, pas du code → protection contre les injections SQL."},
+{cat:"dev",q:"En PHP, comment démarre-t-on une session ?",opts:["session_start()","start_session()","$_SESSION = array()","session_begin()"],ans:0,exp:"session_start() initialise ou reprend une session. Elle doit être appelée avant tout envoi au navigateur."},
+{cat:"dev",q:"Qu'est-ce qu'une injection SQL ?",opts:["Un virus dans la base","L'insertion de code SQL malveillant via une entrée utilisateur","Un bug de performance","Une erreur de syntaxe automatique"],ans:1,exp:"Si une entrée utilisateur est concaténée directement dans une requête SQL, un attaquant peut modifier la requête. Protection : requêtes préparées + validation."},
+{cat:"dev",q:"Quel code HTTP indique une ressource créée avec succès ?",opts:["200 OK","201 Created","204 No Content","301 Moved"],ans:1,exp:"201 Created = ressource créée. 200 = OK, 204 = pas de contenu, 301 = redirection permanente."},
+{cat:"dev",q:"En PHP, quelle fonction échappe les caractères HTML pour éviter les XSS ?",opts:["strip_tags()","htmlspecialchars()","addslashes()","urlencode()"],ans:1,exp:"htmlspecialchars() convertit <, >, &, \" en entités HTML. strip_tags() supprime les balises. Les deux sont complémentaires."},
+{cat:"dev",q:"Qu'est-ce qu'une API REST ?",opts:["Une base de données","Une interface d'échange entre applications via HTTP avec des verbes (GET, POST, PUT, DELETE)","Un framework PHP"," Un protocole réseau"],ans:1,exp:"REST = Representational State Transfer. Les ressources sont identifiées par des URL, les actions par les verbes HTTP."},
+{cat:"dev",q:"En JavaScript, `fetch()` retourne :",opts:["Les données directement","Une Promise","Un objet JSON","Un callback"],ans:1,exp:"fetch() retourne une Promise qui se résout en objet Response. Il faut ensuite appeler .json() ou .text() pour lire le corps."},
+{cat:"dev",q:"Qu'est-ce que le CORS ?",opts:["Un virus","Un mécanisme de sécurité qui contrôle les requêtes cross-origin"," Un protocole de chiffrement","Un type de cookie"],ans:1,exp:"Cross-Origin Resource Sharing : le serveur indique via des en-têtes HTTP quelles origines sont autorisées à accéder à ses ressources."},
+{cat:"dev",q:"En PHP, `password_hash()` utilise par défaut :",opts:["MD5","SHA1","bcrypt","AES"],ans:2,exp:"password_hash() utilise bcrypt par défaut (PASSWORD_DEFAULT). password_verify() vérifie le hash."},
+{cat:"dev",q:"Qu'est-ce qu'un token CSRF ?",opts:["Un mot de passe"," Une valeur secrète pour vérifier qu'une requête vient bien du formulaire du site","Un cookie de session","Un certificat SSL"],ans:1,exp:"Le token CSRF est généré côté serveur et inclus dans le formulaire. À la soumission, le serveur vérifie qu'il correspond. Empêche les requêtes forgées depuis un autre site."},
+{cat:"dev",q:"En POO, l'héritage permet de :",opts:["Copier du code"," Créer une classe dérivée qui réutilise et étend une classe parente"," Supprimer des méthodes"," Rendre une classe finale"],ans:1,exp:"L'héritage permet à une classe fille d'hériter des attributs et méthodes de la classe mère, et d'en ajouter de nouvelles."},
+
+// === BASES DE DONNÉES ===
+{cat:"bdd",q:"Qu'est-ce qu'une clé primaire (PRIMARY KEY) ?",opts:["Une colonne unique qui identifie chaque ligne"," Un mot de passe"," Une colonne indexée"," Une contrainte de type"],ans:0,exp:"La clé primaire identifie de manière unique chaque enregistrement d'une table. Elle ne peut pas être NULL et doit être unique."},
+{cat:"bdd",q:"Quelle commande SQL sélectionne toutes les colonnes d'une table ?",opts:["SELECT * FROM table","SELECT ALL FROM table","GET * FROM table","FETCH * FROM table"],ans:0,exp:"SELECT * FROM table sélectionne toutes les colonnes. On peut aussi lister les colonnes explicitement : SELECT col1, col2 FROM table."},
+{cat:"bdd",q:"Qu'est-ce qu'une jointure INNER JOIN ?",opts:["Toutes les lignes des deux tables"," Uniquement les lignes qui ont une correspondance dans les deux tables"," Uniquement la table de gauche"," Uniquement la table de droite"],ans:1,exp:"INNER JOIN retourne les lignes où la condition de jointure est vraie dans les deux tables. LEFT JOIN garde toutes les lignes de gauche."},
+{cat:"bdd",q:"Qu'est-ce que la normalisation d'une base de données ?",opts:["Compresser les données"," Organiser les tables pour réduire la redondance et les anomalies"," Ajouter des index"," Chiffrer les données"],ans:1,exp:"La normalisation (1NF, 2NF, 3NF) vise à éliminer les redondances et les dépendances partielles pour garantir l'intégrité des données."},
+{cat:"bdd",q:"Quelle clause SQL filtre les résultats d'un GROUP BY ?",opts:["WHERE","HAVING","FILTER","ORDER BY"],ans:1,exp:"HAVING filtre les groupes après agrégation (ex: HAVING COUNT(*) > 5). WHERE filtre les lignes avant agrégation."},
+{cat:"bdd",q:"Qu'est-ce qu'une transaction SQL ?",opts:["Une requête unique"," Un ensemble d'opérations traitées comme une unité atomique (tout ou rien)"," Un backup"," Une connexion"],ans:1,exp:"Une transaction garantit l'atomicité : soit toutes les opérations réussissent (COMMIT), soit aucune (ROLLBACK)."},
+{cat:"bdd",q:"Quel type de données stocke du texte de longueur variable en MySQL ?",opts:["CHAR","VARCHAR","TEXT","INT"],ans:1,exp:"VARCHAR stocke du texte de longueur variable (jusqu'à la limite définie). CHAR est de longueur fixe. TEXT pour de très longs textes."},
+{cat:"bdd",q:"Qu'est-ce qu'un index en base de données ?",opts:["Une copie de la table"," Une structure qui accélère la recherche sur une colonne"," Une contrainte de clé étrangère"," Un type de jointure"],ans:1,exp:"Un index est une structure auxiliaire (souvent un arbre B) qui permet de retrouver rapidement les lignes correspondant à une valeur."},
+{cat:"bdd",q:"Quelle commande supprime une table et toutes ses données ?",opts:["DELETE FROM table","TRUNCATE TABLE table","DROP TABLE table","REMOVE TABLE table"],ans:2,exp:"DROP TABLE supprime la table et sa structure. TRUNCATE vide la table mais garde la structure. DELETE supprime des lignes selon une condition."},
+{cat:"bdd",q:"Qu'est-ce qu'une clé étrangère (FOREIGN KEY) ?",opts:["Une clé dans un autre fichier"," Une colonne qui référence la clé primaire d'une autre table"," Une clé de chiffrement"," Un index unique"],ans:1,exp:"La clé étrangère établit un lien entre deux tables et garantit l'intégrité référentielle (pas d'orphelin)."},
+{cat:"bdd",q:"Quelle fonction SQL compte le nombre de lignes ?",opts:["SUM()","COUNT()","TOTAL()","LENGTH()"],ans:1,exp:"COUNT(*) compte les lignes. COUNT(col) compte les valeurs non NULL. SUM() additionne, AVG() fait la moyenne."},
+{cat:"bdd",q:"En SQL, comment trier les résultats par ordre décroissant ?",opts:["ORDER BY col ASC","ORDER BY col DESC","SORT BY col DESC","GROUP BY col DESC"],ans:1,exp:"ORDER BY col DESC trie par ordre décroissant. ASC = croissant (par défaut)."},
+{cat:"bdd",q:"Qu'est-ce qu'un SGBD ?",opts:["Un langage de programmation"," Un Système de Gestion de Base de Données"," Un protocole réseau"," Un type de fichier"],ans:1,exp:"SGBD = logiciel qui gère les bases de données (MySQL, PostgreSQL, Oracle, SQL Server). Il fournit le stockage, la sécurité et le langage SQL."},
+{cat:"bdd",q:"Qu'est-ce qu'un ORM ?",opts:["Un outil de monitoring"," Un mapping objet-relationnel qui fait le lien entre objets et tables"," Un type de jointure"," Un format de fichier"],ans:1,exp:"ORM (Object-Relational Mapping) permet de manipuler des objets dans le code qui sont automatiquement persistés en base (ex: Doctrine, Eloquent)."},
+
+// === RÉSEAUX ===
+{cat:"reseau",q:"Quelle couche du modèle OSI gère le routage ?",opts:["Couche 2 (Liaison)","Couche 3 (Réseau)","Couche 4 (Transport)","Couche 7 (Application)"],ans:1,exp:"La couche 3 (Réseau) gère le routage et l'adressage logique (IP). La couche 2 gère les trames et l'adressage MAC."},
+{cat:"reseau",q:"Quelle est la plage d'adresses privées de classe C ?",opts:["10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","127.0.0.0/8"],ans:2,exp:"192.168.0.0/16 est la plage privée de classe C. 10.0.0.0/8 = classe A, 172.16.0.0/12 = classe B."},
+{cat:"reseau",q:"Quel protocole attribue automatiquement une adresse IP ?",opts:["DNS","DHCP","ARP","FTP"],ans:1,exp:"DHCP (Dynamic Host Configuration Protocol) attribue automatiquement une adresse IP, un masque, une passerelle et un DNS."},
+{cat:"reseau",q:"Que fait le protocole DNS ?",opts:["Attribue des IP"," Traduit les noms de domaine en adresses IP"," Chiffre les données"," Route les paquets"],ans:1,exp:"DNS (Domain Name System) résout les noms de domaine (ex: google.com) en adresses IP."},
+{cat:"reseau",q:"Quel masque correspond à un /24 ?",opts:["255.0.0.0","255.255.0.0","255.255.255.0","255.255.255.128"],ans:2,exp:"/24 = 24 bits pour le réseau = 255.255.255.0. /8 = 255.0.0.0, /16 = 255.255.0.0."},
+{cat:"reseau",q:"Quel protocole sécurise les communications web ?",opts:["HTTP","FTP","HTTPS","SMTP"],ans:2,exp:"HTTPS = HTTP + TLS. Le chiffrement est assuré par TLS (anciennement SSL). Le port par défaut est 443."},
+{cat:"reseau",q:"Qu'est-ce qu'un VLAN ?",opts:["Un câble réseau"," Un réseau logique virtuel sur un switch"," Un routeur"," Un protocole de routage"],ans:1,exp:"VLAN (Virtual LAN) permet de segmenter un réseau physique en plusieurs réseaux logiques isolés au niveau 2."},
+{cat:"reseau",q:"Quel port utilise le protocole SSH ?",opts:["21","22","23","80"],ans:1,exp:"SSH utilise le port 22. Telnet utilise le port 23 (non chiffré). FTP utilise le port 21."},
+{cat:"reseau",q:"Qu'est-ce que le NAT ?",opts:[" Un protocole de routage"," La traduction d'adresses privées en adresses publiques"," Un type de câble"," Un pare-feu"],ans:1,exp:"NAT (Network Address Translation) permet à plusieurs machines d'un réseau privé de partager une seule adresse IP publique."},
+{cat:"reseau",q:"Quel outil Cisco configure un routeur en ligne de commande ?",opts:["Packet Tracer"," PuTTY"," IOS CLI"," Wireshark"],ans:2,exp:"Cisco IOS CLI (Command Line Interface) est l'interface de configuration des équipements Cisco. PuTTY est un client terminal."},
+{cat:"reseau",q:"Qu'est-ce que le modèle TCP/IP ?",opts:["Un modèle à 7 couches"," Un modèle à 4 couches (Accès réseau, Internet, Transport, Application)"," Un protocole de routage"," Un type de câble"],ans:1,exp:"TCP/IP = 4 couches : Accès réseau, Internet (IP), Transport (TCP/UDP), Application. C'est le modèle utilisé sur Internet."},
+{cat:"reseau",q:"Quel protocole transporte les emails ?",opts:["HTTP","SMTP","FTP","DNS"],ans:1,exp:"SMTP (Simple Mail Transfer Protocol) envoie les emails. IMAP/POP3 les récupèrent."},
+{cat:"reseau",q:"Qu'est-ce qu'une adresse MAC ?",opts:["Une adresse logique"," Une adresse physique unique à une carte réseau"," Un nom de domaine"," Un port"],ans:1,exp:"L'adresse MAC (Media Access Control) est l'adresse physique unique d'une carte réseau, au format XX:XX:XX:XX:XX:XX."},
+{cat:"reseau",q:"Quel protocole résout une adresse IP en adresse MAC ?",opts:["DNS","DHCP","ARP","ICMP"],ans:2,exp:"ARP (Address Resolution Protocol) trouve l'adresse MAC correspondant à une adresse IP sur le réseau local."},
+
+// === SYSTÈMES ===
+{cat:"systeme",q:"Quelle commande Linux affiche le contenu d'un répertoire ?",opts:["cd","ls","pwd","mkdir"],ans:1,exp:"ls liste le contenu. cd change de répertoire, pwd affiche le chemin courant, mkdir crée un répertoire."},
+{cat:"systeme",q:"Qu'est-ce qu'un daemon sous Linux ?",opts:["Un virus"," Un processus en arrière-plan"," Un fichier de configuration"," Un utilisateur système"],ans:1,exp:"Un daemon est un service qui tourne en arrière-plan (ex: sshd, apache2). Il est souvent lancé au démarrage."},
+{cat:"systeme",q:"Quelle commande donne les droits d'exécution à un fichier ?",opts:["chmod +x fichier","chown +x fichier","chgrp +x fichier","chmod 777 fichier"],ans:0,exp:"chmod +x ajoute le droit d'exécution. chmod 777 donne tous les droits à tous (déconseillé)."},
+{cat:"systeme",q:"Qu'est-ce que le RAID 1 ?",opts:["Striping (performance)"," Mirroring (duplication)"," Parité distribuée"," Aucune redondance"],ans:1,exp:"RAID 1 = mirroring : les données sont dupliquées sur deux disques. RAID 0 = striping (performance, pas de redondance)."},
+{cat:"systeme",q:"Quel hyperviseur est intégré à Windows Server ?",opts:["VMware"," Hyper-V"," VirtualBox"," KVM"],ans:1,exp:"Hyper-V est l'hyperviseur de Microsoft, intégré à Windows Server et Windows Pro/Enterprise."},
+{cat:"systeme",q:"Qu'est-ce qu'Active Directory ?",opts:["Un pare-feu"," Un service d'annuaire pour gérer les utilisateurs et les ordinateurs d'un domaine"," Une base de données SQL"," Un serveur web"],ans:1,exp:"Active Directory (AD) est le service d'annuaire de Microsoft : il gère les comptes, les groupes, les GPO et l'authentification centralisée."},
+{cat:"systeme",q:"Qu'est-ce qu'une GPO ?",opts:["Un mot de passe"," Une stratégie de groupe qui configure les paramètres des utilisateurs et ordinateurs"," Un protocole réseau"," Un type de disque"],ans:1,exp:"GPO (Group Policy Object) permet d'appliquer des configurations centralisées (sécurité, restrictions, scripts) via Active Directory."},
+{cat:"systeme",q:"Quel outil Windows gère les utilisateurs et les ordinateurs ?",opts:["Regedit"," Gestionnaire de périphériques"," Utilisateurs et ordinateurs Active Directory"," PowerShell ISE"],ans:2,exp:"La console « Utilisateurs et ordinateurs Active Directory » (dsa.msc) gère les objets du domaine."},
+{cat:"systeme",q:"Qu'est-ce que LDAP ?",opts:["Un protocole de chiffrement"," Un protocole d'accès à un annuaire"," Un type de disque"," Un langage de script"],ans:1,exp:"LDAP (Lightweight Directory Access Protocol) est le protocole standard pour interroger et modifier un annuaire (comme Active Directory)."},
+{cat:"systeme",q:"Quelle commande Linux affiche les processus en cours ?",opts:["ls","ps","top","kill"],ans:1,exp:"ps affiche les processus. top affiche les processus en temps réel avec l'utilisation CPU/RAM. kill termine un processus."},
+{cat:"systeme",q:"Qu'est-ce que le fichier /etc/passwd sous Linux ?",opts:["Un fichier de mots de passe chiffrés"," Un fichier contenant les informations des comptes utilisateurs"," Un fichier de configuration réseau"," Un log système"],ans:1,exp:"/etc/passwd contient les infos des utilisateurs (nom, UID, GID, shell, home). Les mots de passe sont dans /etc/shadow."},
+{cat:"systeme",q:"Quel service Linux gère les tâches planifiées ?",opts:["systemd"," cron"," bash"," apt"],ans:1,exp:"cron exécute des tâches planifiées (crontab). systemd gère les services au démarrage."},
+
+// === SÉCURITÉ ===
+{cat:"securite",q:"Qu'est-ce qu'une attaque par force brute ?",opts:["Un virus"," Une tentative répétée de deviner un mot de passe"," Une injection SQL"," Un déni de service"],ans:1,exp:"La force brute teste toutes les combinaisons possibles jusqu'à trouver le bon mot de passe. Protection : verrouillage de compte, MFA."},
+{cat:"securite",q:"Qu'est-ce que le phishing ?",opts:["Un virus"," Une tentative d'obtenir des informations sensibles en se faisant passer pour une entité de confiance"," Un pare-feu"," Un type de chiffrement"],ans:1,exp:"Le phishing (hameçonnage) utilise de faux emails/sites pour voler des identifiants. Protection : vigilance, MFA, filtrage."},
+{cat:"securite",q:"Qu'est-ce qu'un pare-feu (firewall) ?",opts:["Un antivirus"," Un système qui filtre le trafic réseau selon des règles"," Un proxy"," Un VPN"],ans:1,exp:"Un pare-feu filtre les paquets selon des règles (IP, port, protocole). Il peut être matériel ou logiciel."},
+{cat:"securite",q:"Qu'est-ce que le chiffrement symétrique ?",opts:[" Une clé publique et une clé privée"," La même clé pour chiffrer et déchiffrer"," Un hash"," Un certificat"],ans:1,exp:"En chiffrement symétrique, la même clé est utilisée pour chiffrer et déchiffrer (ex: AES). Asymétrique = paire de clés (ex: RSA)."},
+{cat:"securite",q:"Qu'est-ce qu'un VPN ?",opts:["Un virus"," Un réseau privé virtuel qui chiffre le trafic sur un réseau public"," Un pare-feu"," Un proxy web"],ans:1,exp:"VPN (Virtual Private Network) crée un tunnel chiffré entre le client et le serveur, protégeant les données sur un réseau non sécurisé."},
+{cat:"securite",q:"Qu'est-ce que le principe du moindre privilège ?",opts:["Donner tous les droits à tous"," Donner à chaque utilisateur uniquement les droits nécessaires à sa tâche"," Chiffrer toutes les données"," Utiliser des mots de passe forts"],ans:1,exp:"Le moindre privilège limite les droits d'accès au strict nécessaire, réduisant l'impact d'une compromission."},
+{cat:"securite",q:"Qu'est-ce qu'un hash cryptographique ?",opts:["Un mot de passe chiffré"," Une fonction à sens unique qui produit une empreinte de taille fixe"," Un algorithme de compression"," Un certificat"],ans:1,exp:"Un hash (SHA-256, bcrypt) est irréversible : on ne peut pas retrouver le message original. Utilisé pour stocker les mots de passe."},
+{cat:"securite",q:"Qu'est-ce que le XSS (Cross-Site Scripting) ?",opts:["Une injection SQL"," L'injection de code JavaScript malveillant dans une page web"," Un déni de service"," Un virus"],ans:1,exp:"XSS = injection de scripts dans une page vue par d'autres utilisateurs. Protection : échapper les sorties (htmlspecialchars) et CSP."},
+{cat:"securite",q:"Qu'est-ce qu'un certificat SSL/TLS ?",opts:["Un mot de passe"," Un document numérique qui authentifie un serveur et permet le chiffrement"," Un pare-feu"," Un antivirus"],ans:1,exp:"Le certificat SSL/TLS contient la clé publique du serveur et est signé par une autorité de certification (CA). Il permet HTTPS."},
+{cat:"securite",q:"Qu'est-ce que le MFA (Multi-Factor Authentication) ?",opts:["Un mot de passe long"," L'utilisation de plusieurs facteurs d'authentification (mot de passe + code SMS/app)"," Un pare-feu"," Un VPN"],ans:1,exp:"MFA combine plusieurs facteurs : quelque chose que vous savez (mot de passe), avez (téléphone) ou êtes (empreinte). Renforce la sécurité."},
+{cat:"securite",q:"Qu'est-ce qu'un SIEM ?",opts:["Un pare-feu"," Un système de gestion des événements et des informations de sécurité"," Un antivirus"," Un VPN"],ans:1,exp:"SIEM (Security Information and Event Management) centralise et analyse les logs de sécurité pour détecter les incidents."},
+{cat:"securite",q:"Qu'est-ce que le principe de défense en profondeur ?",opts:["Un seul pare-feu puissant"," Plusieurs couches de sécurité superposées"," Chiffrer toutes les données"," Utiliser des mots de passe forts"],ans:1,exp:"La défense en profondeur empile plusieurs contrôles de sécurité (pare-feu, antivirus, MFA, chiffrement) pour qu'une défaillance n'expose pas tout."},
+
+// === MÉTHODES ===
+{cat:"methodes",q:"Qu'est-ce que la méthode Agile ?",opts:["Une méthode séquentielle"," Une approche itérative et incrémentale centrée sur la collaboration et l'adaptation"," Un langage de programmation"," Un outil de gestion"],ans:1,exp:"Agile privilégie les itérations courtes, la collaboration client et l'adaptation au changement plutôt qu'un plan figé."},
+{cat:"methodes",q:"Qu'est-ce qu'un sprint en Scrum ?",opts:["Une course"," Une itération de durée fixe (1-4 semaines) avec un objectif défini"," Un test de performance"," Un déploiement"],ans:1,exp:"Un sprint est une itération de durée fixe. À la fin, on livre un incrément potentiellement livrable."},
+{cat:"methodes",q:"Quels sont les trois rôles Scrum ?",opts:["Chef de projet, développeur, testeur"," Product Owner, Scrum Master, équipe de développement"," Client, manager, RH"," Architecte, dev, ops"],ans:1,exp:"Product Owner (priorités), Scrum Master (facilitateur), équipe de développement (réalisation)."},
+{cat:"methodes",q:"Qu'est-ce qu'un product backlog ?",opts:["Une liste de bugs"," Une liste priorisée de tout ce qui est à faire pour le produit"," Un planning"," Un budget"],ans:1,exp:"Le product backlog est la liste ordonnée des fonctionnalités, corrections et améliorations à réaliser."},
+{cat:"methodes",q:"Qu'est-ce qu'une user story ?",opts:["Un bug report"," Une description courte d'une fonctionnalité du point de vue de l'utilisateur"," Un test automatisé"," Un diagramme"],ans:1,exp:"Format : « En tant que [rôle], je veux [action] afin de [bénéfice] ». Centrée sur la valeur utilisateur."},
+{cat:"methodes",q:"Qu'est-ce que Git ?",opts:["Un SGBD"," Un système de contrôle de version distribué"," Un framework"," Un IDE"],ans:1,exp:"Git permet de versionner le code, de travailler en branches et de collaborer. GitHub/GitLab sont des hébergeurs Git."},
+{cat:"methodes",q:"Qu'est-ce qu'une branche (branch) en Git ?",opts:["Une copie du projet"," Une ligne de développement parallèle"," Un commit"," Un tag"],ans:1,exp:"Une branche permet de développer une fonctionnalité isolément, puis de la fusionner (merge) dans la branche principale."},
+{cat:"methodes",q:"Qu'est-ce qu'un commit ?",opts:["Un envoi sur le serveur"," Une sauvegarde instantanée des modifications avec un message"," Une branche"," Un tag"],ans:1,exp:"Un commit enregistre un état du code avec un message descriptif. Il est local jusqu'au push."},
+{cat:"methodes",q:"Qu'est-ce que le cycle en V ?",opts:["Une méthode agile"," Une méthode séquentielle où chaque phase de développement est associée à une phase de test"," Un protocole réseau"," Un langage"],ans:1,exp:"Le cycle en V associe conception ↔ tests : spécifications ↔ tests d'acceptation, conception détaillée ↔ tests unitaires, etc."},
+{cat:"methodes",q:"Qu'est-ce qu'un test unitaire ?",opts:["Un test de l'application complète"," Un test qui vérifie une petite unité de code isolée (fonction, méthode)"," Un test de charge"," Un test utilisateur"],ans:1,exp:"Un test unitaire vérifie le comportement d'une unité isolée. Il est rapide et automatisé (PHPUnit, Jest, etc.)."},
+{cat:"methodes",q:"Qu'est-ce que le RGPD ?",opts:["Un protocole réseau"," Le Règlement Général sur la Protection des Données"," Un langage"," Un type de base de données"],ans:1,exp:"Le RGPD encadre la collecte et le traitement des données personnelles dans l'UE. Droits : accès, rectification, effacement, portabilité."}
+];
+
+const STORAGE_KEY = "quiz-bts-sio";
+const state = {mode:null, cat:"all", questions:[], idx:0, score:0, answers:[], known:new Set(), unknown:new Set()};
+
+function loadState(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")}catch(e){return {}}}
+function saveState(s){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(s))}catch(e){}}
+function getScores(){return loadState().scores||{}}
+function setScores(sc){const s=loadState();s.scores=sc;saveState(s)}
+function getCustom(){return loadState().custom||[]}
+function setCustom(c){const s=loadState();s.custom=c;saveState(s)}
+
+const allQuestions = () => Q.concat(getCustom());
+
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function $(id){return document.getElementById(id)}
+
+function showSection(id){
+  ["home","quiz","result","flash"].forEach(s=>$(s).hidden = s!==id);
+}
+
+function renderStats(){
+  const scores=getScores();
+  const cats=Object.keys(CATS);
+  const row=$("stats-row");
+  row.innerHTML="";
+  let totalQ=allQuestions().length;
+  let totalBest=0, totalPlayed=0;
+  cats.forEach(c=>{
+    const s=scores[c];
+    const best=s?s.best:0; const played=s?s.played:0;
+    totalBest+=best; totalPlayed+=played;
+    const box=document.createElement("div");box.className="stat-box";
+    box.innerHTML=`<div class="v">${best}%</div><div class="l">${CATS[c].emoji} ${CATS[c].name}</div>`;
+    row.appendChild(box);
+  });
+  // total box
+  const tb=document.createElement("div");tb.className="stat-box";
+  const pct=totalPlayed?Math.round(totalBest/cats.length):0;
+  tb.innerHTML=`<div class="v">${allQuestions().length}</div><div class="l">Questions dispo</div>`;
+  row.appendChild(tb);
+}
+
+function renderCatToggles(){
+  const wrap=$("cat-toggles");
+  wrap.innerHTML="";
+  const allBtn=document.createElement("button");
+  allBtn.className="toggle"+(state.cat==="all"?" active":"");
+  allBtn.textContent="Toutes les catégories";
+  allBtn.onclick=()=>{state.cat="all";renderCatToggles()};
+  wrap.appendChild(allBtn);
+  Object.keys(CATS).forEach(c=>{
+    const b=document.createElement("button");
+    b.className="toggle"+(state.cat===c?" active":"");
+    b.textContent=CATS[c].emoji+" "+CATS[c].name;
+    b.onclick=()=>{state.cat=c;renderCatToggles()};
+    wrap.appendChild(b);
+  });
+}
+
+function filteredQuestions(){const qs=allQuestions();return state.cat==="all"?qs:qs.filter(q=>q.cat===state.cat)}
+
+function startQuiz(mode){
+  let qs=filteredQuestions();
+  if(!qs.length){alert("Aucune question dans cette catégorie.");return}
+  if(mode==="quiz"){qs=shuffle(qs).slice(0,10)}
+  else if(mode==="all"){qs=shuffle(qs)}
+  else if(mode==="flash"){qs=shuffle(qs)}
+  state.mode=mode; state.questions=qs; state.idx=0; state.score=0; state.answers=[];
+  if(mode==="flash"){startFlash();return}
+  showSection("quiz");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=state.questions[state.idx];
+  const total=state.questions.length;
+  $("q-cat").textContent=CATS[q.cat].name;
+  $("q-cat").style.background=CATS[q.cat].color+"22";
+  $("q-cat").style.color=CATS[q.cat].color;
+  $("q-text").textContent=q.q;
+  $("q-counter").textContent=`Question ${state.idx+1} / ${total}`;
+  $("bar").style.width=((state.idx)/total*100)+"%";
+  $("feedback").className="feedback"; $("feedback").innerHTML="";
+  $("btn-next").hidden=true;
+  const opts=$("options"); opts.innerHTML="";
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${o}</span>`;
+    b.onclick=()=>answer(i);
+    opts.appendChild(b);
+  });
+}
+
+function answer(i){
+  const q=state.questions[state.idx];
+  const opts=$("options").children;
+  [...opts].forEach(o=>o.classList.add("locked"));
+  const correct=i===q.ans;
+  if(correct){state.score++;opts[i].classList.add("correct")} else {opts[i].classList.add("wrong");opts[q.ans].classList.add("correct")}
+  const fb=$("feedback");
+  fb.className="feedback show "+(correct?"ok":"ko");
+  fb.innerHTML=`<strong>${correct?"✓ Bonne réponse !":"✗ Mauvaise réponse"}</strong>${q.exp||""}`;
+  state.answers.push({q,choice:i,correct});
+  $("btn-next").hidden=false;
+  $("btn-next").textContent = state.idx+1===state.questions.length?"Voir le résultat →":"Suivant →";
+}
+
+function nextQuestion(){
+  state.idx++;
+  if(state.idx>=state.questions.length){showResult();return}
+  renderQuestion();
+}
+
+function showResult(){
+  showSection("result");
+  const total=state.questions.length;
+  const pct=Math.round(state.score/total*100);
+  $("res-score").textContent=pct+"%";
+  let msg="À retravailler";
+  if(pct>=90)msg="Excellent ! 🎯";
+  else if(pct>=70)msg="Bien, quelques points à revoir";
+  else if(pct>=50)msg="Moyen, continuez à réviser";
+  $("res-label").textContent=`${state.score} / ${total} bonnes réponses — ${msg}`;
+  // breakdown by cat
+  const byCat={};
+  state.answers.forEach(a=>{
+    const c=a.q.cat;
+    if(!byCat[c])byCat[c]={ok:0,tot:0};
+    byCat[c].tot++; if(a.correct)byCat[c].ok++;
+  });
+  const bd=$("res-breakdown"); bd.innerHTML="";
+  Object.keys(byCat).forEach(c=>{
+    const d=byCat[c];
+    const p=Math.round(d.ok/d.tot*100);
+    const row=document.createElement("div");row.className="br";
+    row.innerHTML=`<span class="k">${CATS[c].emoji} ${CATS[c].name}</span><span class="v">${d.ok}/${d.tot} (${p}%)</span>`;
+    bd.appendChild(row);
+  });
+  // save best
+  const scores=getScores();
+  const cat=state.cat;
+  if(!scores[cat]||pct>(scores[cat].best||0)){scores[cat]={best:pct,played:(scores[cat]?.played||0)+1};setScores(scores)}
+  else{scores[cat].played=(scores[cat].played||0)+1;setScores(scores)}
+  renderStats();
+  $("bar").style.width="100%";
+}
+
+// FLASHCARDS
+let fcIdx=0, fcRevealed=false, fcOrder=[];
+function startFlash(){
+  fcOrder=shuffle(state.questions.slice());
+  fcIdx=0; fcRevealed=false;
+  showSection("flash");
+  renderFlash();
+}
+function renderFlash(){
+  const q=fcOrder[fcIdx];
+  $("fc-q").textContent=q.q;
+  $("fc-a").innerHTML=`<strong>Réponse :</strong> ${q.opts[q.ans]}${q.exp?"<br><br>"+q.exp:""}`;
+  $("fc-counter").textContent=`${fcIdx+1} / ${fcOrder.length}`;
+  $("fc-hint").textContent=fcRevealed?"":"Cliquez pour révéler la réponse";
+  document.getElementById("flashcard").classList.toggle("revealed",fcRevealed);
+}
+document.getElementById("flashcard").onclick=()=>{fcRevealed=true;renderFlash()};
+$("fc-prev").onclick=()=>{if(fcIdx>0){fcIdx--;fcRevealed=false;renderFlash()}};
+$("fc-next").onclick=()=>{if(fcIdx<fcOrder.length-1){fcIdx++;fcRevealed=false;renderFlash()}};
+$("fc-shuffle").onclick=()=>{fcOrder=shuffle(fcOrder);fcIdx=0;fcRevealed=false;renderFlash()};
+$("fc-known").onclick=()=>{state.known.add(fcOrder[fcIdx].q);fcIdx=Math.min(fcIdx+1,fcOrder.length-1);fcRevealed=false;renderFlash()};
+$("fc-unknown").onclick=()=>{state.unknown.add(fcOrder[fcIdx].q);fcIdx=Math.min(fcIdx+1,fcOrder.length-1);fcRevealed=false;renderFlash()};
+
+// CUSTOM QUESTIONS
+$("btn-add").onclick=()=>{
+  const txt=$("custom-input").value.trim();
+  if(!txt){$("add-status").textContent="Collez du JSON d'abord.";return}
+  let arr; try{arr=JSON.parse(txt)}catch(e){$("add-status").textContent="JSON invalide.";return}
+  if(!Array.isArray(arr))arr=[arr];
+  const valid=arr.filter(x=>x&&x.q&&Array.isArray(x.opts)&&typeof x.ans==="number"&&x.opts[x.ans]!==undefined);
+  if(!valid.length){$("add-status").textContent="Aucune question valide.";return}
+  valid.forEach(x=>{if(!x.cat)x.cat="dev";if(!x.exp)x.exp=""});
+  const c=getCustom().concat(valid);
+  setCustom(c);
+  $("add-status").textContent=`${valid.length} question(s) ajoutée(s). Total : ${allQuestions().length}`;
+  $("custom-input").value="";
+  renderStats();
+};
+$("btn-clear-custom").onclick=()=>{if(confirm("Effacer toutes les questions personnelles ?")){setCustom([]);renderStats();$("add-status").textContent="Questions perso effacées."}};
+
+// EVENTS
+$("btn-quiz").onclick=()=>startQuiz("quiz");
+$("btn-all").onclick=()=>startQuiz("all");
+$("btn-flash").onclick=()=>startQuiz("flash");
+$("back-quiz").onclick=(e)=>{e.preventDefault();showSection("home")};
+$("back-flash").onclick=(e)=>{e.preventDefault();showSection("home")};
+$("btn-next").onclick=nextQuestion;
+$("btn-retry").onclick=()=>startQuiz(state.mode==="flash"?"flash":state.mode);
+$("btn-home").onclick=()=>showSection("home");
+
+// THEME
+const THEME_KEY="quiz-theme";
+function applyTheme(t){document.documentElement.setAttribute("data-theme",t);localStorage.setItem(THEME_KEY,t);$("theme-btn").textContent=t==="dark"?"🌙":"☀️"}
+$("theme-btn").onclick=()=>applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
+applyTheme(localStorage.getItem(THEME_KEY)||"light");
+
+// INIT
+renderStats(); renderCatToggles();
+</script>
+</body>
+</html>

@@ -27,7 +27,7 @@
 <meta property="og:image" content="assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="stylesheet" href="assets/styles.css?v=20261103.4">
+<link rel="stylesheet" href="assets/styles.css?v=20261103.5">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%91%BB%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -333,6 +333,39 @@
             <a href="#projet-mavie">Détail du projet</a>
             <a href="https://github.com/roytitli-pro/roytitli-pro.github.io/blob/main/apps/ma-vie-admin/index.html" title="Code source de Ma Vie Admin">Code ↗</a>
             <a href="apps/ma-vie-admin/">Démo ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Quiz BTS SIO ── -->
+      <article class="card reveal" data-cat="web">
+        <div class="thumb">
+          <span class="cat">Révision · JavaScript</span>
+          <span class="badge">Utilisé au quotidien</span>
+          <span aria-hidden="true">🎯</span>
+        </div>
+        <div class="body">
+          <h3>Quiz BTS SIO</h3>
+          <div class="meta"><span>2026</span><span>Projet personnel</span><span>HTML / CSS / JavaScript</span></div>
+          <p class="desc">
+            Application de révision pour le BTS SIO SLAM : quiz à choix multiples et flashcards
+            sur six catégories (développement, bases de données, réseaux, systèmes, sécurité,
+            méthodes). Score par catégorie, meilleur score persistant, ajout de ses propres
+            questions en JSON. Zéro dépendance, tout dans le navigateur.
+          </p>
+          <div class="stats">
+            <span class="stat">80+ questions</span>
+            <span class="stat">6 catégories</span>
+            <span class="stat">0 dépendance</span>
+            <span class="stat">2 modes</span>
+          </div>
+          <div class="tags">
+            <span>JavaScript</span><span>localStorage</span><span>JSON</span><span>Responsive</span><span>Accessibilité</span>
+          </div>
+          <div class="links">
+            <a href="#projet-quiz">Détail du projet</a>
+            <a href="https://github.com/roytitli-pro/roytitli-pro.github.io/blob/main/apps/quiz-bts/index.html" title="Code source du Quiz BTS SIO">Code ↗</a>
+            <a href="apps/quiz-bts/">Démo ↗</a>
           </div>
         </div>
       </article>
@@ -744,6 +777,43 @@
             <code>localStorage</code>), puis les calculs métier sont vérifiés un par un — reste du mois,
             barre de budget, dépôts, épargne sur livret, récapitulatif de séances. Une commande
             unique lance tout et renvoie un compte de failures.
+          </p>
+        </div>
+      </details>
+
+      <details class="deep reveal" id="projet-quiz" data-cat="web">
+        <summary>📂 Quiz BTS SIO — réviser sans connexion, score par catégorie</summary>
+        <div class="deep-body">
+          <h4>Le besoin</h4>
+          <p>
+            Réviser le BTS SIO sans dépendre d'une connexion ni d'un compte : un fichier HTML
+            qui s'ouvre n'importe où, avec des questions rédigées à partir du cours et des TP.
+            L'application doit aussi permettre d'ajouter ses propres questions, pour s'adapter
+            à chaque chapitre.
+          </p>
+
+          <h4>Ce que fait l'application</h4>
+          <ul class="bul">
+            <li><strong>80+ questions</strong> réparties en six catégories : développement, bases de données, réseaux, systèmes, sécurité, méthodes.</li>
+            <li><strong>Deux modes</strong> : quiz (10 questions aléatoires) et flashcards (question → révélation de la réponse).</li>
+            <li><strong>Score par catégorie</strong> et meilleur score persistant dans <code>localStorage</code>.</li>
+            <li><strong>Import de questions personnelles</strong> au format JSON, avec validation.</li>
+            <li><strong>Zéro dépendance</strong> : un seul fichier HTML, thème clair/sombre, responsive.</li>
+          </ul>
+
+          <h4>Les choix techniques</h4>
+          <ul class="bul">
+            <li>Un tableau de questions typé (<code>cat, q, opts, ans, exp</code>) séparé de la logique de rendu.</li>
+            <li>Mélange Fisher-Yates, sélection aléatoire sans répétition dans une session.</li>
+            <li>Feedback immédiat avec explication, puis score final par catégorie.</li>
+            <li>Persistance locale : scores et questions personnalisées survivent au rechargement.</li>
+          </ul>
+
+          <h4>Ce que ça m'a appris</h4>
+          <p>
+            Gérer un état d'application (mode, catégorie, index, score, réponses) sans framework,
+            et concevoir une interface qui reste utilisable sur mobile. C'est aussi mon premier
+            projet pensé pour être réutilisé : je l'utilise moi-même pour réviser.
           </p>
         </div>
       </details>
@@ -1193,6 +1263,6 @@
 
 <button class="to-top" id="to-top" type="button" aria-label="Remonter en haut">↑</button>
 
-<script src="assets/script.js?v=20261103.4" defer></script>
+<script src="assets/script.js?v=20261103.5" defer></script>
 </body>
 </html>
