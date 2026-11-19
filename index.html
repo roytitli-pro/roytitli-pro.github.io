@@ -27,7 +27,7 @@
 <meta property="og:image" content="assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="stylesheet" href="assets/styles.css?v=20261103.5">
+<link rel="stylesheet" href="assets/styles.css?v=20261119">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%91%BB%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -366,6 +366,38 @@
             <a href="#projet-quiz">Détail du projet</a>
             <a href="https://github.com/roytitli-pro/roytitli-pro.github.io/blob/main/apps/quiz-bts/index.html" title="Code source du Quiz BTS SIO">Code ↗</a>
             <a href="apps/quiz-bts/">Démo ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── Puissance 4 ── -->
+      <article class="card reveal" data-cat="web">
+        <div class="thumb">
+          <span class="cat">Jeu · JavaScript</span>
+          <span class="badge">Jouable en ligne</span>
+          <span aria-hidden="true">🔴</span>
+        </div>
+        <div class="body">
+          <h3>Puissance 4</h3>
+          <div class="meta"><span>2026</span><span>Projet personnel</span><span>HTML / CSS / JavaScript</span></div>
+          <p class="desc">
+            Jeu de Puissance 4 contre une IA basée sur l'algorithme minimax avec élagage
+            alpha-bêta (4 niveaux de difficulté). Animations de chute, détection de victoire
+            dans les quatre directions, score et historique des parties. Zéro dépendance.
+          </p>
+          <div class="stats">
+            <span class="stat">7 × 6</span>
+            <span class="stat">Minimax α-β</span>
+            <span class="stat">4 niveaux</span>
+            <span class="stat">0 dépendance</span>
+          </div>
+          <div class="tags">
+            <span>JavaScript</span><span>Minimax</span><span>Alpha-bêta</span><span>DOM</span><span>Animations CSS</span>
+          </div>
+          <div class="links">
+            <a href="#projet-puissance4">Détail du projet</a>
+            <a href="https://github.com/roytitli-pro/roytitli-pro.github.io/blob/main/apps/puissance-4/index.html" title="Code source du Puissance 4">Code ↗</a>
+            <a href="apps/puissance-4/">Démo ↗</a>
           </div>
         </div>
       </article>
@@ -818,6 +850,45 @@
         </div>
       </details>
 
+      <details class="deep reveal" id="projet-puissance4" data-cat="web">
+        <summary>📂 Puissance 4 — une IA qui joue vraiment, pas un coup aléatoire</summary>
+        <div class="deep-body">
+          <h4>Le défi</h4>
+          <p>
+            Écrire une IA qui joue correctement au Puissance 4 sans librairie externe. Le premier
+            jet (coup au hasard) était imbattable par un enfant de 6 ans. Il fallait quelque chose
+            de vrai : un algorithme qui anticipe.
+          </p>
+
+          <h4>L'algorithme : minimax avec élagage alpha-bêta</h4>
+          <ul class="bul">
+            <li><strong>Minimax</strong> : l'IA suppose que l'adversaire joue le meilleur coup possible, et choisit le coup qui maximise son score dans le pire des cas.</li>
+            <li><strong>Alpha-bêta</strong> : on coupe les branches de l'arbre qui ne peuvent plus changer le résultat. Sur un plateau 7×6, ça divise le temps de calcul par 10 à 100.</li>
+            <li><strong>Fonction d'évaluation</strong> : score basé sur les alignements de 2, 3 et 4 jetons, avec un bonus pour la colonne centrale (stratégiquement dominante).</li>
+            <li><strong>4 niveaux de difficulté</strong> : profondeur de recherche de 1 à 6. Niveau 1 = quasi aléatoire, niveau 6 = quasi imbattable.</li>
+          </ul>
+
+          <h4>Les détails qui comptent</h4>
+          <ul class="bul">
+            <li><strong>Animation de chute</strong> : le jeton tombe depuis le haut de la colonne avec une courbe d'accélération (cubic-bezier).</li>
+            <li><strong>Détection de victoire</strong> : vérification dans les quatre directions (horizontal, vertical, deux diagonales), avec mise en surbrillance des quatre jetons gagnants.</li>
+            <li><strong>Annulation</strong> : on peut revenir en arrière d'un coup (et l'IA rejoue).</li>
+            <li><strong>Historique</strong> : liste des parties avec résultat et heure, persistant pendant la session.</li>
+            <li><strong>Son</strong> : effets sonores générés via l'API Web Audio (oscillateurs), activable/désactivable.</li>
+            <li><strong>Responsive</strong> : le plateau s'adapte à la largeur de l'écran.</li>
+          </ul>
+
+          <h4>Ce que ça m'a appris</h4>
+          <p>
+            Implémenter un algorithme de recherche de bout en bout, sans librairie, m'a forcé à
+            comprendre vraiment le minimax (et pas juste le citer). Le plus dur n'était pas
+            l'algorithme mais la <strong>fonction d'évaluation</strong> : sans elle, l'IA joue
+            légalement mais bêtement. Calibrer les poids (4 alignés = +100, 3 = +5, 2 = +2,
+            et les pénalités pour l'adversaire) a demandé plusieurs itérations de test.
+          </p>
+        </div>
+      </details>
+
       <details class="deep reveal" id="projet-outils" data-cat="python">
         <summary>📂 Outils Python — migrer un historique, générer un contexte, tout tester</summary>
         <div class="deep-body">
@@ -1263,6 +1334,6 @@
 
 <button class="to-top" id="to-top" type="button" aria-label="Remonter en haut">↑</button>
 
-<script src="assets/script.js?v=20261103.5" defer></script>
+<script src="assets/script.js?v=20261119" defer></script>
 </body>
 </html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puissance 4 — Roy Titli</title>
+<meta name="description" content="Jeu de Puissance 4 avec IA minimax (3 niveaux), animations, score et historique.">
+<style>
+:root{
+  --bg:#fbf7f9;--bg2:#f3ecf2;--card:#fff;--ink:#1a1418;--ink2:#4a3f47;--muted:#7a6e77;
+  --line:#e6dde4;--acc:#a82e66;--acc2:#7c4dcc;--acc-soft:#f7e6ef;--acc-soft2:#efe7f7;
+  --p1:#e03a3a;--p1-soft:#fce4e4;--p2:#f0b429;--p2-soft:#fff4d6;
+  --ok:#1f8a4c;--ko:#b3261e;--shadow-sm:0 1px 2px rgba(26,20,24,.06);--shadow-md:0 6px 20px rgba(26,20,24,.08);
+  --radius:14px;--radius-lg:20px;
+}
+[data-theme="dark"]{
+  --bg:#141013;--bg2:#1c161a;--card:#221a20;--ink:#f2eaf0;--ink2:#c9bdc6;--muted:#9a8e97;
+  --line:#3a2f37;--acc:#e06aa0;--acc2:#a98be0;--acc-soft:#3a1f2e;--acc-soft2:#2a1f3a;
+  --p1:#ff6b6b;--p1-soft:#3a1f1f;--p2:#ffd166;--p2-soft:#3a2f14;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3);--shadow-md:0 6px 20px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;min-height:100vh;transition:background .2s,color .2s}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+header{padding:24px 0 16px;border-bottom:1px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:10;backdrop-filter:blur(8px)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--p1),var(--p2));display:grid;place-items:center;color:#fff;font-weight:900;font-size:1.1rem}
+.brand h1{font-size:1.15rem;font-weight:800;letter-spacing:-.01em}
+.brand small{display:block;color:var(--muted);font-size:.78rem;font-weight:500}
+.header-right{display:flex;gap:8px;align-items:center;margin-left:auto}
+.theme-btn{background:var(--card);border:1px solid var(--line);color:var(--ink);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:1rem;display:grid;place-items:center;transition:transform .15s,border-color .15s}
+.theme-btn:hover{transform:rotate(18deg) scale(1.08);border-color:var(--acc)}
+main{padding:28px 0 60px}
+a.back{color:var(--muted);font-size:.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px}
+a.back:hover{color:var(--acc)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px 22px;box-shadow:var(--shadow-md);margin-bottom:18px}
+h2{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;font-weight:700;font-size:.88rem;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:transform .12s,border-color .12s,background .12s}
+.btn:hover{transform:translateY(-2px);border-color:var(--acc);color:var(--acc)}
+.btn-primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn-primary:hover{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.btn-ghost{background:transparent}
+.btn-sm{padding:6px 12px;font-size:.8rem}
+select.diff{padding:9px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;font-size:.88rem;cursor:pointer}
+
+.scoreboard{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+@media (max-width:520px){.scoreboard{grid-template-columns:1fr 1fr}}
+.sb{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;text-align:center}
+.sb .v{font-size:1.6rem;font-weight:900;line-height:1}
+.sb .l{font-size:.72rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.sb.p1 .v{color:var(--p1)}
+.sb.p2 .v{color:var(--p2)}
+
+.status{padding:12px 16px;border-radius:12px;font-size:.95rem;font-weight:700;text-align:center;margin-bottom:16px;transition:background .2s}
+.status.p1{background:var(--p1-soft);color:var(--p1)}
+.status.p2{background:var(--p2-soft);color:var(--p2)}
+.status.win{background:var(--ok-soft);color:var(--ok)}
+.status.draw{background:var(--warn-soft);color:var(--warn)}
+
+.board-wrap{display:flex;justify-content:center;margin-bottom:18px}
+.board{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;padding:14px;background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:18px;box-shadow:var(--shadow-md);width:min(100%,420px)}
+.col{display:flex;flex-direction:column;gap:6px;cursor:pointer;position:relative}
+.col:hover .hover-token{opacity:1;transform:translateY(-4px)}
+.cell{width:100%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.15);box-shadow:inset 0 2px 4px rgba(0,0,0,.25);position:relative;overflow:hidden}
+.token{position:absolute;inset:4px;border-radius:50%;transition:transform .35s cubic-bezier(.34,1.56,.64,1);transform:translateY(-100vh)}
+.token.p1{background:radial-gradient(circle at 30% 30%,#ff8a8a,var(--p1));box-shadow:inset 0 -3px 6px rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.2)}
+.token.p2{background:radial-gradient(circle at 30% 30%,#ffe08a,var(--p2));box-shadow:inset 0 -3px 6px rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.2)}
+.token.win{animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.hover-token{position:absolute;top:-34px;left:50%;transform:translateX(-50%);width:calc(100% - 8px);aspect-ratio:1;border-radius:50%;opacity:0;transition:opacity .15s,transform .15s;pointer-events:none}
+.hover-token.p1{background:radial-gradient(circle at 30% 30%,#ff8a8a,var(--p1));box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.hover-token.p2{background:radial-gradient(circle at 30% 30%,#ffe08a,var(--p2));box-shadow:0 2px 6px rgba(0,0,0,.2)}
+
+.diff-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.diff-row label{font-size:.85rem;font-weight:600;color:var(--muted)}
+.diff-row select{padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:600;font-size:.85rem;cursor:pointer}
+
+.history{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;max-height:180px;overflow:auto}
+.history h3{font-size:.9rem;font-weight:800;margin-bottom:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.history ul{list-style:none;display:grid;gap:4px}
+.history li{font-size:.82rem;padding:4px 8px;border-radius:6px;background:var(--bg2);display:flex;justify-content:space-between;gap:8px}
+.history li .w{font-weight:700}
+.history li.win{color:var(--ok)}
+.history li.lose{color:var(--ko)}
+.history li.draw{color:var(--warn)}
+.toggle-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.toggle{padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .12s}
+.toggle.active{background:var(--acc);border-color:var(--acc);color:#fff}
+footer{padding:24px 0;text-align:center;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap" style="display:flex;align-items:center;gap:12px">
+    <div class="brand">
+      <div class="logo">4</div>
+      <div><h1>Puissance 4</h1><small>Joueur vs IA · algorithme minimax</small></div>
+    </div>
+    <div class="header-right">
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Changer de thème">☀️</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <a class="back" href="../../">← Retour au portfolio</a>
+
+  <div class="card">
+    <h2>Partie en cours</h2>
+    <p class="sub">Cliquez sur une colonne pour déposer votre jeton. L'IA répond automatiquement.</p>
+
+    <div class="diff-row">
+      <label for="difficulty">Difficulté :</label>
+      <select id="difficulty" class="diff">
+        <option value="1">Facile</option>
+        <option value="2" selected>Moyen</option>
+        <option value="4">Difficile</option>
+        <option value="6">Expert</option>
+      </select>
+      <button class="btn btn-sm btn-ghost" id="btn-sound" type="button">🔊 Son</button>
+      <button class="btn btn-sm btn-ghost" id="btn-undo" type="button">↶ Annuler</button>
+    </div>
+
+    <div class="status p1" id="status">À vous de jouer (rouge)</div>
+
+    <div class="scoreboard">
+      <div class="sb p1"><div class="v" id="s1">0</div><div class="l">Vous (rouge)</div></div>
+      <div class="sb"><div class="v" id="sd">0</div><div class="l">Matchs nuls</div></div>
+      <div class="sb p2"><div class="v" id="s2">0</div><div class="l">IA (jaune)</div></div>
+    </div>
+
+    <div class="board-wrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="btn-new" type="button">Nouvelle partie</button>
+      <button class="btn btn-ghost" id="btn-reset" type="button">Remettre les scores à zéro</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Historique</h2>
+    <div class="history" id="history">
+      <h3>Dernières parties</h3>
+      <ul id="hist-list"><li style="color:var(--muted)">Aucune partie jouée.</li></ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Comment ça marche</h2>
+    <p class="sub">L'IA utilise l'algorithme <strong>minimax</strong> avec élagage alpha-bêta.</p>
+    <ul style="padding-left:20px;color:var(--ink2);font-size:.92rem;line-height:1.7">
+      <li>Le plateau est évalué : 4 jetons alignés = victoire, 3 avec case vide = opportunité, blocage adverse = défense.</li>
+      <li>L'IA explore les coups possibles jusqu'à une profondeur configurable (1 à 6).</li>
+      <li>Plus la profondeur est grande, plus l'IA est forte — et plus elle est lente à jouer.</li>
+      <li>Le premier coup de l'IA est aléatoire pour varier les parties.</li>
+    </ul>
+  </div>
+</div>
+</main>
+
+<footer>Puissance 4 · Roy Titli · IA minimax en JavaScript, zéro dépendance</footer>
+
+<script>
+const ROWS=6, COLS=7;
+const EMPTY=0, P1=1, P2=2;
+let board, current, gameOver, history=[], scores={p1:0,p2:0,draw:0}, soundOn=true, lastMove=null, winningCells=[];
+
+const $=id=>document.getElementById(id);
+const boardEl=$("board");
+
+function initBoard(){
+  board=Array.from({length:ROWS},()=>Array(COLS).fill(EMPTY));
+  current=P1; gameOver=false; lastMove=null; winningCells=[];
+  renderBoard(true);
+  updateStatus();
+}
+
+function renderBoard(fresh){
+  boardEl.innerHTML="";
+  for(let c=0;c<COLS;c++){
+    const col=document.createElement("div");
+    col.className="col";
+    col.dataset.col=c;
+    // hover token
+    const hover=document.createElement("div");
+    hover.className="hover-token p"+(current===P1?1:2);
+    col.appendChild(hover);
+    for(let r=0;r<ROWS;r++){
+      const cell=document.createElement("div");
+      cell.className="cell";
+      const v=board[r][c];
+      if(v!==EMPTY){
+        const t=document.createElement("div");
+        t.className="token p"+v+(winningCells.some(([wr,wc])=>wr===r&&wc===c)?" win":"");
+        // drop animation: compute distance
+        if(fresh===false && lastMove && lastMove.r===r && lastMove.c===c){
+          t.style.transform="translateY(0)";
+        } else {
+          t.style.transform="translateY(0)";
+        }
+        cell.appendChild(t);
+      }
+      col.appendChild(cell);
+    }
+    col.onclick=()=>playColumn(c);
+    boardEl.appendChild(col);
+  }
+}
+
+function lowestRow(col){
+  for(let r=ROWS-1;r>=0;r--) if(board[r][col]===EMPTY) return r;
+  return -1;
+}
+
+function playColumn(col){
+  if(gameOver) return;
+  if(current!==P1) return; // only human plays on click
+  const r=lowestRow(col);
+  if(r<0) return;
+  dropToken(r,col,P1);
+}
+
+function dropToken(r,c,player){
+  board[r][c]=player;
+  lastMove={r,c,player};
+  // animate
+  renderBoard(false);
+  // trigger drop animation by resetting transform
+  const col=boardEl.children[c];
+  const cells=col.querySelectorAll(".cell");
+  const cell=cells[r];
+  const token=cell.querySelector(".token");
+  if(token){
+    const distance=(r+1)*60+14;
+    token.style.transform=`translateY(-${distance}px)`;
+    requestAnimationFrame(()=>{token.style.transform="translateY(0)"});
+  }
+  playSound(player===P1?440:330);
+  checkEnd(player);
+  if(!gameOver && player===P1){
+    current=P2;
+    updateStatus();
+    setTimeout(aiMove, 350);
+  } else if(!gameOver){
+    current=P1;
+    updateStatus();
+  }
+}
+
+function checkEnd(player){
+  const w=checkWin(player);
+  if(w){
+    gameOver=true; winningCells=w;
+    renderBoard(false);
+    if(player===P1){scores.p1++;$("s1").textContent=scores.p1; addHistory("win","Vous (rouge)"); setStatus("win","🎉 Vous avez gagné !")}
+    else {scores.p2++;$("s2").textContent=scores.p2; addHistory("lose","IA (jaune)"); setStatus("win","L'IA a gagné.")}
+    playSound(player===P1?880:220);
+    return;
+  }
+  if(isBoardFull()){
+    gameOver=true; scores.draw++; $("sd").textContent=scores.draw;
+    addHistory("draw","Match nul"); setStatus("draw","Match nul — plateau plein");
+  }
+}
+
+function checkWin(player){
+  // returns array of [r,c] winning cells or null
+  const dirs=[[0,1],[1,0],[1,1],[1,-1]];
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      if(board[r][c]!==player) continue;
+      for(const [dr,dc] of dirs){
+        const cells=[[r,c]];
+        let ok=true;
+        for(let k=1;k<4;k++){
+          const nr=r+dr*k, nc=c+dc*k;
+          if(nr<0||nr>=ROWS||nc<0||nc>=COLS||board[nr][nc]!==player){ok=false;break}
+          cells.push([nr,nc]);
+        }
+        if(ok) return cells;
+      }
+    }
+  }
+  return null;
+}
+
+function isBoardFull(){return board.every(row=>row.every(c=>c!==EMPTY))}
+
+function updateStatus(){
+  const el=$("status");
+  if(current===P1){el.className="status p1";el.textContent="À vous de jouer (rouge)"}
+  else {el.className="status p2";el.textContent="L'IA réfléchit…"}
+}
+
+function setStatus(cls,msg){const el=$("status");el.className="status "+cls;el.textContent=msg}
+
+// ---------- AI (minimax with alpha-beta) ----------
+function aiMove(){
+  const depth=parseInt($("difficulty").value,10);
+  let bestCol=3, bestScore=-Infinity;
+  const cols=availableCols();
+  // first move random-ish
+  if(board.every(row=>row.every(c=>c===EMPTY))){
+    bestCol=cols[Math.floor(Math.random()*cols.length)];
+  } else {
+    // try each column
+    for(const c of cols){
+      const r=lowestRow(c);
+      board[r][c]=P2;
+      const score=minimax(board, depth-1, -Infinity, Infinity, false);
+      board[r][c]=EMPTY;
+      if(score>bestScore){bestScore=score;bestCol=c}
+    }
+  }
+  const r=lowestRow(bestCol);
+  dropToken(r,bestCol,P2);
+}
+
+function availableCols(){const out=[];for(let c=0;c<COLS;c++) if(lowestRow(c)>=0) out.push(c);return out}
+
+function minimax(b, depth, alpha, beta, maximizing){
+  // terminal
+  if(checkWinBoard(b,P2)) return 100000+depth;
+  if(checkWinBoard(b,P1)) return -100000-depth;
+  if(depth===0 || isBoardFullBoard(b)) return evaluate(b);
+  const cols=availableColsBoard(b);
+  if(maximizing){
+    let maxEval=-Infinity;
+    for(const c of cols){
+      const r=lowestRowBoard(b,c);
+      b[r][c]=P2;
+      const e=minimax(b,depth-1,alpha,beta,false);
+      b[r][c]=EMPTY;
+      maxEval=Math.max(maxEval,e);
+      alpha=Math.max(alpha,e);
+      if(beta<=alpha) break;
+    }
+    return maxEval;
+  } else {
+    let minEval=Infinity;
+    for(const c of cols){
+      const r=lowestRowBoard(b,c);
+      b[r][c]=P1;
+      const e=minimax(b,depth-1,alpha,beta,true);
+      b[r][c]=EMPTY;
+      minEval=Math.min(minEval,e);
+      beta=Math.min(beta,e);
+      if(beta<=alpha) break;
+    }
+    return minEval;
+  }
+}
+
+function lowestRowBoard(b,col){for(let r=ROWS-1;r>=0;r--) if(b[r][col]===EMPTY) return r; return -1}
+function availableColsBoard(b){const o=[];for(let c=0;c<COLS;c++) if(lowestRowBoard(b,c)>=0) o.push(c);return o}
+function isBoardFullBoard(b){return b.every(row=>row.every(c=>c!==EMPTY))}
+function checkWinBoard(b,player){
+  const dirs=[[0,1],[1,0],[1,1],[1,-1]];
+  for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+    if(b[r][c]!==player) continue;
+    for(const [dr,dc] of dirs){
+      let ok=true;
+      for(let k=1;k<4;k++){const nr=r+dr*k,nc=c+dc*k;if(nr<0||nr>=ROWS||nc<0||nc>=COLS||b[nr][nc]!==player){ok=false;break}}
+      if(ok) return true;
+    }
+  }
+  return false;
+}
+function evaluate(b){
+  let score=0;
+  // center column preference
+  for(let r=0;r<ROWS;r++) if(b[r][3]===P2) score+=3; else if(b[r][3]===P1) score-=3;
+  // windows of 4
+  const windows=[];
+  for(let r=0;r<ROWS;r++)for(let c=0;c<=COLS-4;c++) windows.push([[r,c],[r,c+1],[r,c+2],[r,c+3]]);
+  for(let r=0;r<=ROWS-4;r++)for(let c=0;c<COLS;c++) windows.push([[r,c],[r+1,c],[r+2,c],[r+3,c]]);
+  for(let r=0;r<=ROWS-4;r++)for(let c=0;c<=COLS-4;c++){windows.push([[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]]);windows.push([[r+3,c],[r+2,c+1],[r+1,c+2],[r,c+3]])}
+  for(const w of windows){
+    let p2=0,p1=0,empty=0;
+    for(const [r,c] of w){if(b[r][c]===P2)p2++;else if(b[r][c]===P1)p1++;else empty++}
+    if(p2===4) score+=100;
+    else if(p2===3&&empty===1) score+=5;
+    else if(p2===2&&empty===2) score+=2;
+    if(p1===3&&empty===1) score-=4;
+    else if(p1===2&&empty===2) score-=1;
+  }
+  return score;
+}
+
+// ---------- sound ----------
+let audioCtx=null;
+function playSound(freq){
+  if(!soundOn) return;
+  try{
+    if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.type="sine"; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.08,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.12);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+0.12);
+  }catch(e){}
+}
+
+// ---------- history ----------
+function addHistory(res,who){
+  const li=document.createElement("li");
+  li.className=res;
+  const time=new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+  li.innerHTML=`<span>${time} — ${res==="win"?"Victoire":res==="lose"?"Défaite":"Nul"}</span><span class="w">${who}</span>`;
+  const ul=$("hist-list");
+  if(ul.querySelector("li") && ul.querySelector("li").textContent.includes("Aucune")) ul.innerHTML="";
+  ul.prepend(li);
+  if(ul.children.length>20) ul.removeChild(ul.lastChild);
+}
+
+// ---------- controls ----------
+$("btn-new").onclick=()=>{initBoard();$("btn-undo").disabled=false};
+$("btn-reset").onclick=()=>{scores={p1:0,p2:0,draw:0};$("s1").textContent=0;$("s2").textContent=0;$("sd").textContent=0;addHistory("draw","Scores remis à zéro");$("hist-list").innerHTML="<li style='color:var(--muted)'>Aucune partie jouée.</li>"};
+$("btn-undo").onclick=()=>{
+  // undo last two moves (human + AI) if possible
+  if(gameOver) return;
+  // find last two non-empty from bottom
+  // simple: remove last move
+  if(!lastMove) return;
+  // remove AI move if present: we track only lastMove; undo one move
+  board[lastMove.r][lastMove.c]=EMPTY;
+  lastMove=null;
+  current=P1; gameOver=false; winningCells=[];
+  renderBoard(false); updateStatus();
+};
+$("btn-sound").onclick=()=>{soundOn=!soundOn;$("btn-sound").textContent=soundOn?"🔊 Son":"🔇 Muet"};
+$("difficulty").onchange=()=>{};
+
+// theme
+const THEME_KEY="p4-theme";
+function applyTheme(t){document.documentElement.setAttribute("data-theme",t);localStorage.setItem(THEME_KEY,t);$("theme-btn").textContent=t==="dark"?"🌙":"☀️"}
+$("theme-btn").onclick=()=>applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
+applyTheme(localStorage.getItem(THEME_KEY)||"light");
+
+// init
+initBoard();
+</script>
+</body>
+</html>
